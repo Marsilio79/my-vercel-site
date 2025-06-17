@@ -924,11 +924,11 @@ export default function GMGVisualPortfolio() {
                   />
                 </div>
                 <Button
-                  type="submit"
-                  className="w-full bg-primary text-white hover:bg-primary/90 py-3 font-light tracking-wide"
-                >
-                  Send Message
-                </Button>
+  type="submit"
+  className="w-full bg-textPrimary text-surface hover:bg-textPrimary/90 transition-colors duration-200 py-3 font-light tracking-wide rounded-lg"
+>
+  Send Message
+</Button>
               </form>
             </div>
           </div>
