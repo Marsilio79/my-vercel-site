@@ -791,25 +791,33 @@ export default function GMGVisualPortfolio() {
           </div>
 
           {/* Iris Photography */}
-          <div>
-            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Iris Photography</h3>
-            <Carousel>
-              {photoCategories.iris.map((photo) => (
-                <div key={photo.id} className="group cursor-pointer mx-2">
-                  <div className="aspect-square overflow-hidden rounded-lg">
-                    <Image
-                      src={photo.src || "/placeholder.svg"}
-                      alt={photo.title}
-                      width={300}
-                      height={300}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                </div>
-              ))}
-            </Carousel>
-          </div>
+<div>
+  <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Iris Photography</h3>
+  <Carousel>
+    {[
+      "/images/iris/17_SEAN (1).webp",
+      "/images/iris/36iris (1).webp",
+      "/images/iris/9_CYP (1).webp",
+      "/images/iris/ANDREA S._(1).webp",
+      "/images/iris/ELISA OK (1).webp",
+      "/images/iris/EMANUELA_explosion (1).webp",
+      "/images/iris/MANUS TRINITY COLLISION_names (1).webp",
+      "/images/iris/VLADI&PIERO (1).webp"
+    ].map((src, index) => (
+      <div key={index} className="group cursor-pointer mx-2">
+        <div className="aspect-square overflow-hidden rounded-lg">
+          <Image
+            src={src}
+            alt={`Iris photo ${index + 1}`}
+            width={300}
+            height={300}
+            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+          />
         </div>
+      </div>
+    ))}
+  </Carousel>
+</div>
       </section>
 
       {/* About Section */}
