@@ -943,16 +943,45 @@ export default function GMGVisualPortfolio() {
               <p className="font-light">© 2025 GMGVisual. All rights reserved.</p>
             </div>
             <div className="flex items-center space-x-6">
-              <Link href="#" className="text-surface hover:text-gray-300 transition-colors" aria-label="Instagram">
-                <Instagram className="w-6 h-6" />
-              </Link>
-              <Link href="#" className="text-surface hover:text-gray-300 transition-colors" aria-label="YouTube">
-                <Youtube className="w-6 h-6" />
-              </Link>
-              <Link href="#" className="text-surface hover:text-gray-300 transition-colors" aria-label="Vimeo">
-                <Play className="w-6 h-6" />
-              </Link>
-            </div>
+  {/* YouTube */}
+  <Link
+    href="https://www.youtube.com/@LafresiaMediaProductions"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-surface hover:text-gray-300 transition-colors"
+    aria-label="YouTube"
+  >
+    <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+      <path d="M23.498 6.186a2.999 2.999 0 0 0-2.113-2.116C19.535 3.5 12 3.5 12 3.5s-7.535 0-9.385.57A2.999 2.999 0 0 0 .502 6.186C0 8.035 0 12 0 12s0 3.965.502 5.814a2.999 2.999 0 0 0 2.113 2.116C4.465 20.5 12 20.5 12 20.5s7.535 0 9.385-.57a2.999 2.999 0 0 0 2.113-2.116C24 15.965 24 12 24 12s0-3.965-.502-5.814zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" />
+    </svg>
+  </Link>
+
+  {/* IMDB */}
+  <Link
+    href="https://www.imdb.com/name/nm5655409/bio/?ref_=nm_ov_bio_sm"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-surface hover:text-gray-300 transition-colors"
+    aria-label="IMDB"
+  >
+    <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+      <path d="M0 0v24h24V0H0zm22.5 22.5H1.5V1.5h21v21zM9.1 9.7h.8v4.5h-.8V9.7zm1.6 0h.8l1.3 3.2h.1l1.3-3.2h.8v4.5h-.7v-3.3h-.1l-1.3 3.2h-.6l-1.3-3.2h-.1v3.3h-.7V9.7zm7.7 0c.9 0 1.2.6 1.2 1.2v2.1c0 .6-.3 1.2-1.2 1.2h-1.4c-.9 0-1.2-.6-1.2-1.2V10.9c0-.6.3-1.2 1.2-1.2h1.4zm-.2.6h-1.1c-.3 0-.5.2-.5.5v2c0 .3.2.5.5.5h1.1c.3 0 .5-.2.5-.5v-2c0-.3-.2-.5-.5-.5zm-6.9-.6h.8v4.5h-.8V9.7z" />
+    </svg>
+  </Link>
+
+  {/* Shutterstock */}
+  <Link
+    href="https://www.shutterstock.com/g/Lafresia"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-surface hover:text-gray-300 transition-colors"
+    aria-label="Shutterstock"
+  >
+    <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+      <path d="M22.5 11.99c0 5.8-4.7 10.5-10.5 10.5S1.5 17.79 1.5 11.99 6.2 1.5 12 1.5s10.5 4.7 10.5 10.49zM16.65 7.5h-2.15c-.21 0-.39.15-.44.35l-.46 2.15a.448.448 0 0 0 .44.54h1.14c.13 0 .26.06.34.16.08.1.12.24.09.37l-.28 1.3h-2.15c-.21 0-.39.15-.44.35l-.46 2.15c-.05.21.12.42.34.42h2.15c.21 0 .39-.15.44-.35l.46-2.15a.448.448 0 0 0-.44-.54h-1.14c-.13 0-.26-.06-.34-.16-.08-.1-.12-.24-.09-.37l.28-1.3h2.15c.21 0 .39-.15.44-.35l.46-2.15a.448.448 0 0 0-.44-.54z" />
+    </svg>
+  </Link>
+</div>
           </div>
         </div>
       </footer>
