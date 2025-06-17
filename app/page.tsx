@@ -710,7 +710,13 @@ export default function GMGVisualPortfolio() {
             <div className="w-24 h-px bg-gray-300 mx-auto" />
           </div>
 
-          {/* Food & Hospitality */}
+          import { useState } from "react";
+import Image from "next/image";
+import Carousel from "@/components/Carousel"; // adjust if path differs
+
+const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+{/* Food & Hospitality */}
 <div className="mb-20">
   <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Food & Hospitality</h3>
   <Carousel>
@@ -725,7 +731,11 @@ export default function GMGVisualPortfolio() {
       "/images/food/Spaghetti-nero-di-seppia.webp",
       "/images/food/Sunset-starter.webp",
     ].map((src, index) => (
-      <div key={index} className="group cursor-pointer mx-2">
+      <div
+        key={index}
+        className="group cursor-pointer mx-2"
+        onClick={() => setSelectedImage(src)}
+      >
         <div className="aspect-square overflow-hidden rounded-lg">
           <Image
             src={src}
@@ -738,7 +748,32 @@ export default function GMGVisualPortfolio() {
       </div>
     ))}
   </Carousel>
+
+  {/* Modal */}
+  {selectedImage && (
+    <div
+      className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+      onClick={() => setSelectedImage(null)}
+    >
+      <div className="relative max-w-3xl w-full px-4">
+        <Image
+          src={selectedImage}
+          alt="Enlarged food photo"
+          width={1000}
+          height={1000}
+          className="w-full h-auto rounded-lg"
+        />
+        <button
+          onClick={() => setSelectedImage(null)}
+          className="absolute top-2 right-2 text-white text-2xl"
+        >
+          &times;
+        </button>
+      </div>
+    </div>
+  )}
 </div>
+
 
           {/* Events */}
           <div className="mb-20">
