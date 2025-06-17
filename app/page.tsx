@@ -798,7 +798,7 @@ export default function GMGVisualPortfolio() {
       "/images/iris/17_SEAN (1).webp",
       "/images/iris/36iris (1).webp",
       "/images/iris/9_CYP (1).webp",
-      "/images/iris/ANDREA S._(1).webp",
+      "/images/iris/ANDREA S.webp",
       "/images/iris/ELISA OK (1).webp",
       "/images/iris/EMANUELA_explosion (1).webp",
       "/images/iris/MANUS TRINITY COLLISION_names (1).webp",
