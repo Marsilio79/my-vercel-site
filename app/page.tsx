@@ -143,14 +143,16 @@ export default function GMGVisualPortfolio() {
       },
       {
         id: 2,
-        title: "Short Film 2",
-        description: "Creative storytelling exploring human emotions and connections.",
+        title: "Anima",
+        description:
+          "Anima tells the story of three Italians fleeing Yugoslav militiamen in 1945, paralleled by a modern-day girl named Alma who uncovers their forgotten past.",
         embedId: "pKiE7kPkmBk",
       },
       {
         id: 3,
-        title: "Short Film 3",
-        description: "Cinematic narrative capturing authentic moments and experiences.",
+        title: "Il Graffio",
+        description:
+          "This short film was made for the International Tour Film Fest 2015, was shot and edited in 5 days by a mini-crew of 3 people, using non-professional actors.",
         embedId: "a-q7FHpMZoY",
       },
     ],
@@ -162,42 +164,42 @@ export default function GMGVisualPortfolio() {
       },
       {
         id: 2,
-        title: "Music Video 2",
+        title: "Zane K - Black on Blue",
         embedId: "0afIyrEjDqk",
       },
       {
         id: 3,
-        title: "Music Video 3",
+        title: "True Lie - To ember and ashes",
         embedId: "xTZlP-jcSyU",
       },
       {
         id: 4,
-        title: "Music Video 4",
+        title: "Trinh Minh Hien - Starboy remix",
         embedId: "tnAA6t97P-A",
       },
       {
         id: 5,
-        title: "Music Video 5",
+        title: "Blein - Ancora un attimo",
         embedId: "9rhtfl4daLw",
       },
       {
         id: 6,
-        title: "Music Video 6",
+        title: "Enea Leone - Bach allegro BWV 1005",
         embedId: "KRDECe4ds5M",
       },
       {
         id: 7,
-        title: "Music Video 7",
+        title: "Bartender - Gross",
         embedId: "jktsqtfwfPU",
       },
       {
         id: 8,
-        title: "Music Video 8",
+        title: "Desource - This plague called love",
         embedId: "XJoSbZmKamI",
       },
       {
         id: 9,
-        title: "Music Video 9",
+        title: "Carro Bestiame - Lunga vita al becco",
         embedId: "e08r4JeCVYg",
       },
     ],
@@ -488,11 +490,43 @@ export default function GMGVisualPortfolio() {
       src: `/placeholder.svg?height=300&width=533&text=360+View+${i + 1}`,
       alt: `360° Photography ${i + 1}`,
     })),
-    iris: Array.from({ length: 12 }, (_, i) => ({
-      id: i + 1,
-      src: `/placeholder.svg?height=300&width=300&text=Iris+${i + 1}`,
-      alt: `Iris Photography ${i + 1}`,
-    })),
+    iris: [
+      {
+        id: 1,
+        src: "/images/iris/1irisphotographySEAN.webp",
+        alt: "Sean - Iris Photography with Blue and Golden Patterns",
+      },
+      {
+        id: 2,
+        src: "/images/iris/2irisphotographyVLADI&PIERO.webp",
+        alt: "Vladi & Piero - Dual Iris Photography Blue and Brown",
+      },
+      {
+        id: 3,
+        src: "/images/iris/3irisphotographyMANUS.webp",
+        alt: "Manus, Trang & Quoc Anh - Triple Iris Photography Collection",
+      },
+      {
+        id: 4,
+        src: "/images/iris/4irisphotography.webp",
+        alt: "Alessio, Raffaella, Alice & Francesco - Quad Iris Photography",
+      },
+      {
+        id: 5,
+        src: "/images/iris/5irisphotographyELISA.webp",
+        alt: "Elisa - Blue Iris Photography with Intricate Patterns",
+      },
+      {
+        id: 6,
+        src: "/images/iris/6iriphotographyEMANUELA.webp",
+        alt: "Emanuela - Iris Photography with Blue and Orange Tones",
+      },
+      ...Array.from({ length: 6 }, (_, i) => ({
+        id: i + 7,
+        src: `/placeholder.svg?height=300&width=300&text=Iris+${i + 7}`,
+        alt: `Iris Photography ${i + 7}`,
+      })),
+    ],
   }
 
   return (
@@ -553,7 +587,7 @@ export default function GMGVisualPortfolio() {
             src="/images/Gianmarco_Wedding.webp"
             alt="Gianmarco Maccabruno Giometti - Professional Portrait"
             fill
-            className="object-cover"
+            className="object-cover object-[center_20%]"
             priority
           />
           <div className="absolute inset-0 bg-black/20" />
@@ -565,21 +599,16 @@ export default function GMGVisualPortfolio() {
 
             {/* Right side - text content */}
             <div className="text-center lg:text-left text-white lg:pl-8">
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wide mb-6 leading-tight font-sans leading-3 leading-8">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wide mb-6 leading-tight leading-3 leading-8 font-serif">
                 GMGVisual
               </h1>
               <p className="text-lg md:text-xl lg:text-2xl font-serif font-light mb-12 leading-relaxed opacity-90">
                 Gianmarco Maccabruno Giometti
                 <br />
-                <span className="text-base md:text-lg lg:text-xl">Photographer & Filmmaker</span>
+                <span className="text-base md:text-lg lg:text-xl font-extralight">
+                  Videographer - Photographer - Editor
+                </span>
               </p>
-              <Button
-                onClick={() => scrollToSection("videos")}
-                size="lg"
-                className="bg-primary text-white hover:bg-primary/90 px-8 py-3 text-lg font-light tracking-wide font-serif"
-              >
-                View My Work
-              </Button>
             </div>
           </div>
         </div>
