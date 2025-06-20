@@ -42,7 +42,7 @@ export default function GMGVisualPortfolio() {
     advertising: [
       {
         id: 1,
-        title: "TENERE ADVERTISING",
+        title: "Tenere Advertising",
         embedId: "eGD0094HpfQ",
       },
       {
