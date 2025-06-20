@@ -28,8 +28,21 @@ export default function GMGVisualPortfolio() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
-    console.log("Form submitted:", formData)
+
+    // Create mailto link with form data
+    const subject = encodeURIComponent(`Portfolio Inquiry from ${formData.name}`)
+    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)
+    const mailtoLink = `mailto:gianmarcomaccabrunogiometti@gmail.com?subject=${subject}&body=${body}`
+
+    // Open email client
+    window.location.href = mailtoLink
+
+    // Reset form
+    setFormData({
+      name: "",
+      email: "",
+      message: "",
+    })
   }
 
   const scrollToSection = (sectionId: string) => {
@@ -923,20 +936,21 @@ export default function GMGVisualPortfolio() {
               <h3 className="text-3xl font-light text-textPrimary mb-8">Gianmarco Maccabruno Giometti</h3>
               <div className="space-y-6 text-textMuted leading-relaxed font-light text-lg">
                 <p>
-                  For over a decade, I’ve been telling stories through images, drawn to the quiet power of moments
-                  that often go unnoticed. My work is rooted in a deep respect for emotion, authenticity, and craft. 
-                  I aim to create visuals that don’t just look beautiful, but feel true, stories that stay with people, 
-                  even after the screen fades to black.
+                  For over a decade, I’ve been telling stories through images, drawn to the quiet power of moments that
+                  often go unnoticed. My work is rooted in a deep respect for emotion, authenticity, and craft. I aim to
+                  create visuals that don’t just look beautiful, but feel true, stories that stay with people, even
+                  after the screen fades to black.
                 </p>
                 <p>
-                  From bold brand campaigns to immersive 360° experiences, I bring a cinematic and strategic eye to every project.
-                  My work spans commercial photography, filmmaking, and innovative binaural audiovisual content, all crafted to elevate 
-                  storytelling, capture attention, and connect audiences with the heart of a brand.
+                  From bold brand campaigns to immersive 360° experiences, I bring a cinematic and strategic eye to
+                  every project. My work spans commercial photography, filmmaking, and innovative binaural audiovisual
+                  content, all crafted to elevate storytelling, capture attention, and connect audiences with the heart
+                  of a brand.
                 </p>
                 <p>
-                  Based in Vietnam, I work with clients worldwide, bringing stories to life through the lens of creativity
-                  and passion. Every frame is crafted with attention to detail, ensuring that each project reflects the
-                  unique vision and personality of my clients.
+                  Based in Vietnam, I work with clients worldwide, bringing stories to life through the lens of
+                  creativity and passion. Every frame is crafted with attention to detail, ensuring that each project
+                  reflects the unique vision and personality of my clients.
                 </p>
               </div>
             </div>
@@ -1014,7 +1028,7 @@ export default function GMGVisualPortfolio() {
                 </div>
                 <Button
                   type="submit"
-                  className="w-full bg-primary text-white hover:bg-primary/90 py-3 font-light tracking-wide"
+                  className="w-full bg-textPrimary text-white hover:bg-textPrimary/90 py-3 font-light tracking-wide rounded-lg transition-colors"
                 >
                   Send Message
                 </Button>
@@ -1035,7 +1049,13 @@ export default function GMGVisualPortfolio() {
               <Link href="#" className="text-surface hover:text-gray-300 transition-colors" aria-label="Instagram">
                 <Instagram className="w-6 h-6" />
               </Link>
-              <Link href="#" className="text-surface hover:text-gray-300 transition-colors" aria-label="YouTube">
+              <Link
+                href="https://www.youtube.com/@LafresiaMediaProductions/videos"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-surface hover:text-gray-300 transition-colors"
+                aria-label="YouTube"
+              >
                 <Youtube className="w-6 h-6" />
               </Link>
               <Link href="#" className="text-surface hover:text-gray-300 transition-colors" aria-label="Vimeo">
