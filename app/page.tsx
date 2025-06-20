@@ -35,7 +35,7 @@ export default function GMGVisualPortfolio() {
     e.preventDefault()
 
     // Create mailto link with form data
-    const subject = encodeURIComponent(`Portfolio Inquiry from ${formData.name}`)
+    const subject = encodeURIComponent(`Message from ${formData.name}`)
     const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)
     const mailtoLink = `mailto:gianmarcomaccabrunogiometti@gmail.com?subject=${subject}&body=${body}`
 
