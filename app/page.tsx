@@ -9,8 +9,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
-import { Instagram, Youtube, Play, Mail, Phone, MapPin, X } from "lucide-react"
+import { Instagram, Youtube, Play, Mail, Phone, MapPin, X, Eye } from "lucide-react"
 import { Carousel } from "@/components/carousel"
+import { PanoramaViewer } from "@/components/panorama-viewer"
 
 export default function GMGVisualPortfolio() {
   const [formData, setFormData] = useState({
@@ -23,6 +24,16 @@ export default function GMGVisualPortfolio() {
     src: string
     alt: string
   } | null>(null)
+
+  const [panoramaViewer, setPanoramaViewer] = useState<{
+    imageUrl: string
+    title: string
+    isOpen: boolean
+  }>({
+    imageUrl: "",
+    title: "",
+    isOpen: false,
+  })
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -56,6 +67,22 @@ export default function GMGVisualPortfolio() {
 
   const closeLightbox = () => {
     setLightboxImage(null)
+  }
+
+  const open360Viewer = (imageUrl: string, title: string) => {
+    setPanoramaViewer({
+      imageUrl,
+      title,
+      isOpen: true,
+    })
+  }
+
+  const close360Viewer = () => {
+    setPanoramaViewer({
+      imageUrl: "",
+      title: "",
+      isOpen: false,
+    })
   }
 
   const scrollToSection = (sectionId: string) => {
@@ -511,11 +538,32 @@ export default function GMGVisualPortfolio() {
         alt: `Portrait Photography ${i + 10}`,
       })),
     ],
-    maps360: Array.from({ length: 8 }, (_, i) => ({
-      id: i + 1,
-      src: `/placeholder.svg?height=300&width=533&text=360+View+${i + 1}`,
-      alt: `360° Photography ${i + 1}`,
-    })),
+    maps360: [
+      {
+        id: 1,
+        src: "/images/360/2Chops-Hoi-An.webp",
+        alt: "360° Street View - Chops Restaurant, Hoi An Ancient Town with Traditional Lanterns",
+        is360: true,
+      },
+      {
+        id: 2,
+        src: "/images/360/1Agriturismo-360.webp",
+        alt: "360° Aerial View - Italian Agriturismo Villa with Swimming Pool and Countryside",
+        is360: true,
+      },
+      {
+        id: 3,
+        src: "/images/360/3Hill-station.webp",
+        alt: "360° Interior View - Hill Station Restaurant with Rustic Architecture and Artistic Murals",
+        is360: true,
+      },
+      ...Array.from({ length: 5 }, (_, i) => ({
+        id: i + 4,
+        src: `/placeholder.svg?height=300&width=533&text=360+View+${i + 4}`,
+        alt: `360° Photography ${i + 4}`,
+        is360: false,
+      })),
+    ],
     iris: [
       {
         id: 1,
@@ -557,6 +605,14 @@ export default function GMGVisualPortfolio() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* 360° Panorama Viewer */}
+      <PanoramaViewer
+        imageUrl={panoramaViewer.imageUrl}
+        title={panoramaViewer.title}
+        isOpen={panoramaViewer.isOpen}
+        onClose={close360Viewer}
+      />
+
       {/* Lightbox Modal */}
       {lightboxImage && (
         <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4" onClick={closeLightbox}>
@@ -756,6 +812,78 @@ export default function GMGVisualPortfolio() {
             </div>
           </div>
 
+          {/* Awards & Recognition */}
+          <div className="mb-20">
+            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">AWARDS &amp; RECOGNITION</h3>
+            <div className="text-center mb-12">
+              <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
+                International recognition for excellence in cinematography and filmmaking from prestigious film
+                festivals worldwide.
+              </p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              <div className="group">
+                <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
+                  <CardContent className="p-0 h-full flex flex-col">
+                    <div className="aspect-square bg-white rounded-lg overflow-hidden flex items-center justify-center p-4">
+                      <Image
+                        src="/images/awards/barcelona-award.webp"
+                        alt="Barcelona Planet Film Festival - Best Cinematography Award"
+                        width={300}
+                        height={300}
+                        className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="p-6 flex-1 text-center">
+                      <h4 className="text-lg font-light text-textPrimary mb-2">Barcelona Planet Film Festival</h4>
+                      <p className="text-sm text-textMuted font-light">Best Cinematography</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="group">
+                <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
+                  <CardContent className="p-0 h-full flex flex-col">
+                    <div className="aspect-square bg-white rounded-lg overflow-hidden flex items-center justify-center p-4">
+                      <Image
+                        src="/images/awards/five-continents-awards.webp"
+                        alt="Five Continents International Film Festival - Awards of Recognition"
+                        width={300}
+                        height={300}
+                        className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="p-6 flex-1 text-center">
+                      <h4 className="text-lg font-light text-textPrimary mb-2">Five Continents Film Festival</h4>
+                      <p className="text-sm text-textMuted font-light">Best Cinematography & Special Mention Editing</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="group">
+                <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
+                  <CardContent className="p-0 h-full flex flex-col">
+                    <div className="aspect-square bg-white rounded-lg overflow-hidden flex items-center justify-center p-4">
+                      <Image
+                        src="/images/awards/virgin-spring-award.webp"
+                        alt="Virgin Spring Cinefest - Best Cinematography Gold Award"
+                        width={300}
+                        height={300}
+                        className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="p-6 flex-1 text-center">
+                      <h4 className="text-lg font-light text-textPrimary mb-2">Virgin Spring Cinefest</h4>
+                      <p className="text-sm text-textMuted font-light">Best Cinematography - Gold Award</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+
           {/* Music Videos */}
           <div className="mb-20">
             <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">MUSIC VIDEOS</h3>
@@ -828,11 +956,11 @@ export default function GMGVisualPortfolio() {
                     <CardContent className="p-0 h-full flex flex-col">
                       <div className="aspect-[2.5/1] bg-white rounded-lg overflow-hidden flex items-center justify-center p-3">
                         <Image
-                          src="/images/platforms/shutterstock-logo.webp"
+                          src="/images/platforms/shutterstock-logo-new.webp"
                           alt="Shutterstock - View Lafresia's Portfolio"
-                          width={128}
-                          height={48}
-                          className="w-32 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                          width={160}
+                          height={64}
+                          className="w-40 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                       <div className="p-4 flex-1 text-center">
@@ -852,11 +980,11 @@ export default function GMGVisualPortfolio() {
                     <CardContent className="p-0 h-full flex flex-col">
                       <div className="aspect-[2.5/1] bg-white rounded-lg overflow-hidden flex items-center justify-center p-3">
                         <Image
-                          src="/images/platforms/adobe-stock-logo.webp"
+                          src="/images/platforms/adobe-stock-logo-new.webp"
                           alt="Adobe Stock - View Gianmarco's Portfolio"
-                          width={128}
-                          height={48}
-                          className="w-32 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                          width={160}
+                          height={64}
+                          className="w-40 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                       <div className="p-4 flex-1 text-center">
@@ -876,11 +1004,11 @@ export default function GMGVisualPortfolio() {
                     <CardContent className="p-0 h-full flex flex-col">
                       <div className="aspect-[2.5/1] bg-white rounded-lg overflow-hidden flex items-center justify-center p-3">
                         <Image
-                          src="/images/platforms/pond5-logo.webp"
+                          src="/images/platforms/pond5-logo-new.webp"
                           alt="Pond5 - View Lafresia Stock Video's Portfolio"
-                          width={128}
-                          height={48}
-                          className="w-32 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                          width={160}
+                          height={64}
+                          className="w-40 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                       <div className="p-4 flex-1 text-center">
@@ -1013,12 +1141,24 @@ export default function GMGVisualPortfolio() {
           {/* 360° Google Maps */}
           <div className="mb-20">
             <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">360° GOOGLE MAPS PICTURES</h3>
+            <div className="text-center mb-8">
+              <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
+                Immersive 360° photography for Google Maps and virtual tours. Click the 360° icon to experience the full
+                panoramic view.
+              </p>
+            </div>
             <Carousel>
               {photoCategories.maps360.map((photo) => (
-                <div key={photo.id} className="group cursor-pointer">
+                <div key={photo.id} className="group cursor-pointer relative">
                   <div
-                    className="aspect-video overflow-hidden rounded-lg"
-                    onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
+                    className="aspect-video overflow-hidden rounded-lg relative"
+                    onClick={() => {
+                      if (photo.is360) {
+                        open360Viewer(photo.src, photo.alt)
+                      } else {
+                        openLightbox(photo.src || "/placeholder.svg", photo.alt)
+                      }
+                    }}
                   >
                     <Image
                       src={photo.src || "/placeholder.svg"}
@@ -1027,6 +1167,18 @@ export default function GMGVisualPortfolio() {
                       height={300}
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                     />
+                    {photo.is360 && (
+                      <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="bg-white/90 rounded-full p-3">
+                          <Eye className="w-6 h-6 text-black" />
+                        </div>
+                      </div>
+                    )}
+                    {photo.is360 && (
+                      <div className="absolute top-3 right-3 bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">
+                        360°
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

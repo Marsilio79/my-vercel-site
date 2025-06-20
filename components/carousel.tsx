@@ -52,15 +52,16 @@ export function Carousel({ children, itemsPerView = { mobile: 1, desktop: 3 }, c
       {/* Carousel Container */}
       <div className="relative overflow-hidden">
         <div
-          className={`flex transition-transform duration-300 ease-in-out gap-6`}
+          className={`flex transition-transform duration-300 ease-in-out`}
           style={{
             transform: `translateX(-${currentIndex * 100}%)`,
+            gap: "1.5rem",
           }}
         >
           {Array.from({ length: totalSlides }).map((_, slideIndex) => (
-            <div key={slideIndex} className={`flex-shrink-0 w-full flex gap-6`}>
+            <div key={slideIndex} className={`flex-shrink-0 w-full flex`} style={{ gap: "1.5rem" }}>
               {children.slice(slideIndex * itemsToShow, (slideIndex + 1) * itemsToShow).map((child, itemIndex) => (
-                <div key={itemIndex} className={`${isMobile ? "w-full" : "flex-1"} flex-shrink-0`}>
+                <div key={itemIndex} className={`${isMobile ? "w-full" : "w-[calc(33.333%-1rem)]"} flex-shrink-0`}>
                   {child}
                 </div>
               ))}
