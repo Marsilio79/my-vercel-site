@@ -702,46 +702,43 @@ export default function GMGVisualPortfolio() {
         </div>
       </section>
 
-     {/* Photography Portfolio Section */}
-<section id="photos" className="py-24 px-6 bg-highlight/20">
-  <div className="max-w-7xl mx-auto">
-    <div className="text-center mb-20">
-      <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">Photography</h2>
-      <div className="w-24 h-px bg-gray-300 mx-auto" />
-    </div>
-
-    {/* Food & Hospitality */}
-    <div className="mb-20">
-      <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Food & Hospitality</h3>
-      <Carousel>
-        {[
-          "/images/food/Burgers-Chops.webp",
-          "/images/food/Cest-bon-cappuccino.webp",
-          "/images/food/Chops-ribs.webp",
-          "/images/food/Liquors.webp",
-          "/images/food/Meat-Platter.webp",
-          "/images/food/Poggio-Falcone-aerial.webp",
-          "/images/food/Segafredo-gelato.webp",
-          "/images/food/Spaghetti-nero-di-seppia.webp",
-          "/images/food/Sunset-starter.webp",
-        ].map((src, index) => (
-          <div key={index} className="group cursor-pointer mx-2">
-            <div className="aspect-square overflow-hidden rounded-lg">
-              <Image
-                src={src}
-                alt={`Food photo ${index + 1}`}
-                width={400}
-                height={400}
-                className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
+      {/* Photography Portfolio Section */}
+      <section id="photos" className="py-24 px-6 bg-highlight/20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">Photography</h2>
+            <div className="w-24 h-px bg-gray-300 mx-auto" />
           </div>
-        ))}
-      </Carousel>
-    </div>
-  </div>
-</section>
 
+          {/* Food & Hospitality */}
+<div className="mb-20">
+  <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Food & Hospitality</h3>
+  <Carousel>
+    {[
+      "/images/food/Burgers-Chops.webp",
+      "/images/food/Cest-bon-cappuccino.webp",
+      "/images/food/Chops-ribs.webp",
+      "/images/food/Liquors.webp",
+      "/images/food/Meat-Platter.webp",
+      "/images/food/Poggio-Falcone-aerial.webp",
+      "/images/food/Segafredo-gelato.webp",
+      "/images/food/Spaghetti-nero-di-seppia.webp",
+      "/images/food/Sunset-starter.webp",
+    ].map((src, index) => (
+      <div key={index} className="group cursor-pointer mx-2">
+        <div className="aspect-square overflow-hidden rounded-lg">
+          <Image
+            src={src}
+            alt={`Food photo ${index + 1}`}
+            width={400}
+            height={400}
+            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      </div>
+    ))}
+  </Carousel>
+</div>
 
           {/* Events */}
           <div className="mb-20">
