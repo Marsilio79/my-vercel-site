@@ -1,7 +1,10 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { X } from "lucide-react"
+
+// ❗ CSS for the viewer (bundled by Next.js)
+import "photo-sphere-viewer/dist/photo-sphere-viewer.css"
 
 interface PanoramaViewerProps {
   imageUrl: string
@@ -14,57 +17,56 @@ export function PanoramaViewer({ imageUrl, isOpen, onClose, title }: PanoramaVie
   const containerRef = useRef<HTMLDivElement>(null)
   const viewerRef = useRef<any>(null)
 
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
   useEffect(() => {
     if (!isOpen || !containerRef.current) return
 
-    // Dynamically import Photo Sphere Viewer
+    let mounted = true
     const loadViewer = async () => {
-      try {
-        // Load Photo Sphere Viewer from CDN
-        if (!window.PhotoSphereViewer) {
-          const script = document.createElement("script")
-          script.src = "https://cdn.jsdelivr.net/npm/photo-sphere-viewer@5/dist/index.min.js"
-          script.onload = () => initViewer()
-          document.head.appendChild(script)
+      setIsLoading(true)
+      setError(null)
 
-          const link = document.createElement("link")
-          link.rel = "stylesheet"
-          link.href = "https://cdn.jsdelivr.net/npm/photo-sphere-viewer@5/dist/index.min.css"
-          document.head.appendChild(link)
-        } else {
-          initViewer()
-        }
-      } catch (error) {
-        console.error("Failed to load 360° viewer:", error)
+      // Clean up any previous viewer
+      if (viewerRef.current) {
+        viewerRef.current.destroy()
+        viewerRef.current = null
       }
-    }
 
-    const initViewer = () => {
-      if (containerRef.current && window.PhotoSphereViewer && !viewerRef.current) {
-        try {
-          viewerRef.current = new window.PhotoSphereViewer.Viewer({
-            container: containerRef.current,
-            panorama: imageUrl,
-            navbar: ["zoom", "move", "fullscreen"],
-            defaultZoomLvl: 50,
-            mousemove: true,
-            mousewheel: true,
-            touchmove: true,
-            loadingImg: "/placeholder.svg?height=100&width=100&text=Loading...",
-            size: {
-              width: "100%",
-              height: "100%",
-            },
-          })
-        } catch (error) {
-          console.error("Failed to initialize 360° viewer:", error)
-        }
+      try {
+        // Dynamically import the ESM bundle from npm
+        const { Viewer } = await import("photo-sphere-viewer")
+
+        if (!mounted) return
+
+        viewerRef.current = new Viewer({
+          container: containerRef.current,
+          panorama: imageUrl,
+          navbar: ["zoom", "move", "fullscreen"],
+          defaultZoomLvl: 50,
+          size: { width: "100%", height: "100%" },
+          loadingImg: "/placeholder.svg?height=100&width=100",
+          loadingTxt: "Loading 360° image…",
+        })
+
+        viewerRef.current.once("ready", () => setIsLoading(false))
+        viewerRef.current.on("error", (e: any) => {
+          console.error("Viewer error:", e)
+          setError("Failed to render 360° view")
+          setIsLoading(false)
+        })
+      } catch (e) {
+        console.error("Failed to load viewer:", e)
+        setError("Failed to load Photo Sphere Viewer library")
+        setIsLoading(false)
       }
     }
 
     loadViewer()
 
     return () => {
+      mounted = false
       if (viewerRef.current) {
         viewerRef.current.destroy()
         viewerRef.current = null
@@ -75,42 +77,46 @@ export function PanoramaViewer({ imageUrl, isOpen, onClose, title }: PanoramaVie
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/95 flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-black/50 backdrop-blur-sm">
-        <div className="text-white">
-          <h3 className="text-lg font-light">{title || "360° View"}</h3>
-          <p className="text-sm text-gray-300">Use mouse/touch to navigate • Scroll to zoom</p>
+    <div className="fixed inset-0 z-[100] flex flex-col bg-black/95">
+      {/* header */}
+      <div className="flex items-center justify-between px-4 py-3 bg-black/60">
+        <div className="text-white leading-tight">
+          <h3 className="font-light">{title ?? "360° View"}</h3>
+          <p className="text-xs text-gray-300">
+            {isLoading ? "Loading…" : "Drag to look around • Scroll to zoom • Fullscreen button available"}
+          </p>
         </div>
-        <button
-          onClick={onClose}
-          className="text-white hover:text-gray-300 transition-colors p-2"
-          aria-label="Close 360° viewer"
-        >
+        <button onClick={onClose} className="p-2 text-white hover:text-gray-300" aria-label="Close 360° viewer">
           <X className="w-6 h-6" />
         </button>
       </div>
 
-      {/* 360° Viewer Container */}
-      <div className="flex-1 relative">
-        <div ref={containerRef} className="w-full h-full" />
+      {/* viewer / states */}
+      <div className="relative flex-1">
+        {error ? (
+          <div className="flex h-full items-center justify-center text-white text-center px-4">
+            <p className="max-w-sm">
+              ⚠️ {error}
+              <br />
+              Please check your connection or try again later.
+            </p>
+          </div>
+        ) : (
+          <>
+            {isLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white" />
+              </div>
+            )}
+            <div ref={containerRef} className="w-full h-full" />
+          </>
+        )}
       </div>
 
-      {/* Instructions */}
-      <div className="p-4 bg-black/50 backdrop-blur-sm text-center">
-        <p className="text-white text-sm">
-          <span className="font-medium">Navigation:</span> Click and drag to look around •
-          <span className="font-medium"> Zoom:</span> Mouse wheel or pinch •
-          <span className="font-medium"> Fullscreen:</span> Use the fullscreen button
-        </p>
+      {/* footer */}
+      <div className="px-4 py-3 text-center text-white bg-black/60 text-xs">
+        Navigation: drag • Zoom: wheel/pinch • Fullscreen: toolbar button
       </div>
     </div>
   )
-}
-
-// Extend window type for PhotoSphereViewer
-declare global {
-  interface Window {
-    PhotoSphereViewer: any
-  }
 }

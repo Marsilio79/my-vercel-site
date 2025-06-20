@@ -541,26 +541,32 @@ export default function GMGVisualPortfolio() {
     maps360: [
       {
         id: 1,
-        src: "/images/360/2Chops-Hoi-An.webp",
-        alt: "360° Street View - Chops Restaurant, Hoi An Ancient Town with Traditional Lanterns",
+        src: "/images/360/1Agriturismo-360-new.webp",
+        alt: "360° Aerial View - Italian Agriturismo Villa with Swimming Pool and Tuscan Countryside Panorama",
         is360: true,
       },
       {
         id: 2,
-        src: "/images/360/1Agriturismo-360.webp",
-        alt: "360° Aerial View - Italian Agriturismo Villa with Swimming Pool and Countryside",
+        src: "/images/360/2Chops-Hoi-An-new.webp",
+        alt: "360° Street View - Chops Restaurant, Hoi An Ancient Town with Traditional Lanterns and Colonial Architecture",
         is360: true,
       },
       {
         id: 3,
-        src: "/images/360/3Hill-station.webp",
-        alt: "360° Interior View - Hill Station Restaurant with Rustic Architecture and Artistic Murals",
+        src: "/images/360/3Hill-station-new.webp",
+        alt: "360° Interior View - Hill Station Restaurant with Rustic Architecture, Artistic Murals and Atmospheric Lighting",
         is360: true,
       },
-      ...Array.from({ length: 5 }, (_, i) => ({
-        id: i + 4,
-        src: `/placeholder.svg?height=300&width=533&text=360+View+${i + 4}`,
-        alt: `360° Photography ${i + 4}`,
+      {
+        id: 4,
+        src: "/images/360/POGGIO360_1.jpg",
+        alt: "360° Aerial View - Poggio Falcone Villa with Swimming Pool and Tuscan Countryside Panorama",
+        is360: true,
+      },
+      ...Array.from({ length: 4 }, (_, i) => ({
+        id: i + 5,
+        src: `/placeholder.svg?height=300&width=533&text=360+View+${i + 5}`,
+        alt: `360° Photography ${i + 5}`,
         is360: false,
       })),
     ],
