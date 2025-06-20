@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
-import { Instagram, Youtube, Play, Mail, Phone, MapPin } from "lucide-react"
+import { Instagram, Youtube, Play, Mail, Phone, MapPin, X } from "lucide-react"
 import { Carousel } from "@/components/carousel"
 
 export default function GMGVisualPortfolio() {
@@ -18,6 +18,11 @@ export default function GMGVisualPortfolio() {
     email: "",
     message: "",
   })
+
+  const [lightboxImage, setLightboxImage] = useState<{
+    src: string
+    alt: string
+  } | null>(null)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -43,6 +48,14 @@ export default function GMGVisualPortfolio() {
       email: "",
       message: "",
     })
+  }
+
+  const openLightbox = (src: string, alt: string) => {
+    setLightboxImage({ src, alt })
+  }
+
+  const closeLightbox = () => {
+    setLightboxImage(null)
   }
 
   const scrollToSection = (sectionId: string) => {
@@ -544,6 +557,32 @@ export default function GMGVisualPortfolio() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Lightbox Modal */}
+      {lightboxImage && (
+        <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4" onClick={closeLightbox}>
+          <div className="relative max-w-[95vw] max-h-[95vh]">
+            <button
+              onClick={closeLightbox}
+              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors z-10"
+              aria-label="Close lightbox"
+            >
+              <X className="w-8 h-8" />
+            </button>
+            <div className="relative">
+              <Image
+                src={lightboxImage.src || "/placeholder.svg"}
+                alt={lightboxImage.alt}
+                width={1200}
+                height={1200}
+                className="max-w-full max-h-[95vh] object-contain"
+                quality={100}
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-sm border-b border-highlight">
         <div className="max-w-7xl mx-auto px-6 py-4">
@@ -816,7 +855,10 @@ export default function GMGVisualPortfolio() {
             <Carousel>
               {photoCategories.food.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
-                  <div className="aspect-square overflow-hidden rounded-lg">
+                  <div
+                    className="aspect-square overflow-hidden rounded-lg"
+                    onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
+                  >
                     <Image
                       src={photo.src || "/placeholder.svg"}
                       alt={photo.alt}
@@ -836,7 +878,10 @@ export default function GMGVisualPortfolio() {
             <Carousel>
               {photoCategories.events.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
-                  <div className="aspect-[4/5] overflow-hidden rounded-lg">
+                  <div
+                    className="aspect-[4/5] overflow-hidden rounded-lg"
+                    onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
+                  >
                     <Image
                       src={photo.src || "/placeholder.svg"}
                       alt={photo.alt}
@@ -856,7 +901,10 @@ export default function GMGVisualPortfolio() {
             <Carousel>
               {photoCategories.portraits.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
-                  <div className="aspect-[3/4] overflow-hidden rounded-lg">
+                  <div
+                    className="aspect-[3/4] overflow-hidden rounded-lg"
+                    onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
+                  >
                     <Image
                       src={photo.src || "/placeholder.svg"}
                       alt={photo.alt}
@@ -876,7 +924,10 @@ export default function GMGVisualPortfolio() {
             <Carousel>
               {photoCategories.maps360.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
-                  <div className="aspect-video overflow-hidden rounded-lg">
+                  <div
+                    className="aspect-video overflow-hidden rounded-lg"
+                    onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
+                  >
                     <Image
                       src={photo.src || "/placeholder.svg"}
                       alt={photo.alt}
@@ -896,7 +947,10 @@ export default function GMGVisualPortfolio() {
             <Carousel>
               {photoCategories.iris.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
-                  <div className="aspect-square overflow-hidden rounded-lg">
+                  <div
+                    className="aspect-square overflow-hidden rounded-lg"
+                    onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
+                  >
                     <Image
                       src={photo.src || "/placeholder.svg"}
                       alt={photo.alt}
@@ -936,9 +990,9 @@ export default function GMGVisualPortfolio() {
               <h3 className="text-3xl font-light text-textPrimary mb-8">Gianmarco Maccabruno Giometti</h3>
               <div className="space-y-6 text-textMuted leading-relaxed font-light text-lg">
                 <p>
-                  For over a decade, I’ve been telling stories through images, drawn to the quiet power of moments that
+                  For over a decade, I've been telling stories through images, drawn to the quiet power of moments that
                   often go unnoticed. My work is rooted in a deep respect for emotion, authenticity, and craft. I aim to
-                  create visuals that don’t just look beautiful, but feel true, stories that stay with people, even
+                  create visuals that don't just look beautiful, but feel true, stories that stay with people, even
                   after the screen fades to black.
                 </p>
                 <p>
