@@ -958,20 +958,20 @@ export default function GMGVisualPortfolio() {
               <div className="space-y-6">
                 <div className="flex items-center space-x-4">
                   <Mail className="w-5 h-5 text-textMuted" />
-                  <span className="text-textMuted font-light">hello@gmgvisual.com</span>
+                  <span className="text-textMuted font-light">gianmarcomaccabrunogiometti@gmail.com</span>
                 </div>
                 <div className="flex items-center space-x-4">
                   <Phone className="w-5 h-5 text-textMuted" />
-                  <span className="text-textMuted font-light">+39 123 456 7890</span>
+                  <span className="text-textMuted font-light">+84 369 007 610</span>
                 </div>
                 <div className="flex items-center space-x-4">
                   <MapPin className="w-5 h-5 text-textMuted" />
-                  <span className="text-textMuted font-light">Milan, Italy</span>
+                  <span className="text-textMuted font-light">Hoi An, Vietnam</span>
                 </div>
               </div>
               <div className="mt-12">
                 <p className="text-textMuted font-light leading-relaxed">
-                  Ready to bring your vision to life? Whether you need photography, videography, or a complete visual
+                  Ready to bring your vision to life? Whether you need photography, videography or a complete visual
                   storytelling solution, {"I'm"} here to help create something extraordinary together.
                 </p>
               </div>
@@ -1029,7 +1029,7 @@ export default function GMGVisualPortfolio() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="mb-6 md:mb-0">
-              <p className="font-light">© 2024 GMGVisual. All rights reserved.</p>
+              <p className="font-light">© 2025 GMGVisual. All rights reserved.</p>
             </div>
             <div className="flex items-center space-x-6">
               <Link href="#" className="text-surface hover:text-gray-300 transition-colors" aria-label="Instagram">
