@@ -527,7 +527,8 @@ export default function GMGVisualPortfolio() {
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
-                      />
+                      >
+                      </iframe>
                     </div>
                     <div className="p-4 h-20 flex items-center">
                       <h4 className="text-lg font-light text-textPrimary leading-tight line-clamp-2">{video.title}</h4>
