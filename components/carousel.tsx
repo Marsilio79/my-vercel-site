@@ -45,11 +45,6 @@ export function Carousel({ children, itemsPerView = { mobile: 1, desktop: 3 }, c
     setCurrentIndex(index)
   }
 
-  const getVisibleItems = () => {
-    const startIndex = currentIndex * itemsToShow
-    return children.slice(startIndex, startIndex + itemsToShow)
-  }
-
   if (children.length === 0) return null
 
   return (
