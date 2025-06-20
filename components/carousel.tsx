@@ -69,44 +69,41 @@ export function Carousel({ children, itemsPerView = { mobile: 1, desktop: 3 }, c
         </div>
       </div>
 
-      {/* Navigation Arrows */}
+      {/* Navigation Controls */}
       {totalSlides > 1 && (
-        <>
+        <div className="flex justify-center items-center mt-6 space-x-4">
           <Button
             variant="outline"
             size="icon"
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white border-gray-200 shadow-lg"
+            className="bg-white/90 hover:bg-white border-gray-200 shadow-lg"
             onClick={prevSlide}
             aria-label="Previous slide"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
 
+          <div className="flex space-x-2">
+            {Array.from({ length: totalSlides }).map((_, index) => (
+              <button
+                key={index}
+                className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+                  index === currentIndex ? "bg-primary" : "bg-gray-300 hover:bg-gray-400"
+                }`}
+                onClick={() => goToSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+
           <Button
             variant="outline"
             size="icon"
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white border-gray-200 shadow-lg"
+            className="bg-white/90 hover:bg-white border-gray-200 shadow-lg"
             onClick={nextSlide}
             aria-label="Next slide"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
-        </>
-      )}
-
-      {/* Dots Indicator */}
-      {totalSlides > 1 && (
-        <div className="flex justify-center mt-6 space-x-2">
-          {Array.from({ length: totalSlides }).map((_, index) => (
-            <button
-              key={index}
-              className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-                index === currentIndex ? "bg-primary" : "bg-gray-300 hover:bg-gray-400"
-              }`}
-              onClick={() => goToSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
         </div>
       )}
     </div>

@@ -42,77 +42,95 @@ export default function GMGVisualPortfolio() {
     advertising: [
       {
         id: 1,
-        title: "Brand Campaign 2024",
-        description: "A cinematic approach to modern brand storytelling, capturing the essence of luxury and elegance.",
-        embedId: "dQw4w9WgXcQ",
+        title: "TENERE ADVERTISING",
+        embedId: "eGD0094HpfQ",
       },
       {
         id: 2,
-        title: "Product Launch",
-        description: "Dynamic product showcase combining technical precision with artistic vision.",
-        embedId: "dQw4w9WgXcQ",
+        title: "NINH BINH PROMOTIONAL TV",
+        embedId: "nSDYcfFZMrQ",
       },
       {
         id: 3,
-        title: "Luxury Fashion",
-        description: "High-end fashion campaign with dramatic lighting and composition.",
-        embedId: "dQw4w9WgXcQ",
+        title: "FAT PIG PROMO",
+        embedId: "hjY2XDto55I",
       },
       {
         id: 4,
-        title: "Tech Innovation",
-        description: "Cutting-edge technology presentation with sleek visual effects.",
-        embedId: "dQw4w9WgXcQ",
+        title: "CAPICHI & CHOPS ADVERTISING",
+        embedId: "vvfVzozD5VQ",
       },
       {
         id: 5,
-        title: "Automotive Excellence",
-        description: "Premium car commercial showcasing elegance and performance.",
-        embedId: "dQw4w9WgXcQ",
+        title: "NEW MANTRA PROMO",
+        embedId: "cgjz4P0QvzI",
       },
       {
         id: 6,
-        title: "Beauty Campaign",
-        description: "Sophisticated beauty brand storytelling with artistic flair.",
-        embedId: "dQw4w9WgXcQ",
+        title: "PIAGGIO ADVERTISING",
+        embedId: "BiFSmwQD82s",
+      },
+      {
+        id: 7,
+        title: "PLANT TREES ADVERTISING",
+        embedId: "8Q1JnHOSVNY",
+      },
+      {
+        id: 8,
+        title: "F1H20 - AQUA BIKE QUY NHON ADVERTISING",
+        embedId: "FJqlT3j4ki4",
+      },
+      {
+        id: 9,
+        title: "3 DRAGONS ADVERTISING",
+        embedId: "KRSEHD9eM38",
       },
     ],
     events: [
       {
         id: 1,
-        title: "Corporate Gala 2024",
-        description: "Capturing the energy and elegance of high-profile corporate events.",
-        embedId: "dQw4w9WgXcQ",
+        title: "NATIONAL DAY ARGENTINA",
+        embedId: "hsiykmzTsPg",
       },
       {
         id: 2,
-        title: "Fashion Week Highlights",
-        description: "Behind-the-scenes and runway coverage with artistic flair.",
-        embedId: "dQw4w9WgXcQ",
+        title: "EVENT PIAGGIO HANOI",
+        embedId: "GzYrgS0qD9o",
       },
       {
         id: 3,
-        title: "Art Gallery Opening",
-        description: "Exclusive coverage of contemporary art exhibition launch.",
-        embedId: "dQw4w9WgXcQ",
+        title: "WINE EVENT ITALY",
+        embedId: "c96nRSlCMFI",
       },
       {
         id: 4,
-        title: "Music Festival",
-        description: "Dynamic coverage of live performances and crowd energy.",
-        embedId: "dQw4w9WgXcQ",
+        title: "PIAZZA ITALIA HANOI",
+        embedId: "KKmEhxQqbpI",
       },
       {
         id: 5,
-        title: "Award Ceremony",
-        description: "Prestigious award night with celebrity interviews and highlights.",
-        embedId: "dQw4w9WgXcQ",
+        title: "CHOPS EVENT HANOI",
+        embedId: "UDXWEXCV0fE",
       },
       {
         id: 6,
-        title: "Conference Summit",
-        description: "Professional conference coverage with keynote presentations.",
-        embedId: "dQw4w9WgXcQ",
+        title: "LOS FUEGOS EVENT",
+        embedId: "qYcwGUpUjok",
+      },
+      {
+        id: 7,
+        title: "BURLESQUE ROME",
+        embedId: "9jHWeHRdLqc",
+      },
+      {
+        id: 8,
+        title: "CUGINI x VIETTEL",
+        embedId: "yaw6p79bP4g",
+      },
+      {
+        id: 9,
+        title: "HILL STATION HOI AN",
+        embedId: "-XgQnFF0kiM",
       },
     ],
     shortFilms: [
@@ -347,8 +365,8 @@ export default function GMGVisualPortfolio() {
             <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Advertising & Promotionals</h3>
             <Carousel>
               {videoCategories.advertising.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg">
-                  <CardContent className="p-0">
+                <Card key={video.id} className="border-0 shadow-lg h-full">
+                  <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       <iframe
                         width="100%"
@@ -360,9 +378,8 @@ export default function GMGVisualPortfolio() {
                         allowFullScreen
                       />
                     </div>
-                    <div className="p-6">
-                      <h4 className="text-xl font-light text-textPrimary mb-2">{video.title}</h4>
-                      <p className="text-textMuted font-light">{video.description}</p>
+                    <div className="p-6 flex-1">
+                      <h4 className="text-xl font-light text-textPrimary">{video.title}</h4>
                     </div>
                   </CardContent>
                 </Card>
@@ -375,8 +392,8 @@ export default function GMGVisualPortfolio() {
             <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Events</h3>
             <Carousel>
               {videoCategories.events.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg">
-                  <CardContent className="p-0">
+                <Card key={video.id} className="border-0 shadow-lg h-full">
+                  <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       <iframe
                         width="100%"
@@ -388,9 +405,8 @@ export default function GMGVisualPortfolio() {
                         allowFullScreen
                       />
                     </div>
-                    <div className="p-6">
-                      <h4 className="text-xl font-light text-textPrimary mb-2">{video.title}</h4>
-                      <p className="text-textMuted font-light">{video.description}</p>
+                    <div className="p-6 flex-1">
+                      <h4 className="text-xl font-light text-textPrimary">{video.title}</h4>
                     </div>
                   </CardContent>
                 </Card>
@@ -403,8 +419,8 @@ export default function GMGVisualPortfolio() {
             <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Short Films</h3>
             <Carousel>
               {videoCategories.shortFilms.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg">
-                  <CardContent className="p-0">
+                <Card key={video.id} className="border-0 shadow-lg h-full">
+                  <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       <iframe
                         width="100%"
@@ -416,7 +432,7 @@ export default function GMGVisualPortfolio() {
                         allowFullScreen
                       />
                     </div>
-                    <div className="p-6">
+                    <div className="p-6 flex-1">
                       <h4 className="text-xl font-light text-textPrimary mb-2">{video.title}</h4>
                       <p className="text-textMuted font-light">{video.description}</p>
                     </div>
@@ -431,8 +447,8 @@ export default function GMGVisualPortfolio() {
             <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Music Videos</h3>
             <Carousel>
               {videoCategories.musicVideos.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg">
-                  <CardContent className="p-0">
+                <Card key={video.id} className="border-0 shadow-lg h-full">
+                  <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       <iframe
                         width="100%"
@@ -444,7 +460,7 @@ export default function GMGVisualPortfolio() {
                         allowFullScreen
                       />
                     </div>
-                    <div className="p-6">
+                    <div className="p-6 flex-1">
                       <h4 className="text-xl font-light text-textPrimary mb-2">{video.title}</h4>
                       <p className="text-textMuted font-light">{video.description}</p>
                     </div>
@@ -459,8 +475,8 @@ export default function GMGVisualPortfolio() {
             <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Weddings</h3>
             <Carousel>
               {videoCategories.weddings.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg">
-                  <CardContent className="p-0">
+                <Card key={video.id} className="border-0 shadow-lg h-full">
+                  <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       <iframe
                         width="100%"
@@ -472,7 +488,7 @@ export default function GMGVisualPortfolio() {
                         allowFullScreen
                       />
                     </div>
-                    <div className="p-6">
+                    <div className="p-6 flex-1">
                       <h4 className="text-xl font-light text-textPrimary mb-2">{video.title}</h4>
                       <p className="text-textMuted font-light">{video.description}</p>
                     </div>
@@ -487,8 +503,8 @@ export default function GMGVisualPortfolio() {
             <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Binaural Projects</h3>
             <Carousel>
               {videoCategories.binaural.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg">
-                  <CardContent className="p-0">
+                <Card key={video.id} className="border-0 shadow-lg h-full">
+                  <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       <iframe
                         width="100%"
@@ -500,7 +516,7 @@ export default function GMGVisualPortfolio() {
                         allowFullScreen
                       />
                     </div>
-                    <div className="p-6">
+                    <div className="p-6 flex-1">
                       <h4 className="text-xl font-light text-textPrimary mb-2">{video.title}</h4>
                       <p className="text-textMuted font-light">{video.description}</p>
                     </div>
