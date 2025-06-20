@@ -549,7 +549,13 @@ export default function GMGVisualPortfolio() {
       {/* Hero Section */}
       <section id="hero" className="relative h-screen flex items-center">
         <div className="absolute inset-0 z-0">
-          <Image src="/images/hero-background.webp" alt="Gianmarco at Wedding" fill className="object-cover" priority />
+          <Image
+            src="/images/Gianmarco_Wedding.webp"
+            alt="Gianmarco Maccabruno Giometti - Professional Portrait"
+            fill
+            className="object-cover"
+            priority
+          />
           <div className="absolute inset-0 bg-black/20" />
         </div>
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
@@ -559,7 +565,7 @@ export default function GMGVisualPortfolio() {
 
             {/* Right side - text content */}
             <div className="text-center lg:text-left text-white lg:pl-8">
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-light tracking-wide mb-6 leading-tight">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wide mb-6 leading-tight font-sans leading-3 leading-8">
                 GMGVisual
               </h1>
               <p className="text-lg md:text-xl lg:text-2xl font-serif font-light mb-12 leading-relaxed opacity-90">
