@@ -60,7 +60,7 @@ export function Carousel({ children, itemsPerView = { mobile: 1, desktop: 3 }, c
           {Array.from({ length: totalSlides }).map((_, slideIndex) => (
             <div key={slideIndex} className={`flex-shrink-0 w-full flex gap-6`}>
               {children.slice(slideIndex * itemsToShow, (slideIndex + 1) * itemsToShow).map((child, itemIndex) => (
-                <div key={itemIndex} className={`${isMobile ? "w-full" : "w-1/3"} flex-shrink-0`}>
+                <div key={itemIndex} className={`${isMobile ? "w-full" : "flex-1"} flex-shrink-0`}>
                   {child}
                 </div>
               ))}
