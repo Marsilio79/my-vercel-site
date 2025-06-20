@@ -923,18 +923,18 @@ export default function GMGVisualPortfolio() {
               <h3 className="text-3xl font-light text-textPrimary mb-8">Gianmarco Maccabruno Giometti</h3>
               <div className="space-y-6 text-textMuted leading-relaxed font-light text-lg">
                 <p>
-                  With over a decade of experience in visual storytelling, I specialize in creating cinematic narratives
-                  that capture the essence of moments, brands, and emotions. My approach combines technical precision
-                  with artistic vision, resulting in compelling visual content that resonates with audiences.
+                  For over a decade, I’ve been telling stories through images, drawn to the quiet power of moments
+                  that often go unnoticed. My work is rooted in a deep respect for emotion, authenticity, and craft. 
+                  I aim to create visuals that don’t just look beautiful, but feel true, stories that stay with people, 
+                  even after the screen fades to black.
                 </p>
                 <p>
-                  From intimate wedding ceremonies to large-scale corporate events, from artistic portraits to immersive
-                  360° experiences, I bring a unique perspective to every project. My work spans across multiple
-                  disciplines, including traditional photography, filmmaking, and innovative binaural audio-visual
-                  projects.
+                  From bold brand campaigns to immersive 360° experiences, I bring a cinematic and strategic eye to every project.
+                  My work spans commercial photography, filmmaking, and innovative binaural audiovisual content, all crafted to elevate 
+                  storytelling, capture attention, and connect audiences with the heart of a brand.
                 </p>
                 <p>
-                  Based in Italy, I work with clients worldwide, bringing stories to life through the lens of creativity
+                  Based in Vietnam, I work with clients worldwide, bringing stories to life through the lens of creativity
                   and passion. Every frame is crafted with attention to detail, ensuring that each project reflects the
                   unique vision and personality of my clients.
                 </p>
