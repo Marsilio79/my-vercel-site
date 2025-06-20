@@ -136,126 +136,353 @@ export default function GMGVisualPortfolio() {
     shortFilms: [
       {
         id: 1,
-        title: "Reflections",
-        description: "A contemplative short film exploring themes of identity and memory through visual poetry.",
-        embedId: "dQw4w9WgXcQ",
+        title: "The Day After",
+        description:
+          "A promising young man, after a wild night, wakes up in an apartment with an important business appointment ahead.",
+        embedId: "fyrp_Ut4_tM",
       },
       {
         id: 2,
-        title: "Urban Dreams",
-        description: "City life narrative capturing the essence of modern metropolitan existence.",
-        embedId: "dQw4w9WgXcQ",
+        title: "Short Film 2",
+        description: "Creative storytelling exploring human emotions and connections.",
+        embedId: "pKiE7kPkmBk",
       },
       {
         id: 3,
-        title: "Silent Moments",
-        description: "Minimalist storytelling focusing on human emotions and connections.",
-        embedId: "dQw4w9WgXcQ",
-      },
-      {
-        id: 4,
-        title: "Time Fragments",
-        description: "Experimental film exploring the concept of time and memory.",
-        embedId: "dQw4w9WgXcQ",
+        title: "Short Film 3",
+        description: "Cinematic narrative capturing authentic moments and experiences.",
+        embedId: "a-q7FHpMZoY",
       },
     ],
     musicVideos: [
       {
         id: 1,
-        title: "Midnight Dreams",
-        description: "Atmospheric music video blending surreal visuals with emotional storytelling.",
-        embedId: "dQw4w9WgXcQ",
+        title: "Thanh Lam - Tướng Phủ Thế",
+        embedId: "pxUlgWVpTJQ",
       },
       {
         id: 2,
-        title: "Urban Symphony",
-        description: "Dynamic urban landscapes synchronized with rhythmic musical elements.",
-        embedId: "dQw4w9WgXcQ",
+        title: "Music Video 2",
+        embedId: "0afIyrEjDqk",
       },
       {
         id: 3,
-        title: "Neon Nights",
-        description: "Vibrant nighttime visuals with electronic music synchronization.",
-        embedId: "dQw4w9WgXcQ",
+        title: "Music Video 3",
+        embedId: "xTZlP-jcSyU",
       },
       {
         id: 4,
-        title: "Acoustic Soul",
-        description: "Intimate acoustic performance with natural lighting and close-ups.",
-        embedId: "dQw4w9WgXcQ",
+        title: "Music Video 4",
+        embedId: "tnAA6t97P-A",
       },
       {
         id: 5,
-        title: "Dance Revolution",
-        description: "High-energy dance video with dynamic choreography and effects.",
-        embedId: "dQw4w9WgXcQ",
+        title: "Music Video 5",
+        embedId: "9rhtfl4daLw",
+      },
+      {
+        id: 6,
+        title: "Music Video 6",
+        embedId: "KRDECe4ds5M",
+      },
+      {
+        id: 7,
+        title: "Music Video 7",
+        embedId: "jktsqtfwfPU",
+      },
+      {
+        id: 8,
+        title: "Music Video 8",
+        embedId: "XJoSbZmKamI",
+      },
+      {
+        id: 9,
+        title: "Music Video 9",
+        embedId: "e08r4JeCVYg",
       },
     ],
-    weddings: [
+    stockFootage: [
       {
         id: 1,
-        title: "Tuscany Wedding",
-        description: "Intimate wedding cinematography capturing authentic moments in breathtaking Italian countryside.",
-        embedId: "dQw4w9WgXcQ",
+        title: "Showreel Microstock Footages 1",
+        description: "Professional stock footage showreel realized in Vietnam showcasing cinematic quality content.",
+        embedId: "I-IgHp_Cruk",
       },
       {
         id: 2,
-        title: "Coastal Romance",
-        description: "Seaside wedding with natural lighting and emotional storytelling.",
-        embedId: "dQw4w9WgXcQ",
+        title: "Showreel Microstock Footages 2",
+        description: "High-quality stock footage for commercial and creative projects.",
+        embedId: "wNKOeb3vCxY",
       },
       {
         id: 3,
-        title: "Garden Ceremony",
-        description: "Elegant garden wedding with floral arrangements and soft lighting.",
-        embedId: "dQw4w9WgXcQ",
-      },
-      {
-        id: 4,
-        title: "Villa Celebration",
-        description: "Luxury villa wedding with architectural beauty and intimate moments.",
-        embedId: "dQw4w9WgXcQ",
+        title: "Showreel Microstock Footages 3",
+        description: "Professional stock footage collection for various media applications.",
+        embedId: "X2e0rANAS_M",
       },
     ],
     binaural: [
       {
         id: 1,
-        title: "Immersive Soundscape",
-        description: "Experimental audiovisual project exploring spatial sound and immersive storytelling techniques.",
-        embedId: "dQw4w9WgXcQ",
+        title: "Walking under the Rain in Città della Pieve",
+        description: "Immersive binaural audio experience capturing the sounds of rain in an ancient Italian village.",
+        embedId: "YnNIV4pNnNA",
       },
       {
         id: 2,
-        title: "3D Audio Experience",
-        description: "Cutting-edge binaural recording techniques creating immersive audio landscapes.",
-        embedId: "dQw4w9WgXcQ",
+        title: "Binaural Experience 2",
+        description: "Spatial audio journey creating three-dimensional soundscapes for immersive listening.",
+        embedId: "x_Vp8N52Aqg",
       },
       {
         id: 3,
-        title: "Spatial Narratives",
-        description: "Innovative storytelling using three-dimensional audio positioning.",
-        embedId: "dQw4w9WgXcQ",
+        title: "Binaural Experience 3",
+        description: "Advanced binaural recording techniques for realistic audio positioning and depth.",
+        embedId: "Jyp99PHDmn0",
+      },
+      {
+        id: 4,
+        title: "Binaural Experience 4",
+        description: "Experimental soundscape exploring the boundaries of immersive audio technology.",
+        embedId: "2WQ7lrqr_mA",
+      },
+      {
+        id: 5,
+        title: "Binaural Experience 5",
+        description: "Natural environment recordings using cutting-edge binaural microphone techniques.",
+        embedId: "vg6TTpTgGMc",
+      },
+      {
+        id: 6,
+        title: "Binaural Experience 6",
+        description: "Urban soundscape captured with precision binaural recording for authentic spatial audio.",
+        embedId: "9F9eB3lbMbU",
+      },
+      {
+        id: 7,
+        title: "Binaural Experience 7",
+        description: "Atmospheric audio journey designed for headphone listening and spatial immersion.",
+        embedId: "B0EjhdzCWWI",
+      },
+      {
+        id: 8,
+        title: "Binaural Experience 8",
+        description: "Professional binaural audio production showcasing innovative recording methodologies.",
+        embedId: "MPRmHMjBuzg",
+      },
+      {
+        id: 9,
+        title: "Binaural Experience 9",
+        description: "Immersive audio storytelling through advanced binaural sound design and recording.",
+        embedId: "ivd42loLvUI",
       },
     ],
   }
 
   // Sample photography data
   const photoCategories = {
-    food: Array.from({ length: 12 }, (_, i) => ({
-      id: i + 1,
-      src: `/placeholder.svg?height=400&width=400&text=Food+${i + 1}`,
-      alt: `Food Photography ${i + 1}`,
-    })),
-    events: Array.from({ length: 12 }, (_, i) => ({
-      id: i + 1,
-      src: `/placeholder.svg?height=500&width=400&text=Event+${i + 1}`,
-      alt: `Event Photography ${i + 1}`,
-    })),
-    portraits: Array.from({ length: 12 }, (_, i) => ({
-      id: i + 1,
-      src: `/placeholder.svg?height=533&width=400&text=Portrait+${i + 1}`,
-      alt: `Portrait Photography ${i + 1}`,
-    })),
+    food: [
+      {
+        id: 1,
+        src: "/images/food/2Burgers-Chops.webp",
+        alt: "Gourmet Burgers - Chops Restaurant",
+      },
+      {
+        id: 2,
+        src: "/images/food/3Restaurant-HaNoi.webp",
+        alt: "Restaurant Interior - Hanoi",
+      },
+      {
+        id: 3,
+        src: "/images/food/4poggio-falcone.webp",
+        alt: "Poggio Falcone Villa with Pool",
+      },
+      {
+        id: 4,
+        src: "/images/food/5WideOasya.webp",
+        alt: "Luxury Hotel Bedroom - Oasya",
+      },
+      {
+        id: 5,
+        src: "/images/food/1WideOAsya6.webp",
+        alt: "Elegant Dining Area - Oasya",
+      },
+      {
+        id: 6,
+        title: "9Sunset-starter",
+        src: "/images/food/9Sunset-starter.webp",
+        alt: "Sunset Charcuterie Board with Wine",
+      },
+      {
+        id: 7,
+        src: "/images/food/6Segafredo-gelato.webp",
+        alt: "Segafredo Gelato",
+      },
+      {
+        id: 8,
+        src: "/images/food/8Garden-hotel.webp",
+        alt: "Hotel Garden Pool Area",
+      },
+      {
+        id: 9,
+        src: "/images/food/7Hotel-room.webp",
+        alt: "Modern Hotel Room Interior",
+      },
+      {
+        id: 10,
+        src: "/images/food/10Resort-puluong.webp",
+        alt: "Eco Resort Bedroom - Pu Luong",
+      },
+      {
+        id: 11,
+        src: "/images/food/11Lim-restaurant.webp",
+        alt: "Traditional Asian Restaurant Interior",
+      },
+      {
+        id: 12,
+        src: "/images/food/12Lim-meat.webp",
+        alt: "Fine Dining Meat Dish",
+      },
+      {
+        id: 13,
+        src: "/images/food/13food-ready.webp",
+        alt: "Artistic Dessert with Honeycomb",
+      },
+      {
+        id: 14,
+        src: "/images/food/14Syse-restaurant2.webp",
+        alt: "Modern Restaurant Interior - Syse",
+      },
+      {
+        id: 15,
+        src: "/placeholder.svg?height=400&width=400&text=Food+15",
+        alt: "Food Photography 15",
+      },
+      {
+        id: 16,
+        src: "/images/food/16Burger-and-beer.webp",
+        alt: "Burger and Beer Outdoor Dining",
+      },
+      {
+        id: 17,
+        src: "/images/food/17Hotel-int.webp",
+        alt: "Modern Hotel Cafe Interior",
+      },
+      {
+        id: 18,
+        src: "/images/food/18Chops-esterior.webp",
+        alt: "Chops Restaurant Night Exterior",
+      },
+      {
+        id: 19,
+        src: "/images/food/19Syse-restaurant.webp",
+        alt: "Upscale Restaurant Interior - Syse",
+      },
+      ...Array.from({ length: 15 }, (_, i) => ({
+        id: i + 20,
+        src: `/placeholder.svg?height=400&width=400&text=Food+${i + 20}`,
+        alt: `Food Photography ${i + 20}`,
+      })),
+    ],
+    events: [
+      {
+        id: 1,
+        src: "/images/events/1Hien-Concert.webp",
+        alt: "Hien Concert - Formal Cultural Event",
+      },
+      {
+        id: 2,
+        src: "/images/events/2Yoga-New-Mantra.webp",
+        alt: "New Mantra Yoga Session - Indoor Meditation Circle",
+      },
+      {
+        id: 3,
+        src: "/images/events/3-Syse-event.webp",
+        alt: "Syse Restaurant Event - Social Gathering",
+      },
+      {
+        id: 4,
+        src: "/images/events/4School-party.webp",
+        alt: "School Party - Group Celebration",
+      },
+      {
+        id: 5,
+        src: "/images/events/5-Wedding.webp",
+        alt: "Traditional Vietnamese Wedding Ceremony",
+      },
+      {
+        id: 6,
+        src: "/images/events/6Italian-Embassy.webp",
+        alt: "Italian Embassy - 50th Anniversary Diplomatic Relations",
+      },
+      {
+        id: 7,
+        src: "/images/events/8Yoga-Pu-Luong.webp",
+        alt: "Yoga Retreat - Pu Luong Rice Fields",
+      },
+      {
+        id: 8,
+        src: "/images/events/9party.webp",
+        alt: "Upscale Party - Circular Architecture View",
+      },
+      {
+        id: 9,
+        src: "/images/events/10partysyse.webp",
+        alt: "Evening Party - Syse Venue with Dramatic Lighting",
+      },
+    ],
+    portraits: [
+      {
+        id: 1,
+        src: "/images/portraits/1Lorenzo-portrait.webp",
+        alt: "Lorenzo - Wine Expert Portrait at Pomario Winery",
+      },
+      {
+        id: 2,
+        src: "/images/portraits/2Chu-oi-Vietnam.webp",
+        alt: "Vietnamese Farmer Portrait - Traditional Conical Hat",
+      },
+      {
+        id: 3,
+        src: "/images/portraits/3Hien-singer-portrait.webp",
+        alt: "Hien - Professional Singer Studio Portrait",
+      },
+      {
+        id: 4,
+        src: "/images/portraits/4Ba-Oi-Ta-Lang.webp",
+        alt: "Elderly Vietnamese Woman - Authentic Local Portrait",
+      },
+      {
+        id: 5,
+        src: "/images/portraits/5Chefs.webp",
+        alt: "Professional Chefs Portrait - Restaurant Kitchen",
+      },
+      {
+        id: 6,
+        src: "/images/portraits/6Mai-portrait.webp",
+        alt: "Mai - Golden Hour Street Portrait",
+      },
+      {
+        id: 7,
+        src: "/images/portraits/7Mia-portrait.webp",
+        alt: "Mia - Yoga Lifestyle Portrait",
+      },
+      {
+        id: 8,
+        src: "/images/portraits/8Hien-portrait.webp",
+        alt: "Hien - Classical Violinist Portrait",
+      },
+      {
+        id: 9,
+        src: "/images/portraits/9Ciro.webp",
+        alt: "Ciro - Dramatic Architecture Portrait",
+      },
+      ...Array.from({ length: 9 }, (_, i) => ({
+        id: i + 10,
+        src: `/placeholder.svg?height=533&width=400&text=Portrait+${i + 10}`,
+        alt: `Portrait Photography ${i + 10}`,
+      })),
+    ],
     maps360: Array.from({ length: 8 }, (_, i) => ({
       id: i + 1,
       src: `/placeholder.svg?height=300&width=533&text=360+View+${i + 1}`,
@@ -417,7 +644,7 @@ export default function GMGVisualPortfolio() {
           {/* Short Films */}
           <div className="mb-20">
             <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Short Films</h3>
-            <Carousel>
+            <div className="grid md:grid-cols-3 gap-8">
               {videoCategories.shortFilms.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
                   <CardContent className="p-0 h-full flex flex-col">
@@ -439,7 +666,7 @@ export default function GMGVisualPortfolio() {
                   </CardContent>
                 </Card>
               ))}
-            </Carousel>
+            </div>
           </div>
 
           {/* Music Videos */}
@@ -461,8 +688,7 @@ export default function GMGVisualPortfolio() {
                       />
                     </div>
                     <div className="p-6 flex-1">
-                      <h4 className="text-xl font-light text-textPrimary mb-2">{video.title}</h4>
-                      <p className="text-textMuted font-light">{video.description}</p>
+                      <h4 className="text-xl font-light text-textPrimary">{video.title}</h4>
                     </div>
                   </CardContent>
                 </Card>
@@ -470,11 +696,11 @@ export default function GMGVisualPortfolio() {
             </Carousel>
           </div>
 
-          {/* Weddings */}
+          {/* Stock Footage */}
           <div className="mb-20">
-            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Weddings</h3>
-            <Carousel>
-              {videoCategories.weddings.map((video) => (
+            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Stock Footage</h3>
+            <div className="grid md:grid-cols-3 gap-8">
+              {videoCategories.stockFootage.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
                   <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
@@ -495,7 +721,7 @@ export default function GMGVisualPortfolio() {
                   </CardContent>
                 </Card>
               ))}
-            </Carousel>
+            </div>
           </div>
 
           {/* Binaural Projects */}
