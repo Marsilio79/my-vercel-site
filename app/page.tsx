@@ -639,7 +639,7 @@ export default function GMGVisualPortfolio() {
             src="/images/Gianmarco_Wedding.webp"
             alt="Gianmarco Maccabruno Giometti - Professional Portrait"
             fill
-            className="object-cover object-[center_20%]"
+            className="object-cover object-[center_0%]"
             priority
           />
           <div className="absolute inset-0 bg-black/20" />
@@ -786,6 +786,13 @@ export default function GMGVisualPortfolio() {
           {/* Stock Footage */}
           <div className="mb-20">
             <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">STOCK FOOTAGE</h3>
+            <div className="text-center mb-12">
+              <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
+                I create high-quality stock footage for leading platforms such as Shutterstock, Pond5, and Adobe Stock.
+                My work spans cinematic visuals, dynamic scenes, and versatile content designed to meet the needs of
+                agencies, brands, and content creators worldwide.
+              </p>
+            </div>
             <div className="grid md:grid-cols-3 gap-8">
               {videoCategories.stockFootage.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
@@ -809,11 +816,96 @@ export default function GMGVisualPortfolio() {
                 </Card>
               ))}
             </div>
+            <div className="mt-12">
+              <div className="flex justify-center gap-6 max-w-2xl mx-auto">
+                <Link
+                  href="https://www.shutterstock.com/g/Lafresia"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex-1"
+                >
+                  <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
+                    <CardContent className="p-0 h-full flex flex-col">
+                      <div className="aspect-[2.5/1] bg-white rounded-lg overflow-hidden flex items-center justify-center p-3">
+                        <Image
+                          src="/images/platforms/shutterstock-logo.webp"
+                          alt="Shutterstock - View Lafresia's Portfolio"
+                          width={128}
+                          height={48}
+                          className="w-32 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="p-4 flex-1 text-center">
+                        <h4 className="text-sm font-light text-textPrimary">View on Shutterstock</h4>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+
+                <Link
+                  href="https://stock.adobe.com/it/contributor/206582126/Gianmarco"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex-1"
+                >
+                  <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
+                    <CardContent className="p-0 h-full flex flex-col">
+                      <div className="aspect-[2.5/1] bg-white rounded-lg overflow-hidden flex items-center justify-center p-3">
+                        <Image
+                          src="/images/platforms/adobe-stock-logo.webp"
+                          alt="Adobe Stock - View Gianmarco's Portfolio"
+                          width={128}
+                          height={48}
+                          className="w-32 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="p-4 flex-1 text-center">
+                        <h4 className="text-sm font-light text-textPrimary">View on Adobe Stock</h4>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+
+                <Link
+                  href="https://www.pond5.com/artist/lafresiastockvideo"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex-1"
+                >
+                  <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
+                    <CardContent className="p-0 h-full flex flex-col">
+                      <div className="aspect-[2.5/1] bg-white rounded-lg overflow-hidden flex items-center justify-center p-3">
+                        <Image
+                          src="/images/platforms/pond5-logo.webp"
+                          alt="Pond5 - View Lafresia Stock Video's Portfolio"
+                          width={128}
+                          height={48}
+                          className="w-32 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="p-4 flex-1 text-center">
+                        <h4 className="text-sm font-light text-textPrimary">View on Pond5</h4>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </div>
+            </div>
           </div>
 
           {/* Binaural Projects */}
           <div>
             <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">BINAURAL PROJECTS</h3>
+            <div className="text-center mb-12">
+              <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
+                <span className="font-medium">Step into sound...</span>
+                <br />
+                With Binauralife Experience, I create immersive 3D audio journeys that make you feel right there, in the
+                middle of a rainstorm, a bustling street, or a quiet forest. Each recording is captured with
+                professional binaural microphones to recreate sound exactly as the human ear hears it. Slip on your
+                headphones, close your eyes, and let the world unfold around you.
+              </p>
+            </div>
             <Carousel>
               {videoCategories.binaural.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
