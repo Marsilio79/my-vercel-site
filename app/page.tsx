@@ -624,7 +624,7 @@ export default function GMGVisualPortfolio() {
 
           {/* Advertising & Promotionals */}
           <div className="mb-20">
-            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Advertising & Promotionals</h3>
+            <h3 className="text-textPrimary mb-12 text-center font-thin text-3xl">ADVERTISING &amp; PROMOTIONAL</h3>
             <Carousel>
               {videoCategories.advertising.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
@@ -651,7 +651,7 @@ export default function GMGVisualPortfolio() {
 
           {/* Events */}
           <div className="mb-20">
-            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Events</h3>
+            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">EVENTS</h3>
             <Carousel>
               {videoCategories.events.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
@@ -678,7 +678,7 @@ export default function GMGVisualPortfolio() {
 
           {/* Short Films */}
           <div className="mb-20">
-            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Short Films</h3>
+            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">SHORT MOVIES</h3>
             <div className="grid md:grid-cols-3 gap-8">
               {videoCategories.shortFilms.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
@@ -706,7 +706,7 @@ export default function GMGVisualPortfolio() {
 
           {/* Music Videos */}
           <div className="mb-20">
-            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Music Videos</h3>
+            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">MUSIC VIDEOS</h3>
             <Carousel>
               {videoCategories.musicVideos.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
@@ -733,7 +733,7 @@ export default function GMGVisualPortfolio() {
 
           {/* Stock Footage */}
           <div className="mb-20">
-            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Stock Footage</h3>
+            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">STOCK FOOTAGE</h3>
             <div className="grid md:grid-cols-3 gap-8">
               {videoCategories.stockFootage.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
@@ -761,7 +761,7 @@ export default function GMGVisualPortfolio() {
 
           {/* Binaural Projects */}
           <div>
-            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Binaural Projects</h3>
+            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">BINAURAL PROJECTS</h3>
             <Carousel>
               {videoCategories.binaural.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
@@ -799,7 +799,7 @@ export default function GMGVisualPortfolio() {
 
           {/* Food & Hospitality */}
           <div className="mb-20">
-            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Food & Hospitality</h3>
+            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">FOOD &amp; HOSPITALITY</h3>
             <Carousel>
               {photoCategories.food.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
@@ -819,7 +819,7 @@ export default function GMGVisualPortfolio() {
 
           {/* Events */}
           <div className="mb-20">
-            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Events</h3>
+            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">EVENTS</h3>
             <Carousel>
               {photoCategories.events.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
@@ -839,7 +839,7 @@ export default function GMGVisualPortfolio() {
 
           {/* Portraits */}
           <div className="mb-20">
-            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Portraits</h3>
+            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">PORTRAITS</h3>
             <Carousel>
               {photoCategories.portraits.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
@@ -859,7 +859,7 @@ export default function GMGVisualPortfolio() {
 
           {/* 360° Google Maps */}
           <div className="mb-20">
-            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">360° Google Maps</h3>
+            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">360° GOOGLE MAPS PICTURES</h3>
             <Carousel>
               {photoCategories.maps360.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
@@ -879,7 +879,7 @@ export default function GMGVisualPortfolio() {
 
           {/* Iris Photography */}
           <div>
-            <h3 className="text-3xl font-light text-textPrimary mb-12 text-center">Iris Photography</h3>
+            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">IRIS PHOTOGRAPHY</h3>
             <Carousel>
               {photoCategories.iris.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
