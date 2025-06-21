@@ -1550,6 +1550,13 @@ ${formData.message}`)
                 </div>
               ))}
             </PhotoCarousel>
+            <div className="text-center mt-12">
+              <Link href="https://bookwhen.com/oxoirisphotography" target="_blank" rel="noopener noreferrer">
+                <Button className="bg-textPrimary text-white hover:bg-textPrimary/90 py-3 px-8 font-light tracking-wide rounded-lg transition-colors">
+                  Book Your Session
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
