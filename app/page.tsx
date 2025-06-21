@@ -730,6 +730,36 @@ ${formData.message}`)
         src: "/images/iris/6iriphotographyEMANUELA.webp",
         alt: "Emanuela - Iris Photography with Blue and Orange Tones",
       },
+      {
+  id: 7,
+  src: "/images/iris/7irisphotographyFRAN.webp",
+  alt: "Fran - Iris Photography with Subtle Brown and Blue Tones",
+},
+{
+  id: 8,
+  src: "/images/iris/8irisphotographyHAMISH.webp",
+  alt: "Hamish - Iris Photography with Radiant Texture",
+},
+{
+  id: 9,
+  src: "/images/iris/9irisphotographyAMAAN.webp",
+  alt: "Amaan - Deep Blue and Amber Iris Photography",
+},
+{
+  id: 10,
+  src: "/images/iris/10irisphotographyCYP.webp",
+  alt: "CYP - Artistic Iris Photography in Cool Tones",
+},
+{
+  id: 11,
+  src: "/images/iris/11irisphotographyCAROL.webp",
+  alt: "Carol - Warm and Bright Iris Portrait",
+},
+{
+  id: 12,
+  src: "/images/iris/12irisphotographyFEDERICO_R2.webp",
+  alt: "Federico - Enhanced Iris Detail Photography",
+},
       ...Array.from({ length: 6 }, (_, i) => ({
         id: i + 7,
         src: `/placeholder.svg?height=300&width=300&text=Iris+${i + 7}`,
