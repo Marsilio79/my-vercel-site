@@ -180,6 +180,47 @@ ${formData.message}`)
     )
   }
 
+  // Add this helper component after the LazyIframe component
+  const YouTubeThumbnail = ({ embedId, title }: { embedId: string; title: string }) => {
+    const [thumbnailSrc, setThumbnailSrc] = useState(`https://img.youtube.com/vi/${embedId}/maxresdefault.jpg`)
+    const [hasError, setHasError] = useState(false)
+
+    const handleImageError = () => {
+      if (!hasError) {
+        setHasError(true)
+        // Fallback to medium quality thumbnail
+        setThumbnailSrc(`https://img.youtube.com/vi/${embedId}/hqdefault.jpg`)
+      }
+    }
+
+    return (
+      <Link
+        href={`https://www.youtube.com/watch?v=${embedId}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block w-full h-full relative group"
+      >
+        <Image
+          src={thumbnailSrc || "/placeholder.svg"}
+          alt={title}
+          width={480}
+          height={270}
+          className="object-cover w-full h-full"
+          loading="lazy"
+          onError={handleImageError}
+        />
+        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+            <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+      </Link>
+    )
+  }
+
   // Sample video data
   const videoCategories = {
     advertising: [
@@ -902,29 +943,7 @@ ${formData.message}`)
                       <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                         {mobileOptimized ? (
                           // Mobile: Show YouTube thumbnail with link
-                          <Link
-                            href={`https://www.youtube.com/watch?v=${video.embedId}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block w-full h-full relative group"
-                          >
-                            <Image
-                              src={`https://img.youtube.com/vi/${video.embedId}/maxresdefault.jpg`}
-                              alt={video.title}
-                              width={480}
-                              height={270}
-                              className="object-cover w-full h-full"
-                              loading="lazy"
-                            />
-                            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M8 5v14l11-7z" />
-                                </svg>
-                              </div>
-                            </div>
-                          </Link>
+                          <YouTubeThumbnail embedId={video.embedId} title={video.title} />
                         ) : (
                           // Desktop: Full iframe
                           <LazyIframe embedId={video.embedId} title={video.title} />
@@ -957,29 +976,7 @@ ${formData.message}`)
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       {mobileOptimized ? (
                         // Mobile: Show YouTube thumbnail with link
-                        <Link
-                          href={`https://www.youtube.com/watch?v=${video.embedId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block w-full h-full relative group"
-                        >
-                          <Image
-                            src={`https://img.youtube.com/vi/${video.embedId}/maxresdefault.jpg`}
-                            alt={video.title}
-                            width={480}
-                            height={270}
-                            className="object-cover w-full h-full"
-                            loading="lazy"
-                          />
-                          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z" />
-                              </svg>
-                            </div>
-                          </div>
-                        </Link>
+                        <YouTubeThumbnail embedId={video.embedId} title={video.title} />
                       ) : (
                         // Desktop: Full iframe
                         <LazyIframe embedId={video.embedId} title={video.title} />
@@ -1011,29 +1008,7 @@ ${formData.message}`)
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       {mobileOptimized ? (
                         // Mobile: Show YouTube thumbnail with link
-                        <Link
-                          href={`https://www.youtube.com/watch?v=${video.embedId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block w-full h-full relative group"
-                        >
-                          <Image
-                            src={`https://img.youtube.com/vi/${video.embedId}/maxresdefault.jpg`}
-                            alt={video.title}
-                            width={480}
-                            height={270}
-                            className="object-cover w-full h-full"
-                            loading="lazy"
-                          />
-                          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z" />
-                              </svg>
-                            </div>
-                          </div>
-                        </Link>
+                        <YouTubeThumbnail embedId={video.embedId} title={video.title} />
                       ) : (
                         // Desktop: Full iframe
                         <LazyIframe embedId={video.embedId} title={video.title} />
@@ -1132,29 +1107,7 @@ ${formData.message}`)
                       <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                         {mobileOptimized ? (
                           // Mobile: Show YouTube thumbnail with link
-                          <Link
-                            href={`https://www.youtube.com/watch?v=${video.embedId}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block w-full h-full relative group"
-                          >
-                            <Image
-                              src={`https://img.youtube.com/vi/${video.embedId}/maxresdefault.jpg`}
-                              alt={video.title}
-                              width={480}
-                              height={270}
-                              className="object-cover w-full h-full"
-                              loading="lazy"
-                            />
-                            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M8 5v14l11-7z" />
-                                </svg>
-                              </div>
-                            </div>
-                          </Link>
+                          <YouTubeThumbnail embedId={video.embedId} title={video.title} />
                         ) : (
                           // Desktop: Full iframe
                           <LazyIframe embedId={video.embedId} title={video.title} />
@@ -1194,29 +1147,7 @@ ${formData.message}`)
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       {mobileOptimized ? (
                         // Mobile: Show YouTube thumbnail with link
-                        <Link
-                          href={`https://www.youtube.com/watch?v=${video.embedId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block w-full h-full relative group"
-                        >
-                          <Image
-                            src={`https://img.youtube.com/vi/${video.embedId}/maxresdefault.jpg`}
-                            alt={video.title}
-                            width={480}
-                            height={270}
-                            className="object-cover w-full h-full"
-                            loading="lazy"
-                          />
-                          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z" />
-                              </svg>
-                            </div>
-                          </div>
-                        </Link>
+                        <YouTubeThumbnail embedId={video.embedId} title={video.title} />
                       ) : (
                         // Desktop: Full iframe
                         <LazyIframe embedId={video.embedId} title={video.title} />
@@ -1327,29 +1258,7 @@ ${formData.message}`)
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       {mobileOptimized ? (
                         // Mobile: Show YouTube thumbnail with link
-                        <Link
-                          href={`https://www.youtube.com/watch?v=${video.embedId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block w-full h-full relative group"
-                        >
-                          <Image
-                            src={`https://img.youtube.com/vi/${video.embedId}/maxresdefault.jpg`}
-                            alt={video.title}
-                            width={480}
-                            height={270}
-                            className="object-cover w-full h-full"
-                            loading="lazy"
-                          />
-                          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z" />
-                              </svg>
-                            </div>
-                          </div>
-                        </Link>
+                        <YouTubeThumbnail embedId={video.embedId} title={video.title} />
                       ) : (
                         // Desktop: Full iframe
                         <LazyIframe embedId={video.embedId} title={video.title} />
@@ -1550,7 +1459,7 @@ ${formData.message}`)
                       height={400}
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                       loading={mobileOptimized ? "lazy" : "eager"}
-                      quality={mobileOptimized ? 60 : 85}
+                      quality={mobileOptimized ? "60" : "85"}
                     />
                   </div>
                 </div>
