@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -14,6 +14,20 @@ import { Carousel } from "@/components/carousel"
 import { PanoramaViewer } from "@/components/panorama-viewer"
 
 export default function GMGVisualPortfolio() {
+  const [isLoading, setIsLoading] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+
+    checkMobile()
+    setIsLoading(false)
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -609,6 +623,17 @@ export default function GMGVisualPortfolio() {
     ],
   }
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4" />
+          <p className="text-textMuted">Loading GMGVisual...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* 360° Panorama Viewer */}
@@ -739,7 +764,7 @@ export default function GMGVisualPortfolio() {
           {/* Advertising & Promotionals */}
           <div className="mb-20">
             <h3 className="text-textPrimary mb-12 text-center font-thin text-3xl">ADVERTISING &amp; PROMOTIONAL</h3>
-            <Carousel>
+            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {videoCategories.advertising.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
                   <CardContent className="p-0 h-full flex flex-col">
@@ -766,7 +791,7 @@ export default function GMGVisualPortfolio() {
           {/* Events */}
           <div className="mb-20">
             <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">EVENTS</h3>
-            <Carousel>
+            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {videoCategories.events.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
                   <CardContent className="p-0 h-full flex flex-col">
@@ -893,7 +918,7 @@ export default function GMGVisualPortfolio() {
           {/* Music Videos */}
           <div className="mb-20">
             <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">MUSIC VIDEOS</h3>
-            <Carousel>
+            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {videoCategories.musicVideos.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
                   <CardContent className="p-0 h-full flex flex-col">
@@ -1040,7 +1065,7 @@ export default function GMGVisualPortfolio() {
                 headphones, close your eyes, and let the world unfold around you.
               </p>
             </div>
-            <Carousel>
+            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {videoCategories.binaural.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
                   <CardContent className="p-0 h-full flex flex-col">
@@ -1078,7 +1103,7 @@ export default function GMGVisualPortfolio() {
           {/* Food & Hospitality */}
           <div className="mb-20">
             <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">FOOD &amp; HOSPITALITY</h3>
-            <Carousel>
+            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.food.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
                   <div
@@ -1101,7 +1126,7 @@ export default function GMGVisualPortfolio() {
           {/* Events */}
           <div className="mb-20">
             <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">EVENTS</h3>
-            <Carousel>
+            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.events.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
                   <div
@@ -1124,7 +1149,7 @@ export default function GMGVisualPortfolio() {
           {/* Portraits */}
           <div className="mb-20">
             <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">PORTRAITS</h3>
-            <Carousel>
+            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.portraits.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
                   <div
@@ -1153,7 +1178,7 @@ export default function GMGVisualPortfolio() {
                 panoramic view.
               </p>
             </div>
-            <Carousel>
+            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.maps360.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer relative">
                   <div
@@ -1172,6 +1197,9 @@ export default function GMGVisualPortfolio() {
                       width={533}
                       height={300}
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                      quality={isMobile ? 75 : 90}
+                      sizes="(max-width: 768px) 100vw, 533px"
                     />
                     {photo.is360 && (
                       <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -1194,7 +1222,7 @@ export default function GMGVisualPortfolio() {
           {/* Iris Photography */}
           <div>
             <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">IRIS PHOTOGRAPHY</h3>
-            <Carousel>
+            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.iris.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
                   <div

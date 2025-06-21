@@ -19,6 +19,21 @@ export function PanoramaViewer({ imageUrl, isOpen, onClose, title }: PanoramaVie
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent.toLowerCase()
+      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/.test(userAgent)
+      const isSmallScreen = window.innerWidth <= 768
+      setIsMobile(isMobileDevice || isSmallScreen)
+    }
+
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
 
   useEffect(() => {
     if (!isOpen || !containerRef.current) return
@@ -30,49 +45,89 @@ export function PanoramaViewer({ imageUrl, isOpen, onClose, title }: PanoramaVie
 
       // Clean up any previous viewer
       if (viewerRef.current) {
-        viewerRef.current.destroy()
+        try {
+          viewerRef.current.destroy()
+        } catch (e) {
+          console.warn("Error destroying previous viewer:", e)
+        }
         viewerRef.current = null
       }
 
       try {
-        // Dynamically import the ESM bundle from npm
-        const { Viewer } = await import("photo-sphere-viewer")
-
-        if (!mounted) return
-
-        viewerRef.current = new Viewer({
-          container: containerRef.current,
-          panorama: imageUrl,
-          navbar: ["zoom", "move", "fullscreen"],
-          defaultZoomLvl: 50,
-          size: { width: "100%", height: "100%" },
-          loadingImg: "/placeholder.svg?height=100&width=100",
-          loadingTxt: "Loading 360° image…",
+        // Add timeout for mobile devices
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error("Loading timeout")), isMobile ? 10000 : 15000)
         })
 
-        viewerRef.current.once("ready", () => setIsLoading(false))
-        viewerRef.current.on("error", (e: any) => {
-          console.error("Viewer error:", e)
-          setError("Failed to render 360° view")
-          setIsLoading(false)
+        // Dynamically import the ESM bundle from npm with timeout
+        const loadPromise = import("photo-sphere-viewer").then(({ Viewer }) => {
+          if (!mounted) return
+
+          const config = {
+            container: containerRef.current,
+            panorama: imageUrl,
+            navbar: isMobile
+              ? ["zoom", "fullscreen"] // Simplified navbar for mobile
+              : ["zoom", "move", "fullscreen"],
+            defaultZoomLvl: isMobile ? 30 : 50, // Lower default zoom for mobile
+            size: { width: "100%", height: "100%" },
+            loadingImg: "/placeholder.svg?height=100&width=100",
+            loadingTxt: "Loading 360° image…",
+            // Mobile-specific optimizations
+            useXmpData: false,
+            mousemove: !isMobile, // Disable mousemove on mobile for better performance
+            touchmoveTwoFingers: isMobile,
+            mousewheel: !isMobile,
+            // Reduce quality on mobile to prevent crashes
+            resolution: isMobile ? 32 : 64,
+          }
+
+          viewerRef.current = new Viewer(config)
+
+          viewerRef.current.once("ready", () => {
+            if (mounted) setIsLoading(false)
+          })
+
+          viewerRef.current.on("error", (e: any) => {
+            console.error("Viewer error:", e)
+            if (mounted) {
+              setError("Failed to render 360° view")
+              setIsLoading(false)
+            }
+          })
         })
+
+        await Promise.race([loadPromise, timeoutPromise])
       } catch (e) {
         console.error("Failed to load viewer:", e)
-        setError("Failed to load Photo Sphere Viewer library")
-        setIsLoading(false)
+        if (mounted) {
+          setError(
+            isMobile
+              ? "360° viewer not supported on this device. Please try on desktop."
+              : "Failed to load Photo Sphere Viewer library",
+          )
+          setIsLoading(false)
+        }
       }
     }
 
-    loadViewer()
+    // Add delay for mobile to prevent immediate crashes
+    const delay = isMobile ? 500 : 0
+    const timeoutId = setTimeout(loadViewer, delay)
 
     return () => {
       mounted = false
+      clearTimeout(timeoutId)
       if (viewerRef.current) {
-        viewerRef.current.destroy()
+        try {
+          viewerRef.current.destroy()
+        } catch (e) {
+          console.warn("Error destroying viewer on cleanup:", e)
+        }
         viewerRef.current = null
       }
     }
-  }, [isOpen, imageUrl])
+  }, [isOpen, imageUrl, isMobile])
 
   if (!isOpen) return null
 
@@ -81,9 +136,13 @@ export function PanoramaViewer({ imageUrl, isOpen, onClose, title }: PanoramaVie
       {/* header */}
       <div className="flex items-center justify-between px-4 py-3 bg-black/60">
         <div className="text-white leading-tight">
-          <h3 className="font-light">{title ?? "360° View"}</h3>
+          <h3 className="font-light text-sm md:text-base">{title ?? "360° View"}</h3>
           <p className="text-xs text-gray-300">
-            {isLoading ? "Loading…" : "Drag to look around • Scroll to zoom • Fullscreen button available"}
+            {isLoading
+              ? "Loading…"
+              : isMobile
+                ? "Pinch to zoom • Drag to look around"
+                : "Drag to look around • Scroll to zoom • Fullscreen button available"}
           </p>
         </div>
         <button onClick={onClose} className="p-2 text-white hover:text-gray-300" aria-label="Close 360° viewer">
@@ -95,17 +154,27 @@ export function PanoramaViewer({ imageUrl, isOpen, onClose, title }: PanoramaVie
       <div className="relative flex-1">
         {error ? (
           <div className="flex h-full items-center justify-center text-white text-center px-4">
-            <p className="max-w-sm">
-              ⚠️ {error}
-              <br />
-              Please check your connection or try again later.
-            </p>
+            <div className="max-w-sm">
+              <p className="mb-4">⚠️ {error}</p>
+              {isMobile && (
+                <button
+                  onClick={onClose}
+                  className="px-4 py-2 bg-white/20 rounded text-sm hover:bg-white/30 transition-colors"
+                >
+                  Close and try on desktop
+                </button>
+              )}
+            </div>
           </div>
         ) : (
           <>
             {isLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white" />
+                <div className="text-center text-white">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4" />
+                  <p className="text-sm">Loading 360° experience...</p>
+                  {isMobile && <p className="text-xs mt-2 opacity-75">This may take longer on mobile</p>}
+                </div>
               </div>
             )}
             <div ref={containerRef} className="w-full h-full" />
@@ -115,7 +184,9 @@ export function PanoramaViewer({ imageUrl, isOpen, onClose, title }: PanoramaVie
 
       {/* footer */}
       <div className="px-4 py-3 text-center text-white bg-black/60 text-xs">
-        Navigation: drag • Zoom: wheel/pinch • Fullscreen: toolbar button
+        {isMobile
+          ? "Touch controls: pinch to zoom • drag to rotate"
+          : "Navigation: drag • Zoom: wheel/pinch • Fullscreen: toolbar button"}
       </div>
     </div>
   )
