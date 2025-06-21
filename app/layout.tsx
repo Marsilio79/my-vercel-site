@@ -6,7 +6,13 @@ export const metadata: Metadata = {
   title: "GMGVisual - Gianmarco Maccabruno Giometti",
   description: "Professional Videographer, Photographer & Editor based in Vietnam",
   generator: "v0.dev",
-  viewport: "width=device-width, initial-scale=1.0, maximum-scale=5.0",
+  viewport: "width=device-width, initial-scale=1.0",
+  // Error boundary meta tags
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+  },
 }
 
 export default function RootLayout({
@@ -17,13 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* Preload critical resources */}
+        <link rel="preload" href="/fonts/your-font.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
-      <body className="antialiased">{children}</body>
+      <body>{children}</body>
     </html>
   )
 }
