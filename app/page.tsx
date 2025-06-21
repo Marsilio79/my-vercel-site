@@ -250,7 +250,7 @@ ${formData.message}`)
         id: 4,
         title: "Capichi & Chops Advertising",
         embedId: "vvfVzozD5VQ",
-        customThumbnail: "/images/video-thumbs/chops-promo-thumb.jpg",
+        customThumbnail: "/images/video-thumbs/capichi-chops-promo-thumb.jpg",
       },
       {
         id: 5,
@@ -304,6 +304,7 @@ ${formData.message}`)
         id: 5,
         title: "Chops event Hanoi",
         embedId: "UDXWEXCV0fE",
+        customThumbnail: "/images/video-thumbs/chops-event-thumb.jpg",
       },
       {
         id: 6,
