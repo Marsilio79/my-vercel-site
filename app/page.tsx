@@ -639,7 +639,7 @@ ${formData.message}`)
           <div className="relative max-w-[95vw] max-h-[95vh]">
             <button
               onClick={closeLightbox}
-              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors z-10"
+              className="absolute top-4 right-4 md:-top-12 md:right-0 text-white hover:text-gray-300 transition-colors z-10"
               aria-label="Close lightbox"
             >
               <X className="w-8 h-8" />
@@ -661,7 +661,7 @@ ${formData.message}`)
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-sm border-b border-highlight">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <Link href="#" className="flex items-center">
               <Image
@@ -733,17 +733,17 @@ ${formData.message}`)
           />
           <div className="absolute inset-0 bg-black/20" />
         </div>
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-screen">
+        <div className="relative z-10 w-full container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center min-h-screen">
             {/* Left side - empty to showcase the photo */}
             <div className="hidden lg:block"></div>
 
             {/* Right side - text content */}
             <div className="text-center lg:text-left text-white lg:pl-8">
-              <h1 className="text-[clamp(2.5rem,8vw,5rem)] md:text-[clamp(3rem,10vw,6rem)] lg:text-[clamp(4rem,12vw,8rem)] font-light tracking-wide mb-6 leading-tight font-serif">
+              <h1 className="text-[clamp(2.5rem,8vw,5rem)] md:text-[clamp(3rem,10vw,6rem)] lg:text-[clamp(4rem,12vw,8rem)] font-light tracking-wide mb-4 md:mb-6 leading-tight font-serif">
                 GMGVisual
               </h1>
-              <p className="text-[clamp(1rem,4vw,1.25rem)] md:text-[clamp(1.125rem,5vw,1.5rem)] lg:text-[clamp(1.25rem,6vw,2rem)] font-serif font-light mb-12 leading-relaxed opacity-90">
+              <p className="text-[clamp(1rem,4vw,1.25rem)] md:text-[clamp(1.125rem,5vw,1.5rem)] lg:text-[clamp(1.25rem,6vw,2rem)] font-serif font-light mb-8 md:mb-12 leading-relaxed opacity-90">
                 Gianmarco Maccabruno Giometti
                 <br />
                 <span className="text-[clamp(0.875rem,3vw,1rem)] md:text-[clamp(1rem,4vw,1.125rem)] lg:text-[clamp(1.125rem,5vw,1.5rem)] font-extralight">
@@ -756,16 +756,20 @@ ${formData.message}`)
       </section>
 
       {/* Video Portfolio Section */}
-      <section id="videos" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">Video Portfolio</h2>
+      <section id="videos" className="py-12 md:py-24 px-4 sm:px-6">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 md:mb-20">
+            <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-8 md:mb-12">
+              Video Portfolio
+            </h2>
             <div className="w-24 h-px bg-gray-300 mx-auto" />
           </div>
 
           {/* Advertising & Promotionals */}
-          <div className="mb-20">
-            <h3 className="text-textPrimary mb-12 text-center font-thin text-3xl">ADVERTISING &amp; PROMOTIONAL</h3>
+          <div className="mb-12 md:mb-20">
+            <h3 className="text-textPrimary mb-8 md:mb-12 text-center font-thin text-3xl">
+              ADVERTISING &amp; PROMOTIONAL
+            </h3>
             <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {videoCategories.advertising.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
@@ -791,8 +795,8 @@ ${formData.message}`)
           </div>
 
           {/* Events */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">EVENTS</h3>
+          <div className="mb-12 md:mb-20">
+            <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">EVENTS</h3>
             <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {videoCategories.events.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
@@ -818,9 +822,9 @@ ${formData.message}`)
           </div>
 
           {/* Short Films */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">SHORT MOVIES</h3>
-            <div className="grid md:grid-cols-3 gap-8">
+          <div className="mb-12 md:mb-20">
+            <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">SHORT MOVIES</h3>
+            <div className="grid md:grid-cols-3 gap-4 md:gap-8">
               {videoCategories.shortFilms.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
                   <CardContent className="p-0 h-full flex flex-col">
@@ -846,15 +850,15 @@ ${formData.message}`)
           </div>
 
           {/* Awards & Recognition */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">AWARDS &amp; RECOGNITION</h3>
-            <div className="text-center mb-12">
+          <div className="mb-12 md:mb-20">
+            <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">AWARDS &amp; RECOGNITION</h3>
+            <div className="text-center mb-8 md:mb-12">
               <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
                 International recognition for excellence in cinematography and filmmaking from prestigious film
                 festivals worldwide.
               </p>
             </div>
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
               <div className="group">
                 <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
                   <CardContent className="p-0 h-full flex flex-col">
@@ -918,8 +922,8 @@ ${formData.message}`)
           </div>
 
           {/* Music Videos */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">MUSIC VIDEOS</h3>
+          <div className="mb-12 md:mb-20">
+            <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">MUSIC VIDEOS</h3>
             <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {videoCategories.musicVideos.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
@@ -945,16 +949,16 @@ ${formData.message}`)
           </div>
 
           {/* Stock Footage */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">STOCK FOOTAGE</h3>
-            <div className="text-center mb-12">
+          <div className="mb-12 md:mb-20">
+            <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">STOCK FOOTAGE</h3>
+            <div className="text-center mb-8 md:mb-12">
               <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
                 I create high-quality stock footage for leading platforms such as Shutterstock, Pond5, and Adobe Stock.
                 My work spans cinematic visuals, dynamic scenes, and versatile content designed to meet the needs of
                 agencies, brands, and content creators worldwide.
               </p>
             </div>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-4 md:gap-8">
               {videoCategories.stockFootage.map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
                   <CardContent className="p-0 h-full flex flex-col">
@@ -1056,8 +1060,8 @@ ${formData.message}`)
 
           {/* Binaural Projects */}
           <div>
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">BINAURAL PROJECTS</h3>
-            <div className="text-center mb-12">
+            <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">BINAURAL PROJECTS</h3>
+            <div className="text-center mb-8 md:mb-12">
               <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
                 <span className="font-medium">Step into sound...</span>
                 <br />
@@ -1095,16 +1099,18 @@ ${formData.message}`)
       </section>
 
       {/* Photography Portfolio Section */}
-      <section id="photos" className="py-24 px-6 bg-highlight/20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">Photography</h2>
+      <section id="photos" className="py-12 md:py-24 px-4 sm:px-6 bg-highlight/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 md:mb-20">
+            <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-8 md:mb-12">
+              Photography
+            </h2>
             <div className="w-24 h-px bg-gray-300 mx-auto" />
           </div>
 
           {/* Food & Hospitality */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">FOOD &amp; HOSPITALITY</h3>
+          <div className="mb-12 md:mb-20">
+            <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">FOOD &amp; HOSPITALITY</h3>
             <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.food.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
@@ -1126,8 +1132,8 @@ ${formData.message}`)
           </div>
 
           {/* Events */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">EVENTS</h3>
+          <div className="mb-12 md:mb-20">
+            <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">EVENTS</h3>
             <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.events.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
@@ -1149,8 +1155,8 @@ ${formData.message}`)
           </div>
 
           {/* Portraits */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">PORTRAITS</h3>
+          <div className="mb-12 md:mb-20">
+            <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">PORTRAITS</h3>
             <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.portraits.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
@@ -1172,8 +1178,8 @@ ${formData.message}`)
           </div>
 
           {/* Google Maps Pictures */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">GOOGLE MAPS PICTURES</h3>
+          <div className="mb-12 md:mb-20">
+            <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">GOOGLE MAPS PICTURES</h3>
             <div className="text-center mb-8">
               <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
                 Professional photography for Google Maps and virtual tours, showcasing locations with stunning detail
@@ -1202,7 +1208,7 @@ ${formData.message}`)
 
           {/* Iris Photography */}
           <div>
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">IRIS PHOTOGRAPHY</h3>
+            <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">IRIS PHOTOGRAPHY</h3>
             <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.iris.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
@@ -1226,14 +1232,14 @@ ${formData.message}`)
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-24 px-6">
+      <section id="about" className="py-12 md:py-24 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">About</h2>
+          <div className="text-center mb-12 md:mb-20">
+            <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-8 md:mb-12">About</h2>
             <div className="w-24 h-px bg-gray-300 mx-auto" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
             <div>
               <div className="aspect-[4/5] overflow-hidden rounded-lg">
                 <Image
@@ -1272,14 +1278,14 @@ ${formData.message}`)
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-24 px-6 bg-highlight/20">
+      <section id="contact" className="py-12 md:py-24 px-4 sm:px-6 bg-highlight/20">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">Contact</h2>
+          <div className="text-center mb-12 md:mb-20">
+            <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-8 md:mb-12">Contact</h2>
             <div className="w-24 h-px bg-gray-300 mx-auto" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-16">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-16">
             <div>
               <h3 className="text-2xl font-light text-textPrimary mb-8">{"Let's Create Together"}</h3>
               <div className="space-y-6">
@@ -1305,55 +1311,57 @@ ${formData.message}`)
             </div>
 
             <div>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <Input
-                    type="text"
-                    name="name"
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="border-gray-300 focus:border-black font-light"
-                    required
-                  />
-                </div>
-                <div>
-                  <Input
-                    type="email"
-                    name="email"
-                    placeholder="Your Email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="border-gray-300 focus:border-black font-light"
-                    required
-                  />
-                </div>
-                <div>
-                  <Textarea
-                    name="message"
-                    placeholder="Tell me about your project..."
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    rows={6}
-                    className="border-gray-300 focus:border-black font-light resize-none"
-                    required
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full bg-textPrimary text-white hover:bg-textPrimary/90 py-3 font-light tracking-wide rounded-lg transition-colors"
-                >
-                  Send Message
-                </Button>
-              </form>
+              <div className="w-full max-w-md mx-auto">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <Input
+                      type="text"
+                      name="name"
+                      placeholder="Your Name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      className="border-gray-300 focus:border-black font-light"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      type="email"
+                      name="email"
+                      placeholder="Your Email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="border-gray-300 focus:border-black font-light"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Textarea
+                      name="message"
+                      placeholder="Tell me about your project..."
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      rows={6}
+                      className="border-gray-300 focus:border-black font-light resize-none"
+                      required
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    className="w-full bg-textPrimary text-white hover:bg-textPrimary/90 py-3 font-light tracking-wide rounded-lg transition-colors"
+                  >
+                    Send Message
+                  </Button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-textPrimary text-surface">
-        <div className="max-w-7xl mx-auto">
+      <footer className="py-12 px-4 sm:px-6 bg-textPrimary text-surface">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="mb-6 md:mb-0">
               <p className="font-light">© 2025 GMGVisual. All rights reserved.</p>
