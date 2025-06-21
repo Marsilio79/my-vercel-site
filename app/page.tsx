@@ -181,12 +181,18 @@ ${formData.message}`)
   }
 
   // Add this helper component after the LazyIframe component
-  const YouTubeThumbnail = ({ embedId, title }: { embedId: string; title: string }) => {
-    const [thumbnailSrc, setThumbnailSrc] = useState(`https://img.youtube.com/vi/${embedId}/maxresdefault.jpg`)
+  const YouTubeThumbnail = ({
+    embedId,
+    title,
+    customThumbnail,
+  }: { embedId: string; title: string; customThumbnail?: string }) => {
+    const [thumbnailSrc, setThumbnailSrc] = useState(
+      customThumbnail || `https://img.youtube.com/vi/${embedId}/maxresdefault.jpg`,
+    )
     const [hasError, setHasError] = useState(false)
 
     const handleImageError = () => {
-      if (!hasError) {
+      if (!hasError && !customThumbnail) {
         setHasError(true)
         // Fallback to medium quality thumbnail
         setThumbnailSrc(`https://img.youtube.com/vi/${embedId}/hqdefault.jpg`)
@@ -207,7 +213,7 @@ ${formData.message}`)
           height={270}
           className="object-cover w-full h-full"
           loading="lazy"
-          onError={handleImageError}
+          onError={customThumbnail ? undefined : handleImageError}
         />
         <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
         <div className="absolute inset-0 flex items-center justify-center">
@@ -413,54 +419,63 @@ ${formData.message}`)
         title: "Binaural Experience 1",
         description: "Immersive binaural audio experience capturing the sounds of rain in an ancient Italian village.",
         embedId: "YnNIV4pNnNA",
+        customThumbnail: "/images/video-thumbs/binaural-walkin-rain-italy-thumb.jpg",
       },
       {
         id: 2,
         title: "Binaural Experience 2",
         description: "Spatial audio journey creating three-dimensional soundscapes for immersive listening.",
         embedId: "x_Vp8N52Aqg",
+        customThumbnail: "/images/video-thumbs/binaural-walking-nature-lake-thumb.jpg",
       },
       {
         id: 3,
         title: "Binaural Experience 3",
         description: "Advanced binaural recording techniques for realistic audio positioning and depth.",
         embedId: "Jyp99PHDmn0",
+        customThumbnail: "/images/video-thumbs/binaural-driving-hanoi-thumb.jpg",
       },
       {
         id: 4,
         title: "Binaural Experience 4",
         description: "Experimental soundscape exploring the boundaries of immersive audio technology.",
         embedId: "2WQ7lrqr_mA",
+        customThumbnail: "/images/video-thumbs/binaural-walking-tay-ho-thumb.jpg",
       },
       {
         id: 5,
         title: "Binaural Experience 5",
         description: "Natural environment recordings using cutting-edge binaural microphone techniques.",
         embedId: "vg6TTpTgGMc",
+        customThumbnail: "/images/video-thumbs/binaural-walkin-rain-hanoi-thumb.jpg",
       },
       {
         id: 6,
         title: "Binaural Experience 6",
         description: "Urban soundscape captured with precision binaural recording for authentic spatial audio.",
         embedId: "9F9eB3lbMbU",
+        customThumbnail: "/images/video-thumbs/binaural-night-market-thumb.jpg",
       },
       {
         id: 7,
         title: "Binaural Experience 7",
         description: "Atmospheric audio journey designed for headphone listening and spatial immersion.",
         embedId: "B0EjhdzCWWI",
+        customThumbnail: "/images/video-thumbs/binaural-junkie-thumb.jpg",
       },
       {
         id: 8,
         title: "Binaural Experience 8",
         description: "Professional binaural audio production showcasing innovative recording methodologies.",
         embedId: "MPRmHMjBuzg",
+        customThumbnail: "/images/video-thumbs/binaural-westlake-thumb.jpg",
       },
       {
         id: 9,
         title: "Binaural Experience 9",
         description: "Immersive audio storytelling through advanced binaural sound design and recording.",
         embedId: "ivd42loLvUI",
+        customThumbnail: "/images/video-thumbs/binaural-walkin-rain-italy-thumb.jpg",
       },
     ],
   }
@@ -1258,7 +1273,11 @@ ${formData.message}`)
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       {mobileOptimized ? (
                         // Mobile: Show YouTube thumbnail with link
-                        <YouTubeThumbnail embedId={video.embedId} title={video.title} />
+                        <YouTubeThumbnail
+                          embedId={video.embedId}
+                          title={video.title}
+                          customThumbnail={video.customThumbnail}
+                        />
                       ) : (
                         // Desktop: Full iframe
                         <LazyIframe embedId={video.embedId} title={video.title} />
