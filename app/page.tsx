@@ -1406,11 +1406,11 @@ ${formData.message}`)
 
           {/* Google Maps Pictures */}
           <div className="mb-12 md:mb-20">
-            <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">GOOGLE MAPS PICTURES</h3>
+            <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">360° GOOGLE MAPS PICTURES</h3>
             <div className="text-center mb-8">
               <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
-                Professional photography for Google Maps and virtual tours, showcasing locations with stunning detail
-                and clarity.
+                Professional 360° photography for Google Maps and virtual tours, showcasing your locations with stunning detail
+                and clarity. 
               </p>
             </div>
             <PhotoCarousel itemsPerView={{ mobile: 1, desktop: 3 }}>
