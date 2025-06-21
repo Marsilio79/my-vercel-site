@@ -17,6 +17,8 @@ export default function GMGVisualPortfolio() {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    if (typeof window === "undefined") return
+
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768)
     }
@@ -33,7 +35,8 @@ export default function GMGVisualPortfolio() {
   }, [])
 
   useEffect(() => {
-    // Ensure viewport meta tag is present for mobile
+    if (typeof window === "undefined") return
+
     try {
       const viewport = document.querySelector('meta[name="viewport"]')
       if (!viewport) {
@@ -71,6 +74,8 @@ export default function GMGVisualPortfolio() {
     src: string
     alt: string
   } | null>(null)
+
+  const [loadedVideos, setLoadedVideos] = useState<Set<string>>(new Set())
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -120,6 +125,58 @@ ${formData.message}`)
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     element?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  const LazyIframe = ({ embedId, title }: { embedId: string; title: string }) => {
+    const [isVisible, setIsVisible] = useState(false)
+    const [hasLoaded, setHasLoaded] = useState(false)
+
+    useEffect(() => {
+      if (typeof window === "undefined") return
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && !hasLoaded) {
+            setIsVisible(true)
+            setHasLoaded(true)
+          }
+        },
+        { threshold: 0.1 },
+      )
+
+      const element = document.getElementById(`video-${embedId}`)
+      if (element) observer.observe(element)
+
+      return () => observer.disconnect()
+    }, [embedId, hasLoaded])
+
+    return (
+      <div id={`video-${embedId}`} className="w-full h-full">
+        {isVisible ? (
+          <iframe
+            width="100%"
+            height="100%"
+            src={`https://www.youtube.com/embed/${embedId}`}
+            title={title}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-900 flex items-center justify-center">
+            <div className="text-white text-center">
+              <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-2 mx-auto">
+                <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+              <p className="text-sm">Click to load video</p>
+            </div>
+          </div>
+        )}
+      </div>
+    )
   }
 
   // Sample video data
@@ -812,15 +869,7 @@ ${formData.message}`)
                           </Link>
                         ) : (
                           // Desktop: Full iframe
-                          <iframe
-                            width="100%"
-                            height="100%"
-                            src={`https://www.youtube.com/embed/${video.embedId}`}
-                            title={video.title}
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                          />
+                          <LazyIframe embedId={video.embedId} title={video.title} />
                         )}
                       </div>
                       <div className="p-6 flex-1">
@@ -868,15 +917,7 @@ ${formData.message}`)
                         </Link>
                       ) : (
                         // Desktop: Full iframe
-                        <iframe
-                          width="100%"
-                          height="100%"
-                          src={`https://www.youtube.com/embed/${video.embedId}`}
-                          title={video.title}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
+                        <LazyIframe embedId={video.embedId} title={video.title} />
                       )}
                     </div>
                     <div className="p-6 flex-1">
@@ -923,15 +964,7 @@ ${formData.message}`)
                         </Link>
                       ) : (
                         // Desktop: Full iframe
-                        <iframe
-                          width="100%"
-                          height="100%"
-                          src={`https://www.youtube.com/embed/${video.embedId}`}
-                          title={video.title}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
+                        <LazyIframe embedId={video.embedId} title={video.title} />
                       )}
                     </div>
                     <div className="p-6 flex-1">
@@ -1045,15 +1078,7 @@ ${formData.message}`)
                           </Link>
                         ) : (
                           // Desktop: Full iframe
-                          <iframe
-                            width="100%"
-                            height="100%"
-                            src={`https://www.youtube.com/embed/${video.embedId}`}
-                            title={video.title}
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                          />
+                          <LazyIframe embedId={video.embedId} title={video.title} />
                         )}
                       </div>
                       <div className="p-6 flex-1">
@@ -1108,15 +1133,7 @@ ${formData.message}`)
                         </Link>
                       ) : (
                         // Desktop: Full iframe
-                        <iframe
-                          width="100%"
-                          height="100%"
-                          src={`https://www.youtube.com/embed/${video.embedId}`}
-                          title={video.title}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
+                        <LazyIframe embedId={video.embedId} title={video.title} />
                       )}
                     </div>
                     <div className="p-6 flex-1">
@@ -1242,15 +1259,7 @@ ${formData.message}`)
                         </Link>
                       ) : (
                         // Desktop: Full iframe
-                        <iframe
-                          width="100%"
-                          height="100%"
-                          src={`https://www.youtube.com/embed/${video.embedId}`}
-                          title={video.title}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
+                        <LazyIframe embedId={video.embedId} title={video.title} />
                       )}
                     </div>
                     <div className="p-6 flex-1">
