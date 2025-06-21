@@ -1427,22 +1427,60 @@ ${formData.message}`)
               </p>
             </div>
             <PhotoCarousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {photoCategories.googleMaps.map((photo) => (
+              {photoCategories.googleMaps.map((photo, index) => (
                 <div key={photo.id} className="group cursor-pointer">
-                  <div
-                    className="aspect-video overflow-hidden rounded-lg"
-                    onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
-                  >
-                    <Image
-                      src={photo.src || "/placeholder.svg"}
-                      alt={photo.alt}
-                      width={533}
-                      height={300}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                      loading={mobileOptimized ? "lazy" : "eager"}
-                      quality={mobileOptimized ? 60 : 85}
-                    />
-                  </div>
+                  {index === 0 ? (
+                    // First image - clickable link to Google Maps
+                    <Link
+                      href="https://www.google.com/maps/place/Poggio+Falcone/@43.0559147,11.9418186,3a,90y,359.66h,85.51t/data=!3m8!1e1!3m6!1sCIHM0ogKEICAgID29a2s0gE!2e10!3e11!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAB8u6HaxoR68noS1y9rexlkJUCdEI2MysjJ3ju_qv8k3IK6QecPGzMORGh32ZJ7SJz26NiqVl5UC2n4pXp5aYCWfWxfonP1F5COK1Q1z4NyGCT4SECPa6hfNH1BNTh5qkL_tSUIZw3qkfw%3Dw900-h600-k-no-pi4.489129334835397-ya359.6628533773589-ro0-fo100!7i4096!8i2048!4m12!3m11!1s0x13295118cc7861c3:0x859e76f58e50ca65!5m2!4m1!1i2!8m2!3d43.0559147!4d11.9418186!10e5!14m1!1BCgIgARICCAI!16s%2Fg%2F1tcx3yqb?entry=ttu&g_ep=EgoyMDI1MDYxNy4wIKXMDSoASAFQAw%3D%3D"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <div className="aspect-video overflow-hidden rounded-lg relative">
+                        <Image
+                          src={photo.src || "/placeholder.svg"}
+                          alt={photo.alt}
+                          width={533}
+                          height={300}
+                          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                          loading={mobileOptimized ? "lazy" : "eager"}
+                          quality={mobileOptimized ? 60 : 85}
+                        />
+                        {/* Google Maps Indicator */}
+                        <div className="absolute top-3 left-3 bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium">
+                          Google Maps
+                        </div>
+                        {/* Hover Overlay */}
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-center">
+                            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-2 mx-auto">
+                              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                              </svg>
+                            </div>
+                            <p className="text-sm font-medium">View on Google Maps</p>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  ) : (
+                    // Other images - regular lightbox behavior
+                    <div
+                      className="aspect-video overflow-hidden rounded-lg"
+                      onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
+                    >
+                      <Image
+                        src={photo.src || "/placeholder.svg"}
+                        alt={photo.alt}
+                        width={533}
+                        height={300}
+                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                        loading={mobileOptimized ? "lazy" : "eager"}
+                        quality={mobileOptimized ? 60 : 85}
+                      />
+                    </div>
+                  )}
                 </div>
               ))}
             </PhotoCarousel>
