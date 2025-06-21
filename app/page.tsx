@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
-import { Instagram, Youtube, Play, Mail, Phone, MapPin, X } from "lucide-react"
+import { Youtube, Mail, Phone, MapPin, X } from "lucide-react"
 import { Carousel } from "@/components/carousel"
 
 export default function GMGVisualPortfolio() {
@@ -1320,10 +1320,7 @@ ${formData.message}`)
             <div className="mb-6 md:mb-0">
               <p className="font-light">© 2025 GMGVisual. All rights reserved.</p>
             </div>
-            <div className="flex items-center space-x-6">
-              <Link href="#" className="text-surface hover:text-gray-300 transition-colors" aria-label="Instagram">
-                <Instagram className="w-6 h-6" />
-              </Link>
+            <div className="flex items-center">
               <Link
                 href="https://www.youtube.com/@LafresiaMediaProductions/videos"
                 target="_blank"
@@ -1331,10 +1328,7 @@ ${formData.message}`)
                 className="text-surface hover:text-gray-300 transition-colors"
                 aria-label="YouTube"
               >
-                <Youtube className="w-6 h-6" />
-              </Link>
-              <Link href="#" className="text-surface hover:text-gray-300 transition-colors" aria-label="Vimeo">
-                <Play className="w-6 h-6" />
+                <Youtube className="w-8 h-8" />
               </Link>
             </div>
           </div>
