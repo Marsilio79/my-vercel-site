@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "GMGVisual - Gianmarco Maccabruno Giometti",
   description: "Professional Videographer, Photographer & Editor based in Vietnam",
   generator: "v0.dev",
-  viewport: "width=device-width, initial-scale=1.0",
+  viewport: "width=device-width, initial-scale=1.0, maximum-scale=5.0",
 }
 
 export default function RootLayout({
@@ -17,9 +17,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
-      <body>{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   )
 }

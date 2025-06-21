@@ -27,8 +27,6 @@ const config: Config = {
         // Custom GMGVisual color palette
         background: "#F5F7F8",
         surface: "#FFFFFF",
-        primary: "#44F8A8",
-        secondary: "#A9A44C",
         textPrimary: "#2E2E2E",
         textMuted: "#6D7B8A",
         highlight: "#C3D6C4",
