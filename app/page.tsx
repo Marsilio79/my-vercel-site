@@ -901,21 +901,28 @@ ${formData.message}`)
                     <CardContent className="p-0 h-full flex flex-col">
                       <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                         {mobileOptimized ? (
-                          // Mobile: Show thumbnail with YouTube link
+                          // Mobile: Show YouTube thumbnail with link
                           <Link
                             href={`https://www.youtube.com/watch?v=${video.embedId}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block w-full h-full relative bg-gray-900 flex items-center justify-center group"
+                            className="block w-full h-full relative group"
                           >
-                            <div className="absolute inset-0 bg-black/20" />
-                            <div className="relative z-10 text-white text-center">
-                              <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-2 mx-auto group-hover:scale-110 transition-transform">
+                            <Image
+                              src={`https://img.youtube.com/vi/${video.embedId}/maxresdefault.jpg`}
+                              alt={video.title}
+                              width={480}
+                              height={270}
+                              className="object-cover w-full h-full"
+                              loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                                 <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                                   <path d="M8 5v14l11-7z" />
                                 </svg>
                               </div>
-                              <p className="text-sm font-medium">Watch on YouTube</p>
                             </div>
                           </Link>
                         ) : (
@@ -949,21 +956,28 @@ ${formData.message}`)
                   <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       {mobileOptimized ? (
-                        // Mobile: Show thumbnail with YouTube link
+                        // Mobile: Show YouTube thumbnail with link
                         <Link
                           href={`https://www.youtube.com/watch?v=${video.embedId}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="block w-full h-full relative bg-gray-900 flex items-center justify-center group"
+                          className="block w-full h-full relative group"
                         >
-                          <div className="absolute inset-0 bg-black/20" />
-                          <div className="relative z-10 text-white text-center">
-                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-2 mx-auto group-hover:scale-110 transition-transform">
+                          <Image
+                            src={`https://img.youtube.com/vi/${video.embedId}/maxresdefault.jpg`}
+                            alt={video.title}
+                            width={480}
+                            height={270}
+                            className="object-cover w-full h-full"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                               <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z" />
                               </svg>
                             </div>
-                            <p className="text-sm font-medium">Watch on YouTube</p>
                           </div>
                         </Link>
                       ) : (
@@ -996,21 +1010,28 @@ ${formData.message}`)
                   <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       {mobileOptimized ? (
-                        // Mobile: Show thumbnail with YouTube link
+                        // Mobile: Show YouTube thumbnail with link
                         <Link
                           href={`https://www.youtube.com/watch?v=${video.embedId}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="block w-full h-full relative bg-gray-900 flex items-center justify-center group"
+                          className="block w-full h-full relative group"
                         >
-                          <div className="absolute inset-0 bg-black/20" />
-                          <div className="relative z-10 text-white text-center">
-                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-2 mx-auto group-hover:scale-110 transition-transform">
+                          <Image
+                            src={`https://img.youtube.com/vi/${video.embedId}/maxresdefault.jpg`}
+                            alt={video.title}
+                            width={480}
+                            height={270}
+                            className="object-cover w-full h-full"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                               <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z" />
                               </svg>
                             </div>
-                            <p className="text-sm font-medium">Watch on YouTube</p>
                           </div>
                         </Link>
                       ) : (
@@ -1110,21 +1131,28 @@ ${formData.message}`)
                     <CardContent className="p-0 h-full flex flex-col">
                       <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                         {mobileOptimized ? (
-                          // Mobile: Show thumbnail with YouTube link
+                          // Mobile: Show YouTube thumbnail with link
                           <Link
                             href={`https://www.youtube.com/watch?v=${video.embedId}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block w-full h-full relative bg-gray-900 flex items-center justify-center group"
+                            className="block w-full h-full relative group"
                           >
-                            <div className="absolute inset-0 bg-black/20" />
-                            <div className="relative z-10 text-white text-center">
-                              <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-2 mx-auto group-hover:scale-110 transition-transform">
+                            <Image
+                              src={`https://img.youtube.com/vi/${video.embedId}/maxresdefault.jpg`}
+                              alt={video.title}
+                              width={480}
+                              height={270}
+                              className="object-cover w-full h-full"
+                              loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                                 <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                                   <path d="M8 5v14l11-7z" />
                                 </svg>
                               </div>
-                              <p className="text-sm font-medium">Watch on YouTube</p>
                             </div>
                           </Link>
                         ) : (
@@ -1165,21 +1193,28 @@ ${formData.message}`)
                   <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       {mobileOptimized ? (
-                        // Mobile: Show thumbnail with YouTube link
+                        // Mobile: Show YouTube thumbnail with link
                         <Link
                           href={`https://www.youtube.com/watch?v=${video.embedId}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="block w-full h-full relative bg-gray-900 flex items-center justify-center group"
+                          className="block w-full h-full relative group"
                         >
-                          <div className="absolute inset-0 bg-black/20" />
-                          <div className="relative z-10 text-white text-center">
-                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-2 mx-auto group-hover:scale-110 transition-transform">
+                          <Image
+                            src={`https://img.youtube.com/vi/${video.embedId}/maxresdefault.jpg`}
+                            alt={video.title}
+                            width={480}
+                            height={270}
+                            className="object-cover w-full h-full"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                               <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z" />
                               </svg>
                             </div>
-                            <p className="text-sm font-medium">Watch on YouTube</p>
                           </div>
                         </Link>
                       ) : (
@@ -1291,21 +1326,28 @@ ${formData.message}`)
                   <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       {mobileOptimized ? (
-                        // Mobile: Show thumbnail with YouTube link
+                        // Mobile: Show YouTube thumbnail with link
                         <Link
                           href={`https://www.youtube.com/watch?v=${video.embedId}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="block w-full h-full relative bg-gray-900 flex items-center justify-center group"
+                          className="block w-full h-full relative group"
                         >
-                          <div className="absolute inset-0 bg-black/20" />
-                          <div className="relative z-10 text-white text-center">
-                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-2 mx-auto group-hover:scale-110 transition-transform">
+                          <Image
+                            src={`https://img.youtube.com/vi/${video.embedId}/maxresdefault.jpg`}
+                            alt={video.title}
+                            width={480}
+                            height={270}
+                            className="object-cover w-full h-full"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                               <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z" />
                               </svg>
                             </div>
-                            <p className="text-sm font-medium">Watch on YouTube</p>
                           </div>
                         </Link>
                       ) : (
@@ -1432,7 +1474,7 @@ ${formData.message}`)
                   {index === 0 ? (
                     // First image - clickable link to Google Maps
                     <Link
-                      href="https://www.google.com/maps/place/Poggio+Falcone/@43.0559147,11.9418186,3a,90y,359.66h,85.51t/data=!3m8!1e1!3m6!1sCIHM0ogKEICAgID29a2s0gE!2e10!3e11!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAB8u6HaxoR68noS1y9rexlkJUCdEI2MysjJ3ju_qv8k3IK6QecPGzMORGh32ZJ7SJz26NiqVl5UC2n4pXp5aYCWfWxfonP1F5COK1Q1z4NyGCT4SECPa6hfNH1BNTh5qkL_tSUIZw3qkfw%3Dw900-h600-k-no-pi4.489129334835397-ya359.6628533773589-ro0-fo100!7i4096!8i2048!4m12!3m11!1s0x13295118cc7861c3:0x859e76f58e50ca65!5m2!4m1!1i2!8m2!3d43.0559147!4d11.9418186!10e5!14m1!1BCgIgARICCAI!16s%2Fg%2F1tcx3yqb?entry=ttu&g_ep=EgoyMDI1MDYxNy4wIKXMDSoASAFQAw%3D%3D"
+                      href="https://www.google.com/maps/place/Poggio+Falcone/@43.0559147,11.9418186,3a,90y,359.66h,85.51t/data=!3m8!1e1!3m6!1sCIHM0ogKEICAgID29a2s0gE!2e10!3e11!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAB8u6HaxoR68noS1y9rexlkJUCdEI2MysjJ3ju_qv8k3IK6QecPGzMORGh32ZJ7SJz26NiqVl5UC2n4pXp5aYCWfWxfonP1F5COK1Q1z4NyGCT4SECPa6hfNH1BNTh5qkL_tSUIZw3qkfw%3Dw900-h600-k-no-pi4.489129334835397-ya359.6628533773589-ro0-fo100!7i4096!8i2048!4m12!3m11!1s0x13295118cc7861c3:0x859e76f58e50ca65!5m2!4m1!1i2!8m2!3d43.0559147!4d11.9418186!10e5!14m1!1BCgIgARICCAI!16s%2Fg%2F1tcx3yqb?entry=ttu&g_ep=EgoyMDI1MD617.0IKXMDSoASAFQAw%3D%3D"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="block"
@@ -1489,6 +1531,11 @@ ${formData.message}`)
           {/* Iris Photography */}
           <div>
             <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">IRIS PHOTOGRAPHY</h3>
+            <div className="text-center mb-8">
+              <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
+                Unique and personalized iris photography, capturing the intricate details and colors of the human eye.
+              </p>
+            </div>
             <PhotoCarousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.iris.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
@@ -1499,8 +1546,8 @@ ${formData.message}`)
                     <Image
                       src={photo.src || "/placeholder.svg"}
                       alt={photo.alt}
-                      width={300}
-                      height={300}
+                      width={400}
+                      height={400}
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                       loading={mobileOptimized ? "lazy" : "eager"}
                       quality={mobileOptimized ? 60 : 85}
