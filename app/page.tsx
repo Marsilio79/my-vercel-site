@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense, lazy } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -10,20 +10,45 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { Instagram, Youtube, Play, Mail, Phone, MapPin, X, Eye } from "lucide-react"
-import { Carousel } from "@/components/carousel"
-import { PanoramaViewer } from "@/components/panorama-viewer"
+
+// Lazy load heavy components
+const Carousel = lazy(() => import("@/components/carousel").then((module) => ({ default: module.Carousel })))
+const PanoramaViewer = lazy(() =>
+  import("@/components/panorama-viewer").then((module) => ({ default: module.PanoramaViewer })),
+)
+
+// Loading component
+const LoadingSpinner = () => (
+  <div className="flex justify-center items-center h-32">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+  </div>
+)
 
 export default function GMGVisualPortfolio() {
   const [isLoading, setIsLoading] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
+  const [sectionsLoaded, setSectionsLoaded] = useState({
+    hero: false,
+    videos: false,
+    photos: false,
+    about: false,
+    contact: false,
+  })
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
+      const userAgent = navigator.userAgent.toLowerCase()
+      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/.test(userAgent)
+      const isSmallScreen = window.innerWidth <= 768
+      setIsMobile(isMobileDevice || isSmallScreen)
     }
 
     checkMobile()
+
+    // Load hero section first
+    setSectionsLoaded((prev) => ({ ...prev, hero: true }))
     setIsLoading(false)
+
     window.addEventListener("resize", checkMobile)
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
@@ -76,7 +101,10 @@ export default function GMGVisualPortfolio() {
   }
 
   const openLightbox = (src: string, alt: string) => {
-    setLightboxImage({ src, alt })
+    if (!isMobile) {
+      // Disable lightbox on mobile to prevent crashes
+      setLightboxImage({ src, alt })
+    }
   }
 
   const closeLightbox = () => {
@@ -84,11 +112,14 @@ export default function GMGVisualPortfolio() {
   }
 
   const open360Viewer = (imageUrl: string, title: string) => {
-    setPanoramaViewer({
-      imageUrl,
-      title,
-      isOpen: true,
-    })
+    if (!isMobile) {
+      // Disable 360° viewer on mobile
+      setPanoramaViewer({
+        imageUrl,
+        title,
+        isOpen: true,
+      })
+    }
   }
 
   const close360Viewer = () => {
@@ -102,104 +133,147 @@ export default function GMGVisualPortfolio() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     element?.scrollIntoView({ behavior: "smooth" })
+
+    // Load section content when scrolled to
+    if (!sectionsLoaded[sectionId as keyof typeof sectionsLoaded]) {
+      setTimeout(() => {
+        setSectionsLoaded((prev) => ({ ...prev, [sectionId]: true }))
+      }, 500)
+    }
   }
 
-  // Sample video data
+  // Reduced video data for mobile
   const videoCategories = {
-    advertising: [
-      {
-        id: 1,
-        title: "Tenere Advertising",
-        embedId: "eGD0094HpfQ",
-      },
-      {
-        id: 2,
-        title: "Ninh Binh promotional Tv Show",
-        embedId: "nSDYcfFZMrQ",
-      },
-      {
-        id: 3,
-        title: "Fat Pig Promo",
-        embedId: "hjY2XDto55I",
-      },
-      {
-        id: 4,
-        title: "Capichi & Chops Advertising",
-        embedId: "vvfVzozD5VQ",
-      },
-      {
-        id: 5,
-        title: "New Mantra promo",
-        embedId: "cgjz4P0QvzI",
-      },
-      {
-        id: 6,
-        title: "Piaggio Advertising",
-        embedId: "BiFSmwQD82s",
-      },
-      {
-        id: 7,
-        title: "Plant Trees Advertising",
-        embedId: "8Q1JnHOSVNY",
-      },
-      {
-        id: 8,
-        title: "F1h2o - Aqua bike Advertising",
-        embedId: "FJqlT3j4ki4",
-      },
-      {
-        id: 9,
-        title: "3 Dragons Advertising",
-        embedId: "KRSEHD9eM38",
-      },
-    ],
-    events: [
-      {
-        id: 1,
-        title: "National Day Argentina",
-        embedId: "hsiykmzTsPg",
-      },
-      {
-        id: 2,
-        title: "Event Piaggio Hanoi",
-        embedId: "GzYrgS0qD9o",
-      },
-      {
-        id: 3,
-        title: "Wine event Italy",
-        embedId: "c96nRSlCMFI",
-      },
-      {
-        id: 4,
-        title: "Piazza Italia Hanoi",
-        embedId: "KKmEhxQqbpI",
-      },
-      {
-        id: 5,
-        title: "Chops event Hanoi",
-        embedId: "UDXWEXCV0fE",
-      },
-      {
-        id: 6,
-        title: "Los Fuegos Event",
-        embedId: "qYcwGUpUjok",
-      },
-      {
-        id: 7,
-        title: "Burlesque event Rome",
-        embedId: "9jHWeHRdLqc",
-      },
-      {
-        id: 8,
-        title: "Cugini x Viettel event",
-        embedId: "yaw6p79bP4g",
-      },
-      {
-        id: 9,
-        title: "Hill Station REC Hoi An",
-        embedId: "-XgQnFF0kiM",
-      },
-    ],
+    advertising: isMobile
+      ? [
+          {
+            id: 1,
+            title: "Tenere Advertising",
+            embedId: "eGD0094HpfQ",
+          },
+          {
+            id: 2,
+            title: "Ninh Binh promotional Tv Show",
+            embedId: "nSDYcfFZMrQ",
+          },
+          {
+            id: 3,
+            title: "Fat Pig Promo",
+            embedId: "hjY2XDto55I",
+          },
+        ]
+      : [
+          {
+            id: 1,
+            title: "Tenere Advertising",
+            embedId: "eGD0094HpfQ",
+          },
+          {
+            id: 2,
+            title: "Ninh Binh promotional Tv Show",
+            embedId: "nSDYcfFZMrQ",
+          },
+          {
+            id: 3,
+            title: "Fat Pig Promo",
+            embedId: "hjY2XDto55I",
+          },
+          {
+            id: 4,
+            title: "Capichi & Chops Advertising",
+            embedId: "vvfVzozD5VQ",
+          },
+          {
+            id: 5,
+            title: "New Mantra promo",
+            embedId: "cgjz4P0QvzI",
+          },
+          {
+            id: 6,
+            title: "Piaggio Advertising",
+            embedId: "BiFSmwQD82s",
+          },
+          {
+            id: 7,
+            title: "Plant Trees Advertising",
+            embedId: "8Q1JnHOSVNY",
+          },
+          {
+            id: 8,
+            title: "F1h2o - Aqua bike Advertising",
+            embedId: "FJqlT3j4ki4",
+          },
+          {
+            id: 9,
+            title: "3 Dragons Advertising",
+            embedId: "KRSEHD9eM38",
+          },
+        ],
+    events: isMobile
+      ? [
+          {
+            id: 1,
+            title: "National Day Argentina",
+            embedId: "hsiykmzTsPg",
+          },
+          {
+            id: 2,
+            title: "Event Piaggio Hanoi",
+            embedId: "GzYrgS0qD9o",
+          },
+          {
+            id: 3,
+            title: "Wine event Italy",
+            embedId: "c96nRSlCMFI",
+          },
+        ]
+      : [
+          {
+            id: 1,
+            title: "National Day Argentina",
+            embedId: "hsiykmzTsPg",
+          },
+          {
+            id: 2,
+            title: "Event Piaggio Hanoi",
+            embedId: "GzYrgS0qD9o",
+          },
+          {
+            id: 3,
+            title: "Wine event Italy",
+            embedId: "c96nRSlCMFI",
+          },
+          {
+            id: 4,
+            title: "Piazza Italia Hanoi",
+            embedId: "KKmEhxQqbpI",
+          },
+          {
+            id: 5,
+            title: "Chops event Hanoi",
+            embedId: "UDXWEXCV0fE",
+          },
+          {
+            id: 6,
+            title: "Los Fuegos Event",
+            embedId: "qYcwGUpUjok",
+          },
+          {
+            id: 7,
+            title: "Burlesque event Rome",
+            embedId: "9jHWeHRdLqc",
+          },
+          {
+            id: 8,
+            title: "Cugini x Viettel event",
+            embedId: "yaw6p79bP4g",
+          },
+          {
+            id: 9,
+            title: "Hill Station REC Hoi An",
+            embedId: "-XgQnFF0kiM",
+          },
+        ],
     shortFilms: [
       {
         id: 1,
@@ -223,53 +297,71 @@ export default function GMGVisualPortfolio() {
         embedId: "a-q7FHpMZoY",
       },
     ],
-    musicVideos: [
-      {
-        id: 1,
-        title: "Thanh Lam - Tướng Phủ Thế",
-        embedId: "pxUlgWVpTJQ",
-      },
-      {
-        id: 2,
-        title: "Zane K - Black on Blue",
-        embedId: "0afIyrEjDqk",
-      },
-      {
-        id: 3,
-        title: "True Lie - To ember and ashes",
-        embedId: "xTZlP-jcSyU",
-      },
-      {
-        id: 4,
-        title: "Trinh Minh Hien - Starboy remix",
-        embedId: "tnAA6t97P-A",
-      },
-      {
-        id: 5,
-        title: "Blein - Ancora un attimo",
-        embedId: "9rhtfl4daLw",
-      },
-      {
-        id: 6,
-        title: "Enea Leone - Bach allegro BWV 1005",
-        embedId: "KRDECe4ds5M",
-      },
-      {
-        id: 7,
-        title: "Bartender - Gross",
-        embedId: "jktsqtfwfPU",
-      },
-      {
-        id: 8,
-        title: "Desource - This plague called love",
-        embedId: "XJoSbZmKamI",
-      },
-      {
-        id: 9,
-        title: "Carro Bestiame - Lunga vita al becco",
-        embedId: "e08r4JeCVYg",
-      },
-    ],
+    musicVideos: isMobile
+      ? [
+          {
+            id: 1,
+            title: "Thanh Lam - Tướng Phủ Thế",
+            embedId: "pxUlgWVpTJQ",
+          },
+          {
+            id: 2,
+            title: "Zane K - Black on Blue",
+            embedId: "0afIyrEjDqk",
+          },
+          {
+            id: 3,
+            title: "True Lie - To ember and ashes",
+            embedId: "xTZlP-jcSyU",
+          },
+        ]
+      : [
+          {
+            id: 1,
+            title: "Thanh Lam - Tướng Phủ Thế",
+            embedId: "pxUlgWVpTJQ",
+          },
+          {
+            id: 2,
+            title: "Zane K - Black on Blue",
+            embedId: "0afIyrEjDqk",
+          },
+          {
+            id: 3,
+            title: "True Lie - To ember and ashes",
+            embedId: "xTZlP-jcSyU",
+          },
+          {
+            id: 4,
+            title: "Trinh Minh Hien - Starboy remix",
+            embedId: "tnAA6t97P-A",
+          },
+          {
+            id: 5,
+            title: "Blein - Ancora un attimo",
+            embedId: "9rhtfl4daLw",
+          },
+          {
+            id: 6,
+            title: "Enea Leone - Bach allegro BWV 1005",
+            embedId: "KRDECe4ds5M",
+          },
+          {
+            id: 7,
+            title: "Bartender - Gross",
+            embedId: "jktsqtfwfPU",
+          },
+          {
+            id: 8,
+            title: "Desource - This plague called love",
+            embedId: "XJoSbZmKamI",
+          },
+          {
+            id: 9,
+            title: "Carro Bestiame - Lunga vita al becco",
+            embedId: "e08r4JeCVYg",
+          },
+        ],
     stockFootage: [
       {
         id: 1,
@@ -290,169 +382,214 @@ export default function GMGVisualPortfolio() {
         embedId: "X2e0rANAS_M",
       },
     ],
-    binaural: [
-      {
-        id: 1,
-        title: "Walking under the Rain in Città della Pieve",
-        description: "Immersive binaural audio experience capturing the sounds of rain in an ancient Italian village.",
-        embedId: "YnNIV4pNnNA",
-      },
-      {
-        id: 2,
-        title: "Binaural Experience 2",
-        description: "Spatial audio journey creating three-dimensional soundscapes for immersive listening.",
-        embedId: "x_Vp8N52Aqg",
-      },
-      {
-        id: 3,
-        title: "Binaural Experience 3",
-        description: "Advanced binaural recording techniques for realistic audio positioning and depth.",
-        embedId: "Jyp99PHDmn0",
-      },
-      {
-        id: 4,
-        title: "Binaural Experience 4",
-        description: "Experimental soundscape exploring the boundaries of immersive audio technology.",
-        embedId: "2WQ7lrqr_mA",
-      },
-      {
-        id: 5,
-        title: "Binaural Experience 5",
-        description: "Natural environment recordings using cutting-edge binaural microphone techniques.",
-        embedId: "vg6TTpTgGMc",
-      },
-      {
-        id: 6,
-        title: "Binaural Experience 6",
-        description: "Urban soundscape captured with precision binaural recording for authentic spatial audio.",
-        embedId: "9F9eB3lbMbU",
-      },
-      {
-        id: 7,
-        title: "Binaural Experience 7",
-        description: "Atmospheric audio journey designed for headphone listening and spatial immersion.",
-        embedId: "B0EjhdzCWWI",
-      },
-      {
-        id: 8,
-        title: "Binaural Experience 8",
-        description: "Professional binaural audio production showcasing innovative recording methodologies.",
-        embedId: "MPRmHMjBuzg",
-      },
-      {
-        id: 9,
-        title: "Binaural Experience 9",
-        description: "Immersive audio storytelling through advanced binaural sound design and recording.",
-        embedId: "ivd42loLvUI",
-      },
-    ],
+    binaural: isMobile
+      ? [
+          {
+            id: 1,
+            title: "Walking under the Rain in Città della Pieve",
+            description:
+              "Immersive binaural audio experience capturing the sounds of rain in an ancient Italian village.",
+            embedId: "YnNIV4pNnNA",
+          },
+          {
+            id: 2,
+            title: "Binaural Experience 2",
+            description: "Spatial audio journey creating three-dimensional soundscapes for immersive listening.",
+            embedId: "x_Vp8N52Aqg",
+          },
+          {
+            id: 3,
+            title: "Binaural Experience 3",
+            description: "Advanced binaural recording techniques for realistic audio positioning and depth.",
+            embedId: "Jyp99PHDmn0",
+          },
+        ]
+      : [
+          {
+            id: 1,
+            title: "Walking under the Rain in Città della Pieve",
+            description:
+              "Immersive binaural audio experience capturing the sounds of rain in an ancient Italian village.",
+            embedId: "YnNIV4pNnNA",
+          },
+          {
+            id: 2,
+            title: "Binaural Experience 2",
+            description: "Spatial audio journey creating three-dimensional soundscapes for immersive listening.",
+            embedId: "x_Vp8N52Aqg",
+          },
+          {
+            id: 3,
+            title: "Binaural Experience 3",
+            description: "Advanced binaural recording techniques for realistic audio positioning and depth.",
+            embedId: "Jyp99PHDmn0",
+          },
+          {
+            id: 4,
+            title: "Binaural Experience 4",
+            description: "Experimental soundscape exploring the boundaries of immersive audio technology.",
+            embedId: "2WQ7lrqr_mA",
+          },
+          {
+            id: 5,
+            title: "Binaural Experience 5",
+            description: "Natural environment recordings using cutting-edge binaural microphone techniques.",
+            embedId: "vg6TTpTgGMc",
+          },
+          {
+            id: 6,
+            title: "Binaural Experience 6",
+            description: "Urban soundscape captured with precision binaural recording for authentic spatial audio.",
+            embedId: "9F9eB3lbMbU",
+          },
+          {
+            id: 7,
+            title: "Binaural Experience 7",
+            description: "Atmospheric audio journey designed for headphone listening and spatial immersion.",
+            embedId: "B0EjhdzCWWI",
+          },
+          {
+            id: 8,
+            title: "Binaural Experience 8",
+            description: "Professional binaural audio production showcasing innovative recording methodologies.",
+            embedId: "MPRmHMjBuzg",
+          },
+          {
+            id: 9,
+            title: "Binaural Experience 9",
+            description: "Immersive audio storytelling through advanced binaural sound design and recording.",
+            embedId: "ivd42loLvUI",
+          },
+        ],
   }
 
-  // Sample photography data
+  // Reduced photo data for mobile
   const photoCategories = {
-    food: [
-      {
-        id: 1,
-        src: "/images/food/2Burgers-Chops.webp",
-        alt: "Gourmet Burgers - Chops Restaurant",
-      },
-      {
-        id: 2,
-        src: "/images/food/3Restaurant-HaNoi.webp",
-        alt: "Restaurant Interior - Hanoi",
-      },
-      {
-        id: 3,
-        src: "/images/food/4poggio-falcone.webp",
-        alt: "Poggio Falcone Villa with Pool",
-      },
-      {
-        id: 4,
-        src: "/images/food/5WideOasya.webp",
-        alt: "Luxury Hotel Bedroom - Oasya",
-      },
-      {
-        id: 5,
-        src: "/images/food/1WideOAsya6.webp",
-        alt: "Elegant Dining Area - Oasya",
-      },
-      {
-        id: 6,
-        title: "9Sunset-starter",
-        src: "/images/food/9Sunset-starter.webp",
-        alt: "Sunset Charcuterie Board with Wine",
-      },
-      {
-        id: 7,
-        src: "/images/food/6Segafredo-gelato.webp",
-        alt: "Segafredo Gelato",
-      },
-      {
-        id: 8,
-        src: "/images/food/8Garden-hotel.webp",
-        alt: "Hotel Garden Pool Area",
-      },
-      {
-        id: 9,
-        src: "/images/food/7Hotel-room.webp",
-        alt: "Modern Hotel Room Interior",
-      },
-      {
-        id: 10,
-        src: "/images/food/10Resort-puluong.webp",
-        alt: "Eco Resort Bedroom - Pu Luong",
-      },
-      {
-        id: 11,
-        src: "/images/food/11Lim-restaurant.webp",
-        alt: "Traditional Asian Restaurant Interior",
-      },
-      {
-        id: 12,
-        src: "/images/food/12Lim-meat.webp",
-        alt: "Fine Dining Meat Dish",
-      },
-      {
-        id: 13,
-        src: "/images/food/13food-ready.webp",
-        alt: "Artistic Dessert with Honeycomb",
-      },
-      {
-        id: 14,
-        src: "/images/food/14Syse-restaurant2.webp",
-        alt: "Modern Restaurant Interior - Syse",
-      },
-      {
-        id: 15,
-        src: "/placeholder.svg?height=400&width=400&text=Food+15",
-        alt: "Food Photography 15",
-      },
-      {
-        id: 16,
-        src: "/images/food/16Burger-and-beer.webp",
-        alt: "Burger and Beer Outdoor Dining",
-      },
-      {
-        id: 17,
-        src: "/images/food/17Hotel-int.webp",
-        alt: "Modern Hotel Cafe Interior",
-      },
-      {
-        id: 18,
-        src: "/images/food/18Chops-esterior.webp",
-        alt: "Chops Restaurant Night Exterior",
-      },
-      {
-        id: 19,
-        src: "/images/food/19Syse-restaurant.webp",
-        alt: "Upscale Restaurant Interior - Syse",
-      },
-      ...Array.from({ length: 15 }, (_, i) => ({
-        id: i + 20,
-        src: `/placeholder.svg?height=400&width=400&text=Food+${i + 20}`,
-        alt: `Food Photography ${i + 20}`,
-      })),
-    ],
+    food: isMobile
+      ? [
+          {
+            id: 1,
+            src: "/images/food/2Burgers-Chops.webp",
+            alt: "Gourmet Burgers - Chops Restaurant",
+          },
+          {
+            id: 2,
+            src: "/images/food/3Restaurant-HaNoi.webp",
+            alt: "Restaurant Interior - Hanoi",
+          },
+          {
+            id: 3,
+            src: "/images/food/4poggio-falcone.webp",
+            alt: "Poggio Falcone Villa with Pool",
+          },
+          {
+            id: 4,
+            src: "/images/food/5WideOasya.webp",
+            alt: "Luxury Hotel Bedroom - Oasya",
+          },
+          {
+            id: 5,
+            src: "/images/food/1WideOAsya6.webp",
+            alt: "Elegant Dining Area - Oasya",
+          },
+          {
+            id: 6,
+            src: "/images/food/9Sunset-starter.webp",
+            alt: "Sunset Charcuterie Board with Wine",
+          },
+        ]
+      : [
+          {
+            id: 1,
+            src: "/images/food/2Burgers-Chops.webp",
+            alt: "Gourmet Burgers - Chops Restaurant",
+          },
+          {
+            id: 2,
+            src: "/images/food/3Restaurant-HaNoi.webp",
+            alt: "Restaurant Interior - Hanoi",
+          },
+          {
+            id: 3,
+            src: "/images/food/4poggio-falcone.webp",
+            alt: "Poggio Falcone Villa with Pool",
+          },
+          {
+            id: 4,
+            src: "/images/food/5WideOasya.webp",
+            alt: "Luxury Hotel Bedroom - Oasya",
+          },
+          {
+            id: 5,
+            src: "/images/food/1WideOAsya6.webp",
+            alt: "Elegant Dining Area - Oasya",
+          },
+          {
+            id: 6,
+            src: "/images/food/9Sunset-starter.webp",
+            alt: "Sunset Charcuterie Board with Wine",
+          },
+          {
+            id: 7,
+            src: "/images/food/6Segafredo-gelato.webp",
+            alt: "Segafredo Gelato",
+          },
+          {
+            id: 8,
+            src: "/images/food/8Garden-hotel.webp",
+            alt: "Hotel Garden Pool Area",
+          },
+          {
+            id: 9,
+            src: "/images/food/7Hotel-room.webp",
+            alt: "Modern Hotel Room Interior",
+          },
+          {
+            id: 10,
+            src: "/images/food/10Resort-puluong.webp",
+            alt: "Eco Resort Bedroom - Pu Luong",
+          },
+          {
+            id: 11,
+            src: "/images/food/11Lim-restaurant.webp",
+            alt: "Traditional Asian Restaurant Interior",
+          },
+          {
+            id: 12,
+            src: "/images/food/12Lim-meat.webp",
+            alt: "Fine Dining Meat Dish",
+          },
+          {
+            id: 13,
+            src: "/images/food/13food-ready.webp",
+            alt: "Artistic Dessert with Honeycomb",
+          },
+          {
+            id: 14,
+            src: "/images/food/14Syse-restaurant2.webp",
+            alt: "Modern Restaurant Interior - Syse",
+          },
+          {
+            id: 16,
+            src: "/images/food/16Burger-and-beer.webp",
+            alt: "Burger and Beer Outdoor Dining",
+          },
+          {
+            id: 17,
+            src: "/images/food/17Hotel-int.webp",
+            alt: "Modern Hotel Cafe Interior",
+          },
+          {
+            id: 18,
+            src: "/images/food/18Chops-esterior.webp",
+            alt: "Chops Restaurant Night Exterior",
+          },
+          {
+            id: 19,
+            src: "/images/food/19Syse-restaurant.webp",
+            alt: "Upscale Restaurant Interior - Syse",
+          },
+        ],
     events: [
       {
         id: 1,
@@ -500,127 +637,162 @@ export default function GMGVisualPortfolio() {
         alt: "Evening Party - Syse Venue with Dramatic Lighting",
       },
     ],
-    portraits: [
-      {
-        id: 1,
-        src: "/images/portraits/1Lorenzo-portrait.webp",
-        alt: "Lorenzo - Wine Expert Portrait at Pomario Winery",
-      },
-      {
-        id: 2,
-        src: "/images/portraits/2Chu-oi-Vietnam.webp",
-        alt: "Vietnamese Farmer Portrait - Traditional Conical Hat",
-      },
-      {
-        id: 3,
-        src: "/images/portraits/3Hien-singer-portrait.webp",
-        alt: "Hien - Professional Singer Studio Portrait",
-      },
-      {
-        id: 4,
-        src: "/images/portraits/4Ba-Oi-Ta-Lang.webp",
-        alt: "Elderly Vietnamese Woman - Authentic Local Portrait",
-      },
-      {
-        id: 5,
-        src: "/images/portraits/5Chefs.webp",
-        alt: "Professional Chefs Portrait - Restaurant Kitchen",
-      },
-      {
-        id: 6,
-        src: "/images/portraits/6Mai-portrait.webp",
-        alt: "Mai - Golden Hour Street Portrait",
-      },
-      {
-        id: 7,
-        src: "/images/portraits/7Mia-portrait.webp",
-        alt: "Mia - Yoga Lifestyle Portrait",
-      },
-      {
-        id: 8,
-        src: "/images/portraits/8Hien-portrait.webp",
-        alt: "Hien - Classical Violinist Portrait",
-      },
-      {
-        id: 9,
-        src: "/images/portraits/9Ciro.webp",
-        alt: "Ciro - Dramatic Architecture Portrait",
-      },
-      ...Array.from({ length: 9 }, (_, i) => ({
-        id: i + 10,
-        src: `/placeholder.svg?height=533&width=400&text=Portrait+${i + 10}`,
-        alt: `Portrait Photography ${i + 10}`,
-      })),
-    ],
+    portraits: isMobile
+      ? [
+          {
+            id: 1,
+            src: "/images/portraits/1Lorenzo-portrait.webp",
+            alt: "Lorenzo - Wine Expert Portrait at Pomario Winery",
+          },
+          {
+            id: 2,
+            src: "/images/portraits/2Chu-oi-Vietnam.webp",
+            alt: "Vietnamese Farmer Portrait - Traditional Conical Hat",
+          },
+          {
+            id: 3,
+            src: "/images/portraits/3Hien-singer-portrait.webp",
+            alt: "Hien - Professional Singer Studio Portrait",
+          },
+          {
+            id: 4,
+            src: "/images/portraits/4Ba-Oi-Ta-Lang.webp",
+            alt: "Elderly Vietnamese Woman - Authentic Local Portrait",
+          },
+          {
+            id: 5,
+            src: "/images/portraits/5Chefs.webp",
+            alt: "Professional Chefs Portrait - Restaurant Kitchen",
+          },
+          {
+            id: 6,
+            src: "/images/portraits/6Mai-portrait.webp",
+            alt: "Mai - Golden Hour Street Portrait",
+          },
+        ]
+      : [
+          {
+            id: 1,
+            src: "/images/portraits/1Lorenzo-portrait.webp",
+            alt: "Lorenzo - Wine Expert Portrait at Pomario Winery",
+          },
+          {
+            id: 2,
+            src: "/images/portraits/2Chu-oi-Vietnam.webp",
+            alt: "Vietnamese Farmer Portrait - Traditional Conical Hat",
+          },
+          {
+            id: 3,
+            src: "/images/portraits/3Hien-singer-portrait.webp",
+            alt: "Hien - Professional Singer Studio Portrait",
+          },
+          {
+            id: 4,
+            src: "/images/portraits/4Ba-Oi-Ta-Lang.webp",
+            alt: "Elderly Vietnamese Woman - Authentic Local Portrait",
+          },
+          {
+            id: 5,
+            src: "/images/portraits/5Chefs.webp",
+            alt: "Professional Chefs Portrait - Restaurant Kitchen",
+          },
+          {
+            id: 6,
+            src: "/images/portraits/6Mai-portrait.webp",
+            alt: "Mai - Golden Hour Street Portrait",
+          },
+          {
+            id: 7,
+            src: "/images/portraits/7Mia-portrait.webp",
+            alt: "Mia - Yoga Lifestyle Portrait",
+          },
+          {
+            id: 8,
+            src: "/images/portraits/8Hien-portrait.webp",
+            alt: "Hien - Classical Violinist Portrait",
+          },
+          {
+            id: 9,
+            src: "/images/portraits/9Ciro.webp",
+            alt: "Ciro - Dramatic Architecture Portrait",
+          },
+        ],
     maps360: [
       {
         id: 1,
         src: "/images/360/1Agriturismo-360-new.webp",
         alt: "360° Aerial View - Italian Agriturismo Villa with Swimming Pool and Tuscan Countryside Panorama",
-        is360: true,
+        is360: !isMobile, // Disable 360° on mobile
       },
       {
         id: 2,
         src: "/images/360/2Chops-Hoi-An-new.webp",
         alt: "360° Street View - Chops Restaurant, Hoi An Ancient Town with Traditional Lanterns and Colonial Architecture",
-        is360: true,
+        is360: !isMobile,
       },
       {
         id: 3,
         src: "/images/360/3Hill-station-new.webp",
         alt: "360° Interior View - Hill Station Restaurant with Rustic Architecture, Artistic Murals and Atmospheric Lighting",
-        is360: true,
+        is360: !isMobile,
       },
       {
         id: 4,
         src: "/images/360/POGGIO360_1.jpg",
         alt: "360° Aerial View - Poggio Falcone Villa with Swimming Pool and Tuscan Countryside Panorama",
-        is360: true,
+        is360: !isMobile,
       },
-      ...Array.from({ length: 4 }, (_, i) => ({
-        id: i + 5,
-        src: `/placeholder.svg?height=300&width=533&text=360+View+${i + 5}`,
-        alt: `360° Photography ${i + 5}`,
-        is360: false,
-      })),
     ],
-    iris: [
-      {
-        id: 1,
-        src: "/images/iris/1irisphotographySEAN.webp",
-        alt: "Sean - Iris Photography with Blue and Golden Patterns",
-      },
-      {
-        id: 2,
-        src: "/images/iris/2irisphotographyVLADI&PIERO.webp",
-        alt: "Vladi & Piero - Dual Iris Photography Blue and Brown",
-      },
-      {
-        id: 3,
-        src: "/images/iris/3irisphotographyMANUS.webp",
-        alt: "Manus, Trang & Quoc Anh - Triple Iris Photography Collection",
-      },
-      {
-        id: 4,
-        src: "/images/iris/4irisphotography.webp",
-        alt: "Alessio, Raffaella, Alice & Francesco - Quad Iris Photography",
-      },
-      {
-        id: 5,
-        src: "/images/iris/5irisphotographyELISA.webp",
-        alt: "Elisa - Blue Iris Photography with Intricate Patterns",
-      },
-      {
-        id: 6,
-        src: "/images/iris/6iriphotographyEMANUELA.webp",
-        alt: "Emanuela - Iris Photography with Blue and Orange Tones",
-      },
-      ...Array.from({ length: 6 }, (_, i) => ({
-        id: i + 7,
-        src: `/placeholder.svg?height=300&width=300&text=Iris+${i + 7}`,
-        alt: `Iris Photography ${i + 7}`,
-      })),
-    ],
+    iris: isMobile
+      ? [
+          {
+            id: 1,
+            src: "/images/iris/1irisphotographySEAN.webp",
+            alt: "Sean - Iris Photography with Blue and Golden Patterns",
+          },
+          {
+            id: 2,
+            src: "/images/iris/2irisphotographyVLADI&PIERO.webp",
+            alt: "Vladi & Piero - Dual Iris Photography Blue and Brown",
+          },
+          {
+            id: 3,
+            src: "/images/iris/3irisphotographyMANUS.webp",
+            alt: "Manus, Trang & Quoc Anh - Triple Iris Photography Collection",
+          },
+        ]
+      : [
+          {
+            id: 1,
+            src: "/images/iris/1irisphotographySEAN.webp",
+            alt: "Sean - Iris Photography with Blue and Golden Patterns",
+          },
+          {
+            id: 2,
+            src: "/images/iris/2irisphotographyVLADI&PIERO.webp",
+            alt: "Vladi & Piero - Dual Iris Photography Blue and Brown",
+          },
+          {
+            id: 3,
+            src: "/images/iris/3irisphotographyMANUS.webp",
+            alt: "Manus, Trang & Quoc Anh - Triple Iris Photography Collection",
+          },
+          {
+            id: 4,
+            src: "/images/iris/4irisphotography.webp",
+            alt: "Alessio, Raffaella, Alice & Francesco - Quad Iris Photography",
+          },
+          {
+            id: 5,
+            src: "/images/iris/5irisphotographyELISA.webp",
+            alt: "Elisa - Blue Iris Photography with Intricate Patterns",
+          },
+          {
+            id: 6,
+            src: "/images/iris/6iriphotographyEMANUELA.webp",
+            alt: "Emanuela - Iris Photography with Blue and Orange Tones",
+          },
+        ],
   }
 
   if (isLoading) {
@@ -636,16 +808,20 @@ export default function GMGVisualPortfolio() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* 360° Panorama Viewer */}
-      <PanoramaViewer
-        imageUrl={panoramaViewer.imageUrl}
-        title={panoramaViewer.title}
-        isOpen={panoramaViewer.isOpen}
-        onClose={close360Viewer}
-      />
+      {/* 360° Panorama Viewer - Only load on desktop */}
+      {!isMobile && (
+        <Suspense fallback={null}>
+          <PanoramaViewer
+            imageUrl={panoramaViewer.imageUrl}
+            title={panoramaViewer.title}
+            isOpen={panoramaViewer.isOpen}
+            onClose={close360Viewer}
+          />
+        </Suspense>
+      )}
 
-      {/* Lightbox Modal */}
-      {lightboxImage && (
+      {/* Lightbox Modal - Only on desktop */}
+      {!isMobile && lightboxImage && (
         <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4" onClick={closeLightbox}>
           <div className="relative max-w-[95vw] max-h-[95vh]">
             <button
@@ -681,6 +857,7 @@ export default function GMGVisualPortfolio() {
                 width={200}
                 height={40}
                 className="h-8 w-auto brightness-50"
+                priority
               />
             </Link>
             <div className="hidden md:flex items-center space-x-8">
@@ -720,375 +897,424 @@ export default function GMGVisualPortfolio() {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="relative h-screen flex items-center">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/Gianmarco_Wedding.webp"
-            alt="Gianmarco Maccabruno Giometti - Professional Portrait"
-            fill
-            className="object-cover object-[center_0%]"
-            priority
-          />
-          <div className="absolute inset-0 bg-black/20" />
-        </div>
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-screen">
-            {/* Left side - empty to showcase the photo */}
-            <div className="hidden lg:block"></div>
+      {sectionsLoaded.hero && (
+        <section id="hero" className="relative h-screen flex items-center">
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/images/Gianmarco_Wedding.webp"
+              alt="Gianmarco Maccabruno Giometti - Professional Portrait"
+              fill
+              className="object-cover object-[center_0%]"
+              priority
+              quality={isMobile ? 60 : 90}
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-black/20" />
+          </div>
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-screen">
+              {/* Left side - empty to showcase the photo */}
+              <div className="hidden lg:block"></div>
 
-            {/* Right side - text content */}
-            <div className="text-center lg:text-left text-white lg:pl-8">
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wide mb-6 leading-tight leading-3 leading-8 font-serif">
-                GMGVisual
-              </h1>
-              <p className="text-lg md:text-xl lg:text-2xl font-serif font-light mb-12 leading-relaxed opacity-90">
-                Gianmarco Maccabruno Giometti
-                <br />
-                <span className="text-base md:text-lg lg:text-xl font-extralight">
-                  Videographer - Photographer - Editor
-                </span>
-              </p>
+              {/* Right side - text content */}
+              <div className="text-center lg:text-left text-white lg:pl-8">
+                <h1 className="text-4xl md:text-6xl lg:text-8xl font-light tracking-wide mb-6 leading-tight font-serif">
+                  GMGVisual
+                </h1>
+                <p className="text-lg md:text-xl lg:text-2xl font-serif font-light mb-12 leading-relaxed opacity-90">
+                  Gianmarco Maccabruno Giometti
+                  <br />
+                  <span className="text-base md:text-lg lg:text-xl font-extralight">
+                    Videographer - Photographer - Editor
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Video Portfolio Section */}
       <section id="videos" className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">Video Portfolio</h2>
+            <h2 className="text-4xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">Video Portfolio</h2>
             <div className="w-24 h-px bg-gray-300 mx-auto" />
           </div>
 
-          {/* Advertising & Promotionals */}
-          <div className="mb-20">
-            <h3 className="text-textPrimary mb-12 text-center font-thin text-3xl">ADVERTISING &amp; PROMOTIONAL</h3>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {videoCategories.advertising.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg h-full">
-                  <CardContent className="p-0 h-full flex flex-col">
-                    <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${video.embedId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                    <div className="p-6 flex-1">
-                      <h4 className="text-xl font-light text-textPrimary">{video.title}</h4>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </Carousel>
-          </div>
-
-          {/* Events */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">EVENTS</h3>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {videoCategories.events.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg h-full">
-                  <CardContent className="p-0 h-full flex flex-col">
-                    <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${video.embedId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                    <div className="p-6 flex-1">
-                      <h4 className="text-xl font-light text-textPrimary">{video.title}</h4>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </Carousel>
-          </div>
-
-          {/* Short Films */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">SHORT MOVIES</h3>
-            <div className="grid md:grid-cols-3 gap-8">
-              {videoCategories.shortFilms.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg h-full">
-                  <CardContent className="p-0 h-full flex flex-col">
-                    <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${video.embedId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                    <div className="p-6 flex-1">
-                      <h4 className="text-xl font-light text-textPrimary mb-2">{video.title}</h4>
-                      <p className="text-textMuted font-light">{video.description}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          {/* Awards & Recognition */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">AWARDS &amp; RECOGNITION</h3>
-            <div className="text-center mb-12">
-              <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
-                International recognition for excellence in cinematography and filmmaking from prestigious film
-                festivals worldwide.
-              </p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              <div className="group">
-                <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
-                  <CardContent className="p-0 h-full flex flex-col">
-                    <div className="aspect-square bg-white rounded-lg overflow-hidden flex items-center justify-center p-4">
-                      <Image
-                        src="/images/awards/barcelona-award.webp"
-                        alt="Barcelona Planet Film Festival - Best Cinematography Award"
-                        width={300}
-                        height={300}
-                        className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="p-6 flex-1 text-center">
-                      <h4 className="text-lg font-light text-textPrimary mb-2">Barcelona Planet Film Festival</h4>
-                      <p className="text-sm text-textMuted font-light">Best Cinematography</p>
-                    </div>
-                  </CardContent>
-                </Card>
+          {sectionsLoaded.videos ? (
+            <>
+              {/* Advertising & Promotionals */}
+              <div className="mb-20">
+                <h3 className="text-textPrimary mb-12 text-center font-thin text-2xl md:text-3xl">
+                  ADVERTISING &amp; PROMOTIONAL
+                </h3>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+                    {videoCategories.advertising.map((video) => (
+                      <Card key={video.id} className="border-0 shadow-lg h-full">
+                        <CardContent className="p-0 h-full flex flex-col">
+                          <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                            <iframe
+                              width="100%"
+                              height="100%"
+                              src={`https://www.youtube.com/embed/${video.embedId}`}
+                              title={video.title}
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              loading="lazy"
+                            />
+                          </div>
+                          <div className="p-6 flex-1">
+                            <h4 className="text-lg md:text-xl font-light text-textPrimary">{video.title}</h4>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </Carousel>
+                </Suspense>
               </div>
 
-              <div className="group">
-                <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
-                  <CardContent className="p-0 h-full flex flex-col">
-                    <div className="aspect-square bg-white rounded-lg overflow-hidden flex items-center justify-center p-4">
-                      <Image
-                        src="/images/awards/five-continents-awards.webp"
-                        alt="Five Continents International Film Festival - Awards of Recognition"
-                        width={300}
-                        height={300}
-                        className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="p-6 flex-1 text-center">
-                      <h4 className="text-lg font-light text-textPrimary mb-2">Five Continents Film Festival</h4>
-                      <p className="text-sm text-textMuted font-light">Best Cinematography & Special Mention Editing</p>
-                    </div>
-                  </CardContent>
-                </Card>
+              {/* Events */}
+              <div className="mb-20">
+                <h3 className="text-2xl md:text-3xl text-textPrimary mb-12 text-center font-thin">EVENTS</h3>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+                    {videoCategories.events.map((video) => (
+                      <Card key={video.id} className="border-0 shadow-lg h-full">
+                        <CardContent className="p-0 h-full flex flex-col">
+                          <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                            <iframe
+                              width="100%"
+                              height="100%"
+                              src={`https://www.youtube.com/embed/${video.embedId}`}
+                              title={video.title}
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              loading="lazy"
+                            />
+                          </div>
+                          <div className="p-6 flex-1">
+                            <h4 className="text-lg md:text-xl font-light text-textPrimary">{video.title}</h4>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </Carousel>
+                </Suspense>
               </div>
 
-              <div className="group">
-                <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
-                  <CardContent className="p-0 h-full flex flex-col">
-                    <div className="aspect-square bg-white rounded-lg overflow-hidden flex items-center justify-center p-4">
-                      <Image
-                        src="/images/awards/virgin-spring-award.webp"
-                        alt="Virgin Spring Cinefest - Best Cinematography Gold Award"
-                        width={300}
-                        height={300}
-                        className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="p-6 flex-1 text-center">
-                      <h4 className="text-lg font-light text-textPrimary mb-2">Virgin Spring Cinefest</h4>
-                      <p className="text-sm text-textMuted font-light">Best Cinematography - Gold Award</p>
-                    </div>
-                  </CardContent>
-                </Card>
+              {/* Short Films */}
+              <div className="mb-20">
+                <h3 className="text-2xl md:text-3xl text-textPrimary mb-12 text-center font-thin">SHORT MOVIES</h3>
+                <div className="grid md:grid-cols-3 gap-8">
+                  {videoCategories.shortFilms.map((video) => (
+                    <Card key={video.id} className="border-0 shadow-lg h-full">
+                      <CardContent className="p-0 h-full flex flex-col">
+                        <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                          <iframe
+                            width="100%"
+                            height="100%"
+                            src={`https://www.youtube.com/embed/${video.embedId}`}
+                            title={video.title}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="p-6 flex-1">
+                          <h4 className="text-lg md:text-xl font-light text-textPrimary mb-2">{video.title}</h4>
+                          <p className="text-textMuted font-light text-sm md:text-base">{video.description}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
 
-          {/* Music Videos */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">MUSIC VIDEOS</h3>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {videoCategories.musicVideos.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg h-full">
-                  <CardContent className="p-0 h-full flex flex-col">
-                    <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${video.embedId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                    <div className="p-6 flex-1">
-                      <h4 className="text-xl font-light text-textPrimary">{video.title}</h4>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </Carousel>
-          </div>
+              {/* Awards & Recognition */}
+              <div className="mb-20">
+                <h3 className="text-2xl md:text-3xl text-textPrimary mb-12 text-center font-thin">
+                  AWARDS &amp; RECOGNITION
+                </h3>
+                <div className="text-center mb-12">
+                  <p className="text-textMuted font-light text-base md:text-lg max-w-4xl mx-auto leading-relaxed">
+                    International recognition for excellence in cinematography and filmmaking from prestigious film
+                    festivals worldwide.
+                  </p>
+                </div>
+                <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                  <div className="group">
+                    <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
+                      <CardContent className="p-0 h-full flex flex-col">
+                        <div className="aspect-square bg-white rounded-lg overflow-hidden flex items-center justify-center p-4">
+                          <Image
+                            src="/images/awards/barcelona-award.webp"
+                            alt="Barcelona Planet Film Festival - Best Cinematography Award"
+                            width={300}
+                            height={300}
+                            className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="p-6 flex-1 text-center">
+                          <h4 className="text-base md:text-lg font-light text-textPrimary mb-2">
+                            Barcelona Planet Film Festival
+                          </h4>
+                          <p className="text-sm text-textMuted font-light">Best Cinematography</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
 
-          {/* Stock Footage */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">STOCK FOOTAGE</h3>
-            <div className="text-center mb-12">
-              <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
-                I create high-quality stock footage for leading platforms such as Shutterstock, Pond5, and Adobe Stock.
-                My work spans cinematic visuals, dynamic scenes, and versatile content designed to meet the needs of
-                agencies, brands, and content creators worldwide.
-              </p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-8">
-              {videoCategories.stockFootage.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg h-full">
-                  <CardContent className="p-0 h-full flex flex-col">
-                    <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${video.embedId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                    <div className="p-6 flex-1">
-                      <h4 className="text-xl font-light text-textPrimary mb-2">{video.title}</h4>
-                      <p className="text-textMuted font-light">{video.description}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-            <div className="mt-12">
-              <div className="flex justify-center gap-6 max-w-2xl mx-auto">
-                <Link
-                  href="https://www.shutterstock.com/g/Lafresia"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex-1"
-                >
-                  <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
-                    <CardContent className="p-0 h-full flex flex-col">
-                      <div className="aspect-[2.5/1] bg-white rounded-lg overflow-hidden flex items-center justify-center p-3">
-                        <Image
-                          src="/images/platforms/shutterstock-logo-new.webp"
-                          alt="Shutterstock - View Lafresia's Portfolio"
-                          width={160}
-                          height={64}
-                          className="w-40 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <div className="p-4 flex-1 text-center">
-                        <h4 className="text-sm font-light text-textPrimary">View on Shutterstock</h4>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
+                  <div className="group">
+                    <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
+                      <CardContent className="p-0 h-full flex flex-col">
+                        <div className="aspect-square bg-white rounded-lg overflow-hidden flex items-center justify-center p-4">
+                          <Image
+                            src="/images/awards/five-continents-awards.webp"
+                            alt="Five Continents International Film Festival - Awards of Recognition"
+                            width={300}
+                            height={300}
+                            className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="p-6 flex-1 text-center">
+                          <h4 className="text-base md:text-lg font-light text-textPrimary mb-2">
+                            Five Continents Film Festival
+                          </h4>
+                          <p className="text-sm text-textMuted font-light">
+                            Best Cinematography & Special Mention Editing
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
 
-                <Link
-                  href="https://stock.adobe.com/it/contributor/206582126/Gianmarco"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex-1"
-                >
-                  <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
-                    <CardContent className="p-0 h-full flex flex-col">
-                      <div className="aspect-[2.5/1] bg-white rounded-lg overflow-hidden flex items-center justify-center p-3">
-                        <Image
-                          src="/images/platforms/adobe-stock-logo-new.webp"
-                          alt="Adobe Stock - View Gianmarco's Portfolio"
-                          width={160}
-                          height={64}
-                          className="w-40 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <div className="p-4 flex-1 text-center">
-                        <h4 className="text-sm font-light text-textPrimary">View on Adobe Stock</h4>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-
-                <Link
-                  href="https://www.pond5.com/artist/lafresiastockvideo"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex-1"
-                >
-                  <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
-                    <CardContent className="p-0 h-full flex flex-col">
-                      <div className="aspect-[2.5/1] bg-white rounded-lg overflow-hidden flex items-center justify-center p-3">
-                        <Image
-                          src="/images/platforms/pond5-logo-new.webp"
-                          alt="Pond5 - View Lafresia Stock Video's Portfolio"
-                          width={160}
-                          height={64}
-                          className="w-40 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <div className="p-4 flex-1 text-center">
-                        <h4 className="text-sm font-light text-textPrimary">View on Pond5</h4>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
+                  <div className="group">
+                    <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
+                      <CardContent className="p-0 h-full flex flex-col">
+                        <div className="aspect-square bg-white rounded-lg overflow-hidden flex items-center justify-center p-4">
+                          <Image
+                            src="/images/awards/virgin-spring-award.webp"
+                            alt="Virgin Spring Cinefest - Best Cinematography Gold Award"
+                            width={300}
+                            height={300}
+                            className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="p-6 flex-1 text-center">
+                          <h4 className="text-base md:text-lg font-light text-textPrimary mb-2">
+                            Virgin Spring Cinefest
+                          </h4>
+                          <p className="text-sm text-textMuted font-light">Best Cinematography - Gold Award</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
-          {/* Binaural Projects */}
-          <div>
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">BINAURAL PROJECTS</h3>
-            <div className="text-center mb-12">
-              <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
-                <span className="font-medium">Step into sound...</span>
-                <br />
-                With Binauralife Experience, I create immersive 3D audio journeys that make you feel right there, in the
-                middle of a rainstorm, a bustling street, or a quiet forest. Each recording is captured with
-                professional binaural microphones to recreate sound exactly as the human ear hears it. Slip on your
-                headphones, close your eyes, and let the world unfold around you.
-              </p>
+              {/* Music Videos */}
+              <div className="mb-20">
+                <h3 className="text-2xl md:text-3xl text-textPrimary mb-12 text-center font-thin">MUSIC VIDEOS</h3>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+                    {videoCategories.musicVideos.map((video) => (
+                      <Card key={video.id} className="border-0 shadow-lg h-full">
+                        <CardContent className="p-0 h-full flex flex-col">
+                          <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                            <iframe
+                              width="100%"
+                              height="100%"
+                              src={`https://www.youtube.com/embed/${video.embedId}`}
+                              title={video.title}
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              loading="lazy"
+                            />
+                          </div>
+                          <div className="p-6 flex-1">
+                            <h4 className="text-lg md:text-xl font-light text-textPrimary">{video.title}</h4>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </Carousel>
+                </Suspense>
+              </div>
+
+              {/* Stock Footage */}
+              <div className="mb-20">
+                <h3 className="text-2xl md:text-3xl text-textPrimary mb-12 text-center font-thin">STOCK FOOTAGE</h3>
+                <div className="text-center mb-12">
+                  <p className="text-textMuted font-light text-base md:text-lg max-w-4xl mx-auto leading-relaxed">
+                    I create high-quality stock footage for leading platforms such as Shutterstock, Pond5, and Adobe
+                    Stock. My work spans cinematic visuals, dynamic scenes, and versatile content designed to meet the
+                    needs of agencies, brands, and content creators worldwide.
+                  </p>
+                </div>
+                <div className="grid md:grid-cols-3 gap-8">
+                  {videoCategories.stockFootage.map((video) => (
+                    <Card key={video.id} className="border-0 shadow-lg h-full">
+                      <CardContent className="p-0 h-full flex flex-col">
+                        <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                          <iframe
+                            width="100%"
+                            height="100%"
+                            src={`https://www.youtube.com/embed/${video.embedId}`}
+                            title={video.title}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="p-6 flex-1">
+                          <h4 className="text-lg md:text-xl font-light text-textPrimary mb-2">{video.title}</h4>
+                          <p className="text-textMuted font-light text-sm md:text-base">{video.description}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+                <div className="mt-12">
+                  <div className="flex flex-col md:flex-row justify-center gap-6 max-w-2xl mx-auto">
+                    <Link
+                      href="https://www.shutterstock.com/g/Lafresia"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex-1"
+                    >
+                      <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
+                        <CardContent className="p-0 h-full flex flex-col">
+                          <div className="aspect-[2.5/1] bg-white rounded-lg overflow-hidden flex items-center justify-center p-3">
+                            <Image
+                              src="/images/platforms/shutterstock-logo-new.webp"
+                              alt="Shutterstock - View Lafresia's Portfolio"
+                              width={160}
+                              height={64}
+                              className="w-40 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                              loading="lazy"
+                            />
+                          </div>
+                          <div className="p-4 flex-1 text-center">
+                            <h4 className="text-sm font-light text-textPrimary">View on Shutterstock</h4>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+
+                    <Link
+                      href="https://stock.adobe.com/it/contributor/206582126/Gianmarco"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex-1"
+                    >
+                      <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
+                        <CardContent className="p-0 h-full flex flex-col">
+                          <div className="aspect-[2.5/1] bg-white rounded-lg overflow-hidden flex items-center justify-center p-3">
+                            <Image
+                              src="/images/platforms/adobe-stock-logo-new.webp"
+                              alt="Adobe Stock - View Gianmarco's Portfolio"
+                              width={160}
+                              height={64}
+                              className="w-40 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                              loading="lazy"
+                            />
+                          </div>
+                          <div className="p-4 flex-1 text-center">
+                            <h4 className="text-sm font-light text-textPrimary">View on Adobe Stock</h4>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+
+                    <Link
+                      href="https://www.pond5.com/artist/lafresiastockvideo"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex-1"
+                    >
+                      <Card className="border-0 shadow-lg h-full hover:shadow-xl transition-shadow duration-300">
+                        <CardContent className="p-0 h-full flex flex-col">
+                          <div className="aspect-[2.5/1] bg-white rounded-lg overflow-hidden flex items-center justify-center p-3">
+                            <Image
+                              src="/images/platforms/pond5-logo-new.webp"
+                              alt="Pond5 - View Lafresia Stock Video's Portfolio"
+                              width={160}
+                              height={64}
+                              className="w-40 h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                              loading="lazy"
+                            />
+                          </div>
+                          <div className="p-4 flex-1 text-center">
+                            <h4 className="text-sm font-light text-textPrimary">View on Pond5</h4>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Binaural Projects */}
+              <div>
+                <h3 className="text-2xl md:text-3xl text-textPrimary mb-12 text-center font-thin">BINAURAL PROJECTS</h3>
+                <div className="text-center mb-12">
+                  <p className="text-textMuted font-light text-base md:text-lg max-w-4xl mx-auto leading-relaxed">
+                    <span className="font-medium">Step into sound...</span>
+                    <br />
+                    With Binauralife Experience, I create immersive 3D audio journeys that make you feel right there, in
+                    the middle of a rainstorm, a bustling street, or a quiet forest. Each recording is captured with
+                    professional binaural microphones to recreate sound exactly as the human ear hears it. Slip on your
+                    headphones, close your eyes, and let the world unfold around you.
+                  </p>
+                </div>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+                    {videoCategories.binaural.map((video) => (
+                      <Card key={video.id} className="border-0 shadow-lg h-full">
+                        <CardContent className="p-0 h-full flex flex-col">
+                          <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                            <iframe
+                              width="100%"
+                              height="100%"
+                              src={`https://www.youtube.com/embed/${video.embedId}`}
+                              title={video.title}
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              loading="lazy"
+                            />
+                          </div>
+                          <div className="p-6 flex-1">
+                            <h4 className="text-lg md:text-xl font-light text-textPrimary mb-2">{video.title}</h4>
+                            <p className="text-textMuted font-light text-sm md:text-base">{video.description}</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </Carousel>
+                </Suspense>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <Button
+                onClick={() => setSectionsLoaded((prev) => ({ ...prev, videos: true }))}
+                className="bg-textPrimary text-white hover:bg-textPrimary/90"
+              >
+                Load Video Portfolio
+              </Button>
             </div>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {videoCategories.binaural.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg h-full">
-                  <CardContent className="p-0 h-full flex flex-col">
-                    <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${video.embedId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                    <div className="p-6 flex-1">
-                      <h4 className="text-xl font-light text-textPrimary mb-2">{video.title}</h4>
-                      <p className="text-textMuted font-light">{video.description}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </Carousel>
-          </div>
+          )}
         </div>
       </section>
 
@@ -1096,151 +1322,191 @@ export default function GMGVisualPortfolio() {
       <section id="photos" className="py-24 px-6 bg-highlight/20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">Photography</h2>
+            <h2 className="text-4xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">Photography</h2>
             <div className="w-24 h-px bg-gray-300 mx-auto" />
           </div>
 
-          {/* Food & Hospitality */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">FOOD &amp; HOSPITALITY</h3>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {photoCategories.food.map((photo) => (
-                <div key={photo.id} className="group cursor-pointer">
-                  <div
-                    className="aspect-square overflow-hidden rounded-lg"
-                    onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
-                  >
-                    <Image
-                      src={photo.src || "/placeholder.svg"}
-                      alt={photo.alt}
-                      width={400}
-                      height={400}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                </div>
-              ))}
-            </Carousel>
-          </div>
-
-          {/* Events */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">EVENTS</h3>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {photoCategories.events.map((photo) => (
-                <div key={photo.id} className="group cursor-pointer">
-                  <div
-                    className="aspect-[4/5] overflow-hidden rounded-lg"
-                    onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
-                  >
-                    <Image
-                      src={photo.src || "/placeholder.svg"}
-                      alt={photo.alt}
-                      width={400}
-                      height={500}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                </div>
-              ))}
-            </Carousel>
-          </div>
-
-          {/* Portraits */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">PORTRAITS</h3>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {photoCategories.portraits.map((photo) => (
-                <div key={photo.id} className="group cursor-pointer">
-                  <div
-                    className="aspect-[3/4] overflow-hidden rounded-lg"
-                    onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
-                  >
-                    <Image
-                      src={photo.src || "/placeholder.svg"}
-                      alt={photo.alt}
-                      width={400}
-                      height={533}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                </div>
-              ))}
-            </Carousel>
-          </div>
-
-          {/* 360° Google Maps */}
-          <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">360° GOOGLE MAPS PICTURES</h3>
-            <div className="text-center mb-8">
-              <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
-                Immersive 360° photography for Google Maps and virtual tours. Click the 360° icon to experience the full
-                panoramic view.
-              </p>
-            </div>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {photoCategories.maps360.map((photo) => (
-                <div key={photo.id} className="group cursor-pointer relative">
-                  <div
-                    className="aspect-video overflow-hidden rounded-lg relative"
-                    onClick={() => {
-                      if (photo.is360) {
-                        open360Viewer(photo.src, photo.alt)
-                      } else {
-                        openLightbox(photo.src || "/placeholder.svg", photo.alt)
-                      }
-                    }}
-                  >
-                    <Image
-                      src={photo.src || "/placeholder.svg"}
-                      alt={photo.alt}
-                      width={533}
-                      height={300}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                      quality={isMobile ? 75 : 90}
-                      sizes="(max-width: 768px) 100vw, 533px"
-                    />
-                    {photo.is360 && (
-                      <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="bg-white/90 rounded-full p-3">
-                          <Eye className="w-6 h-6 text-black" />
+          {sectionsLoaded.photos ? (
+            <>
+              {/* Food & Hospitality */}
+              <div className="mb-20">
+                <h3 className="text-2xl md:text-3xl text-textPrimary mb-12 text-center font-thin">
+                  FOOD &amp; HOSPITALITY
+                </h3>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+                    {photoCategories.food.map((photo) => (
+                      <div key={photo.id} className="group cursor-pointer">
+                        <div
+                          className="aspect-square overflow-hidden rounded-lg"
+                          onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
+                        >
+                          <Image
+                            src={photo.src || "/placeholder.svg"}
+                            alt={photo.alt}
+                            width={400}
+                            height={400}
+                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                            quality={isMobile ? 60 : 80}
+                            sizes="(max-width: 768px) 100vw, 400px"
+                          />
                         </div>
                       </div>
-                    )}
-                    {photo.is360 && (
-                      <div className="absolute top-3 right-3 bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">
-                        360°
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </Carousel>
-          </div>
+                    ))}
+                  </Carousel>
+                </Suspense>
+              </div>
 
-          {/* Iris Photography */}
-          <div>
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">IRIS PHOTOGRAPHY</h3>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {photoCategories.iris.map((photo) => (
-                <div key={photo.id} className="group cursor-pointer">
-                  <div
-                    className="aspect-square overflow-hidden rounded-lg"
-                    onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
-                  >
-                    <Image
-                      src={photo.src || "/placeholder.svg"}
-                      alt={photo.alt}
-                      width={300}
-                      height={300}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
+              {/* Events */}
+              <div className="mb-20">
+                <h3 className="text-2xl md:text-3xl text-textPrimary mb-12 text-center font-thin">EVENTS</h3>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+                    {photoCategories.events.map((photo) => (
+                      <div key={photo.id} className="group cursor-pointer">
+                        <div
+                          className="aspect-[4/5] overflow-hidden rounded-lg"
+                          onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
+                        >
+                          <Image
+                            src={photo.src || "/placeholder.svg"}
+                            alt={photo.alt}
+                            width={400}
+                            height={500}
+                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                            quality={isMobile ? 60 : 80}
+                            sizes="(max-width: 768px) 100vw, 400px"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </Carousel>
+                </Suspense>
+              </div>
+
+              {/* Portraits */}
+              <div className="mb-20">
+                <h3 className="text-2xl md:text-3xl text-textPrimary mb-12 text-center font-thin">PORTRAITS</h3>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+                    {photoCategories.portraits.map((photo) => (
+                      <div key={photo.id} className="group cursor-pointer">
+                        <div
+                          className="aspect-[3/4] overflow-hidden rounded-lg"
+                          onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
+                        >
+                          <Image
+                            src={photo.src || "/placeholder.svg"}
+                            alt={photo.alt}
+                            width={400}
+                            height={533}
+                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                            quality={isMobile ? 60 : 80}
+                            sizes="(max-width: 768px) 100vw, 400px"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </Carousel>
+                </Suspense>
+              </div>
+
+              {/* 360° Google Maps */}
+              <div className="mb-20">
+                <h3 className="text-2xl md:text-3xl text-textPrimary mb-12 text-center font-thin">
+                  360° GOOGLE MAPS PICTURES
+                </h3>
+                <div className="text-center mb-8">
+                  <p className="text-textMuted font-light text-base md:text-lg max-w-4xl mx-auto leading-relaxed">
+                    Immersive 360° photography for Google Maps and virtual tours.
+                    {!isMobile && " Click the 360° icon to experience the full panoramic view."}
+                    {isMobile && " View full resolution images by tapping."}
+                  </p>
                 </div>
-              ))}
-            </Carousel>
-          </div>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+                    {photoCategories.maps360.map((photo) => (
+                      <div key={photo.id} className="group cursor-pointer relative">
+                        <div
+                          className="aspect-video overflow-hidden rounded-lg relative"
+                          onClick={() => {
+                            if (photo.is360) {
+                              open360Viewer(photo.src, photo.alt)
+                            } else {
+                              openLightbox(photo.src || "/placeholder.svg", photo.alt)
+                            }
+                          }}
+                        >
+                          <Image
+                            src={photo.src || "/placeholder.svg"}
+                            alt={photo.alt}
+                            width={533}
+                            height={300}
+                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                            quality={isMobile ? 60 : 80}
+                            sizes="(max-width: 768px) 100vw, 533px"
+                          />
+                          {photo.is360 && !isMobile && (
+                            <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <div className="bg-white/90 rounded-full p-3">
+                                <Eye className="w-6 h-6 text-black" />
+                              </div>
+                            </div>
+                          )}
+                          {photo.is360 && !isMobile && (
+                            <div className="absolute top-3 right-3 bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">
+                              360°
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </Carousel>
+                </Suspense>
+              </div>
+
+              {/* Iris Photography */}
+              <div>
+                <h3 className="text-2xl md:text-3xl text-textPrimary mb-12 text-center font-thin">IRIS PHOTOGRAPHY</h3>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+                    {photoCategories.iris.map((photo) => (
+                      <div key={photo.id} className="group cursor-pointer">
+                        <div
+                          className="aspect-square overflow-hidden rounded-lg"
+                          onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
+                        >
+                          <Image
+                            src={photo.src || "/placeholder.svg"}
+                            alt={photo.alt}
+                            width={300}
+                            height={300}
+                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                            quality={isMobile ? 60 : 80}
+                            sizes="(max-width: 768px) 100vw, 300px"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </Carousel>
+                </Suspense>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <Button
+                onClick={() => setSectionsLoaded((prev) => ({ ...prev, photos: true }))}
+                className="bg-textPrimary text-white hover:bg-textPrimary/90"
+              >
+                Load Photography Portfolio
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -1248,45 +1514,58 @@ export default function GMGVisualPortfolio() {
       <section id="about" className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">About</h2>
+            <h2 className="text-4xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">About</h2>
             <div className="w-24 h-px bg-gray-300 mx-auto" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="aspect-[4/5] overflow-hidden rounded-lg">
-                <Image
-                  src="/placeholder.svg?height=600&width=480&text=Gianmarco"
-                  alt="Gianmarco Maccabruno Giometti"
-                  width={480}
-                  height={600}
-                  className="object-cover w-full h-full"
-                />
+          {sectionsLoaded.about ? (
+            <div className="grid md:grid-cols-2 gap-16 items-center">
+              <div>
+                <div className="aspect-[4/5] overflow-hidden rounded-lg">
+                  <Image
+                    src="/placeholder.svg?height=600&width=480&text=Gianmarco"
+                    alt="Gianmarco Maccabruno Giometti"
+                    width={480}
+                    height={600}
+                    className="object-cover w-full h-full"
+                    loading="lazy"
+                    quality={isMobile ? 60 : 80}
+                  />
+                </div>
+              </div>
+              <div className="space-y-6">
+                <h3 className="text-2xl md:text-3xl font-light text-textPrimary mb-8">Gianmarco Maccabruno Giometti</h3>
+                <div className="space-y-6 text-textMuted leading-relaxed font-light text-base md:text-lg">
+                  <p>
+                    For over a decade, I've been telling stories through images, drawn to the quiet power of moments
+                    that often go unnoticed. My work is rooted in a deep respect for emotion, authenticity, and craft. I
+                    aim to create visuals that don't just look beautiful, but feel true, stories that stay with people,
+                    even after the screen fades to black.
+                  </p>
+                  <p>
+                    From bold brand campaigns to immersive 360° experiences, I bring a cinematic and strategic eye to
+                    every project. My work spans commercial photography, filmmaking, and innovative binaural audiovisual
+                    content, all crafted to elevate storytelling, capture attention, and connect audiences with the
+                    heart of a brand.
+                  </p>
+                  <p>
+                    Based in Vietnam, I work with clients worldwide, bringing stories to life through the lens of
+                    creativity and passion. Every frame is crafted with attention to detail, ensuring that each project
+                    reflects the unique vision and personality of my clients.
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="space-y-6">
-              <h3 className="text-3xl font-light text-textPrimary mb-8">Gianmarco Maccabruno Giometti</h3>
-              <div className="space-y-6 text-textMuted leading-relaxed font-light text-lg">
-                <p>
-                  For over a decade, I've been telling stories through images, drawn to the quiet power of moments that
-                  often go unnoticed. My work is rooted in a deep respect for emotion, authenticity, and craft. I aim to
-                  create visuals that don't just look beautiful, but feel true, stories that stay with people, even
-                  after the screen fades to black.
-                </p>
-                <p>
-                  From bold brand campaigns to immersive 360° experiences, I bring a cinematic and strategic eye to
-                  every project. My work spans commercial photography, filmmaking, and innovative binaural audiovisual
-                  content, all crafted to elevate storytelling, capture attention, and connect audiences with the heart
-                  of a brand.
-                </p>
-                <p>
-                  Based in Vietnam, I work with clients worldwide, bringing stories to life through the lens of
-                  creativity and passion. Every frame is crafted with attention to detail, ensuring that each project
-                  reflects the unique vision and personality of my clients.
-                </p>
-              </div>
+          ) : (
+            <div className="text-center py-12">
+              <Button
+                onClick={() => setSectionsLoaded((prev) => ({ ...prev, about: true }))}
+                className="bg-textPrimary text-white hover:bg-textPrimary/90"
+              >
+                Load About Section
+              </Button>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -1294,79 +1573,92 @@ export default function GMGVisualPortfolio() {
       <section id="contact" className="py-24 px-6 bg-highlight/20">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">Contact</h2>
+            <h2 className="text-4xl md:text-6xl font-light tracking-wide text-textPrimary mb-6">Contact</h2>
             <div className="w-24 h-px bg-gray-300 mx-auto" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-16">
-            <div>
-              <h3 className="text-2xl font-light text-textPrimary mb-8">{"Let's Create Together"}</h3>
-              <div className="space-y-6">
-                <div className="flex items-center space-x-4">
-                  <Mail className="w-5 h-5 text-textMuted" />
-                  <span className="text-textMuted font-light">gianmarcomaccabrunogiometti@gmail.com</span>
+          {sectionsLoaded.contact ? (
+            <div className="grid md:grid-cols-2 gap-16">
+              <div>
+                <h3 className="text-xl md:text-2xl font-light text-textPrimary mb-8">{"Let's Create Together"}</h3>
+                <div className="space-y-6">
+                  <div className="flex items-center space-x-4">
+                    <Mail className="w-5 h-5 text-textMuted" />
+                    <span className="text-textMuted font-light text-sm md:text-base">
+                      gianmarcomaccabrunogiometti@gmail.com
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <Phone className="w-5 h-5 text-textMuted" />
+                    <span className="text-textMuted font-light text-sm md:text-base">+84 369 007 610</span>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <MapPin className="w-5 h-5 text-textMuted" />
+                    <span className="text-textMuted font-light text-sm md:text-base">Hoi An, Vietnam</span>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-4">
-                  <Phone className="w-5 h-5 text-textMuted" />
-                  <span className="text-textMuted font-light">+84 369 007 610</span>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <MapPin className="w-5 h-5 text-textMuted" />
-                  <span className="text-textMuted font-light">Hoi An, Vietnam</span>
+                <div className="mt-12">
+                  <p className="text-textMuted font-light leading-relaxed text-sm md:text-base">
+                    Ready to bring your vision to life? Whether you need photography, videography or a complete visual
+                    storytelling solution, {"I'm"} here to help create something extraordinary together.
+                  </p>
                 </div>
               </div>
-              <div className="mt-12">
-                <p className="text-textMuted font-light leading-relaxed">
-                  Ready to bring your vision to life? Whether you need photography, videography or a complete visual
-                  storytelling solution, {"I'm"} here to help create something extraordinary together.
-                </p>
-              </div>
-            </div>
 
-            <div>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <Input
-                    type="text"
-                    name="name"
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="border-gray-300 focus:border-black font-light"
-                    required
-                  />
-                </div>
-                <div>
-                  <Input
-                    type="email"
-                    name="email"
-                    placeholder="Your Email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="border-gray-300 focus:border-black font-light"
-                    required
-                  />
-                </div>
-                <div>
-                  <Textarea
-                    name="message"
-                    placeholder="Tell me about your project..."
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    rows={6}
-                    className="border-gray-300 focus:border-black font-light resize-none"
-                    required
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full bg-textPrimary text-white hover:bg-textPrimary/90 py-3 font-light tracking-wide rounded-lg transition-colors"
-                >
-                  Send Message
-                </Button>
-              </form>
+              <div>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <Input
+                      type="text"
+                      name="name"
+                      placeholder="Your Name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      className="border-gray-300 focus:border-black font-light"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      type="email"
+                      name="email"
+                      placeholder="Your Email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="border-gray-300 focus:border-black font-light"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Textarea
+                      name="message"
+                      placeholder="Tell me about your project..."
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      rows={6}
+                      className="border-gray-300 focus:border-black font-light resize-none"
+                      required
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    className="w-full bg-textPrimary text-white hover:bg-textPrimary/90 py-3 font-light tracking-wide rounded-lg transition-colors"
+                  >
+                    Send Message
+                  </Button>
+                </form>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="text-center py-12">
+              <Button
+                onClick={() => setSectionsLoaded((prev) => ({ ...prev, contact: true }))}
+                className="bg-textPrimary text-white hover:bg-textPrimary/90"
+              >
+                Load Contact Form
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -1375,7 +1667,7 @@ export default function GMGVisualPortfolio() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="mb-6 md:mb-0">
-              <p className="font-light">© 2025 GMGVisual. All rights reserved.</p>
+              <p className="font-light text-sm md:text-base">© 2025 GMGVisual. All rights reserved.</p>
             </div>
             <div className="flex items-center space-x-6">
               <Link href="#" className="text-surface hover:text-gray-300 transition-colors" aria-label="Instagram">
