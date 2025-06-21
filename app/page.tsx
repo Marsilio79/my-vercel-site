@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { Youtube, Mail, Phone, MapPin, X } from "lucide-react"
 import { Carousel } from "@/components/carousel"
+import { PhotoCarousel } from "@/components/photo-carousel"
 
 export default function GMGVisualPortfolio() {
   const [isLoading, setIsLoading] = useState(true)
@@ -1344,7 +1345,7 @@ ${formData.message}`)
           {/* Food & Hospitality */}
           <div className="mb-12 md:mb-20">
             <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">FOOD &amp; HOSPITALITY</h3>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+            <PhotoCarousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.food.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
                   <div
@@ -1363,13 +1364,13 @@ ${formData.message}`)
                   </div>
                 </div>
               ))}
-            </Carousel>
+            </PhotoCarousel>
           </div>
 
           {/* Events */}
           <div className="mb-12 md:mb-20">
             <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">EVENTS</h3>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+            <PhotoCarousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.events.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
                   <div
@@ -1388,13 +1389,13 @@ ${formData.message}`)
                   </div>
                 </div>
               ))}
-            </Carousel>
+            </PhotoCarousel>
           </div>
 
           {/* Portraits */}
           <div className="mb-12 md:mb-20">
             <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">PORTRAITS</h3>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+            <PhotoCarousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.portraits.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
                   <div
@@ -1413,7 +1414,7 @@ ${formData.message}`)
                   </div>
                 </div>
               ))}
-            </Carousel>
+            </PhotoCarousel>
           </div>
 
           {/* Google Maps Pictures */}
@@ -1425,7 +1426,7 @@ ${formData.message}`)
                 and clarity.
               </p>
             </div>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+            <PhotoCarousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.googleMaps.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
                   <div
@@ -1444,13 +1445,13 @@ ${formData.message}`)
                   </div>
                 </div>
               ))}
-            </Carousel>
+            </PhotoCarousel>
           </div>
 
           {/* Iris Photography */}
           <div>
             <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">IRIS PHOTOGRAPHY</h3>
-            <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
+            <PhotoCarousel itemsPerView={{ mobile: 1, desktop: 3 }}>
               {photoCategories.iris.map((photo) => (
                 <div key={photo.id} className="group cursor-pointer">
                   <div
@@ -1469,7 +1470,7 @@ ${formData.message}`)
                   </div>
                 </div>
               ))}
-            </Carousel>
+            </PhotoCarousel>
           </div>
         </div>
       </section>
