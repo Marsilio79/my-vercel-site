@@ -658,7 +658,7 @@ ${formData.message}`)
 },
 {
   id: 17,
-  src: "/images/portraits/17Kid-Ta-Lang2.webp",
+  src: "/images/portraits/17Kid-Ta-Lang.webp",
   alt: "Kid - Ta Lang Village Portrait",
 },
 {
