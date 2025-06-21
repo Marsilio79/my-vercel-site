@@ -9,19 +9,16 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
-import { Youtube, Mail, Phone, MapPin, X, Play } from "lucide-react"
+import { Youtube, Mail, Phone, MapPin, X } from "lucide-react"
 import { Carousel } from "@/components/carousel"
 
 export default function GMGVisualPortfolio() {
   const [isLoading, setIsLoading] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
-  const [mobileOptimized, setMobileOptimized] = useState(false)
 
   useEffect(() => {
     const checkMobile = () => {
-      const mobile = window.innerWidth <= 768
-      setIsMobile(mobile)
-      setMobileOptimized(mobile)
+      setIsMobile(window.innerWidth <= 768)
     }
 
     try {
@@ -34,6 +31,35 @@ export default function GMGVisualPortfolio() {
       setIsLoading(false)
     }
   }, [])
+
+  useEffect(() => {
+    // Ensure viewport meta tag is present for mobile
+    try {
+      const viewport = document.querySelector('meta[name="viewport"]')
+      if (!viewport) {
+        const meta = document.createElement("meta")
+        meta.name = "viewport"
+        meta.content = "width=device-width, initial-scale=1.0"
+        document.getElementsByTagName("head")[0].appendChild(meta)
+      }
+    } catch (error) {
+      console.error("Error setting viewport:", error)
+    }
+  }, [])
+
+  // Mobile optimization - reduce heavy content
+  const [mobileOptimized, setMobileOptimized] = useState(false)
+
+  useEffect(() => {
+    if (isMobile) {
+      setMobileOptimized(true)
+      // Disable smooth scrolling on mobile
+      document.documentElement.style.scrollBehavior = "auto"
+    } else {
+      setMobileOptimized(false)
+      document.documentElement.style.scrollBehavior = "smooth"
+    }
+  }, [isMobile])
 
   const [formData, setFormData] = useState({
     name: "",
@@ -55,15 +81,29 @@ export default function GMGVisualPortfolio() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+
     try {
+      // Create mailto link with form data
       const subject = encodeURIComponent(`Message from ${formData.name}`)
-      const body = encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`,
-      )
-      window.location.href = `mailto:gianmarcomaccabrunogiometti@gmail.com?subject=${subject}&body=${body}`
-      setFormData({ name: "", email: "", message: "" })
+      const body = encodeURIComponent(`Name: ${formData.name}
+Email: ${formData.email}
+
+Message:
+${formData.message}`)
+      const mailtoLink = `mailto:gianmarcomaccabrunogiometti@gmail.com?subject=${subject}&body=${body}`
+
+      // Open email client
+      window.location.href = mailtoLink
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      })
     } catch (error) {
       console.error("Error submitting form:", error)
+      alert("Failed to submit form. Please try again.")
     }
   }
 
@@ -81,20 +121,6 @@ export default function GMGVisualPortfolio() {
     const element = document.getElementById(sectionId)
     element?.scrollIntoView({ behavior: "smooth" })
   }
-
-  // Minimal video data for mobile
-  const featuredVideos = [
-    { id: 1, title: "Tenere Advertising", embedId: "eGD0094HpfQ" },
-    { id: 2, title: "The Day After - Short Film", embedId: "fyrp_Ut4_tM" },
-    { id: 3, title: "Binaural Experience", embedId: "YnNIV4pNnNA" },
-  ]
-
-  // Minimal photo data for mobile
-  const featuredPhotos = [
-    { id: 1, src: "/images/food/2Burgers-Chops.webp", alt: "Food Photography" },
-    { id: 2, src: "/images/events/1Hien-Concert.webp", alt: "Event Photography" },
-    { id: 3, src: "/images/portraits/1Lorenzo-portrait.webp", alt: "Portrait Photography" },
-  ]
 
   // Sample video data
   const videoCategories = {
@@ -612,232 +638,15 @@ export default function GMGVisualPortfolio() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4" />
-          <p className="text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4" />
+          <p className="text-textMuted">Loading GMGVisual...</p>
         </div>
       </div>
     )
   }
 
-  // Mobile-optimized version
-  if (mobileOptimized) {
-    return (
-      <div className="min-h-screen bg-white">
-        {/* Simple Mobile Navigation */}
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200">
-          <div className="px-4 py-3">
-            <div className="flex items-center justify-center">
-              <h1 className="text-xl font-light text-gray-900">GMGVisual</h1>
-            </div>
-          </div>
-        </nav>
-
-        {/* Mobile Hero */}
-        <section className="pt-16 pb-8 px-4">
-          <div className="text-center">
-            <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden bg-gray-100">
-              <Image
-                src="/images/Gianmarco_Wedding.webp"
-                alt="Gianmarco"
-                width={128}
-                height={128}
-                className="w-full h-full object-cover"
-                quality={60}
-              />
-            </div>
-            <h1 className="text-3xl font-light text-gray-900 mb-2">GMGVisual</h1>
-            <p className="text-lg text-gray-600 mb-1">Gianmarco Maccabruno Giometti</p>
-            <p className="text-sm text-gray-500">Videographer • Photographer • Editor</p>
-          </div>
-        </section>
-
-        {/* Mobile Featured Work */}
-        <section className="py-8 px-4">
-          <h2 className="text-2xl font-light text-gray-900 mb-6 text-center">Featured Work</h2>
-
-          {/* Video Links (No iframes on mobile) */}
-          <div className="mb-8">
-            <h3 className="text-lg font-light text-gray-900 mb-4">Videos</h3>
-            <div className="space-y-3">
-              {featuredVideos.map((video) => (
-                <Link
-                  key={video.id}
-                  href={`https://www.youtube.com/watch?v=${video.embedId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block"
-                >
-                  <Card className="border border-gray-200">
-                    <CardContent className="p-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
-                          <Play className="w-6 h-6 text-white" />
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-900">{video.title}</h4>
-                          <p className="text-sm text-gray-500">Watch on YouTube</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Photo Grid */}
-          <div className="mb-8">
-            <h3 className="text-lg font-light text-gray-900 mb-4">Photography</h3>
-            <div className="grid grid-cols-2 gap-3">
-              {featuredPhotos.map((photo) => (
-                <div key={photo.id} className="aspect-square overflow-hidden rounded-lg bg-gray-100">
-                  <Image
-                    src={photo.src || "/placeholder.svg"}
-                    alt={photo.alt}
-                    width={200}
-                    height={200}
-                    className="w-full h-full object-cover"
-                    quality={60}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Stock Platforms */}
-          <div className="mb-8">
-            <h3 className="text-lg font-light text-gray-900 mb-4">Stock Platforms</h3>
-            <div className="space-y-3">
-              <Link
-                href="https://www.shutterstock.com/g/Lafresia"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block"
-              >
-                <Card className="border border-gray-200">
-                  <CardContent className="p-4 text-center">
-                    <p className="font-medium text-gray-900">Shutterstock</p>
-                    <p className="text-sm text-gray-500">View Portfolio</p>
-                  </CardContent>
-                </Card>
-              </Link>
-              <Link
-                href="https://stock.adobe.com/it/contributor/206582126/Gianmarco"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block"
-              >
-                <Card className="border border-gray-200">
-                  <CardContent className="p-4 text-center">
-                    <p className="font-medium text-gray-900">Adobe Stock</p>
-                    <p className="text-sm text-gray-500">View Portfolio</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* Mobile About */}
-        <section className="py-8 px-4 bg-gray-50">
-          <h2 className="text-2xl font-light text-gray-900 mb-6 text-center">About</h2>
-          <div className="max-w-md mx-auto text-center">
-            <p className="text-gray-600 leading-relaxed mb-4">
-              For over a decade, I've been telling stories through images, creating visuals that feel authentic and
-              true.
-            </p>
-            <p className="text-gray-600 leading-relaxed">
-              Based in Vietnam, I work with clients worldwide, bringing stories to life through creativity and passion.
-            </p>
-          </div>
-        </section>
-
-        {/* Mobile Contact */}
-        <section className="py-8 px-4">
-          <h2 className="text-2xl font-light text-gray-900 mb-6 text-center">Contact</h2>
-          <div className="max-w-sm mx-auto">
-            <div className="space-y-4 mb-6">
-              <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-gray-600" />
-                <span className="text-sm text-gray-600">gianmarcomaccabrunogiometti@gmail.com</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-gray-600" />
-                <span className="text-sm text-gray-600">+84 369 007 610</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <MapPin className="w-5 h-5 text-gray-600" />
-                <span className="text-sm text-gray-600">Hoi An, Vietnam</span>
-              </div>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <Input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                value={formData.name}
-                onChange={handleInputChange}
-                className="border-gray-300"
-                required
-              />
-              <Input
-                type="email"
-                name="email"
-                placeholder="Your Email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="border-gray-300"
-                required
-              />
-              <Textarea
-                name="message"
-                placeholder="Your Message"
-                value={formData.message}
-                onChange={handleInputChange}
-                rows={4}
-                className="border-gray-300 resize-none"
-                required
-              />
-              <Button type="submit" className="w-full bg-gray-900 text-white hover:bg-gray-800">
-                Send Message
-              </Button>
-            </form>
-          </div>
-        </section>
-
-        {/* Mobile Footer */}
-        <footer className="py-6 px-4 bg-gray-900 text-white">
-          <div className="text-center">
-            <div className="mb-4">
-              <Link
-                href="https://www.youtube.com/@LafresiaMediaProductions/videos"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center space-x-2 text-white hover:text-gray-300"
-              >
-                <Youtube className="w-6 h-6" />
-                <span>YouTube Channel</span>
-              </Link>
-            </div>
-            <p className="text-sm text-gray-400">© 2025 GMGVisual. All rights reserved.</p>
-          </div>
-        </footer>
-
-        {/* Desktop Switch Button */}
-        <div className="fixed bottom-4 right-4">
-          <Button onClick={() => setMobileOptimized(false)} className="bg-gray-900 text-white text-xs px-3 py-2">
-            Desktop View
-          </Button>
-        </div>
-      </div>
-    )
-  }
-
-  // Desktop version (your existing full code would go here)
-  // For now, I'll include a simplified version
   return (
     <div className="min-h-screen bg-background">
       {/* Lightbox Modal */}
@@ -978,46 +787,97 @@ export default function GMGVisualPortfolio() {
               ADVERTISING &amp; PROMOTIONAL
             </h3>
             <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {videoCategories.advertising.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg h-full">
-                  <CardContent className="p-0 h-full flex flex-col">
-                    <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${video.embedId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                    <div className="p-6 flex-1">
-                      <h4 className="text-xl font-light text-textPrimary">{video.title}</h4>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+              {(mobileOptimized ? videoCategories.advertising.slice(0, 6) : videoCategories.advertising).map(
+                (video) => (
+                  <Card key={video.id} className="border-0 shadow-lg h-full">
+                    <CardContent className="p-0 h-full flex flex-col">
+                      <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                        {mobileOptimized ? (
+                          // Mobile: Show thumbnail with YouTube link
+                          <Link
+                            href={`https://www.youtube.com/watch?v=${video.embedId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full h-full relative bg-gray-900 flex items-center justify-center group"
+                          >
+                            <div className="absolute inset-0 bg-black/20" />
+                            <div className="relative z-10 text-white text-center">
+                              <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-2 mx-auto group-hover:scale-110 transition-transform">
+                                <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M8 5v14l11-7z" />
+                                </svg>
+                              </div>
+                              <p className="text-sm font-medium">Watch on YouTube</p>
+                            </div>
+                          </Link>
+                        ) : (
+                          // Desktop: Full iframe
+                          <iframe
+                            width="100%"
+                            height="100%"
+                            src={`https://www.youtube.com/embed/${video.embedId}`}
+                            title={video.title}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          />
+                        )}
+                      </div>
+                      <div className="p-6 flex-1">
+                        <h4 className="text-xl font-light text-textPrimary">{video.title}</h4>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ),
+              )}
             </Carousel>
+            {mobileOptimized && videoCategories.advertising.length > 6 && (
+              <div className="text-center mt-8">
+                <Button variant="outline" onClick={() => setMobileOptimized(false)} className="px-6 py-2">
+                  View All Videos
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Events */}
           <div className="mb-12 md:mb-20">
             <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">EVENTS</h3>
             <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {videoCategories.events.map((video) => (
+              {(mobileOptimized ? videoCategories.events.slice(0, 6) : videoCategories.events).map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
                   <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${video.embedId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
+                      {mobileOptimized ? (
+                        // Mobile: Show thumbnail with YouTube link
+                        <Link
+                          href={`https://www.youtube.com/watch?v=${video.embedId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block w-full h-full relative bg-gray-900 flex items-center justify-center group"
+                        >
+                          <div className="absolute inset-0 bg-black/20" />
+                          <div className="relative z-10 text-white text-center">
+                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-2 mx-auto group-hover:scale-110 transition-transform">
+                              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
+                            <p className="text-sm font-medium">Watch on YouTube</p>
+                          </div>
+                        </Link>
+                      ) : (
+                        // Desktop: Full iframe
+                        <iframe
+                          width="100%"
+                          height="100%"
+                          src={`https://www.youtube.com/embed/${video.embedId}`}
+                          title={video.title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      )}
                     </div>
                     <div className="p-6 flex-1">
                       <h4 className="text-xl font-light text-textPrimary">{video.title}</h4>
@@ -1026,6 +886,13 @@ export default function GMGVisualPortfolio() {
                 </Card>
               ))}
             </Carousel>
+            {mobileOptimized && videoCategories.events.length > 6 && (
+              <div className="text-center mt-8">
+                <Button variant="outline" onClick={() => setMobileOptimized(false)} className="px-6 py-2">
+                  View All Videos
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Short Films */}
@@ -1036,15 +903,36 @@ export default function GMGVisualPortfolio() {
                 <Card key={video.id} className="border-0 shadow-lg h-full">
                   <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${video.embedId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
+                      {mobileOptimized ? (
+                        // Mobile: Show thumbnail with YouTube link
+                        <Link
+                          href={`https://www.youtube.com/watch?v=${video.embedId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block w-full h-full relative bg-gray-900 flex items-center justify-center group"
+                        >
+                          <div className="absolute inset-0 bg-black/20" />
+                          <div className="relative z-10 text-white text-center">
+                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-2 mx-auto group-hover:scale-110 transition-transform">
+                              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
+                            <p className="text-sm font-medium">Watch on YouTube</p>
+                          </div>
+                        </Link>
+                      ) : (
+                        // Desktop: Full iframe
+                        <iframe
+                          width="100%"
+                          height="100%"
+                          src={`https://www.youtube.com/embed/${video.embedId}`}
+                          title={video.title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      )}
                     </div>
                     <div className="p-6 flex-1">
                       <h4 className="text-xl font-light text-textPrimary mb-2">{video.title}</h4>
@@ -1132,27 +1020,57 @@ export default function GMGVisualPortfolio() {
           <div className="mb-12 md:mb-20">
             <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">MUSIC VIDEOS</h3>
             <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {videoCategories.musicVideos.map((video) => (
-                <Card key={video.id} className="border-0 shadow-lg h-full">
-                  <CardContent className="p-0 h-full flex flex-col">
-                    <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${video.embedId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                    <div className="p-6 flex-1">
-                      <h4 className="text-xl font-light text-textPrimary">{video.title}</h4>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+              {(mobileOptimized ? videoCategories.musicVideos.slice(0, 6) : videoCategories.musicVideos).map(
+                (video) => (
+                  <Card key={video.id} className="border-0 shadow-lg h-full">
+                    <CardContent className="p-0 h-full flex flex-col">
+                      <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                        {mobileOptimized ? (
+                          // Mobile: Show thumbnail with YouTube link
+                          <Link
+                            href={`https://www.youtube.com/watch?v=${video.embedId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full h-full relative bg-gray-900 flex items-center justify-center group"
+                          >
+                            <div className="absolute inset-0 bg-black/20" />
+                            <div className="relative z-10 text-white text-center">
+                              <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-2 mx-auto group-hover:scale-110 transition-transform">
+                                <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M8 5v14l11-7z" />
+                                </svg>
+                              </div>
+                              <p className="text-sm font-medium">Watch on YouTube</p>
+                            </div>
+                          </Link>
+                        ) : (
+                          // Desktop: Full iframe
+                          <iframe
+                            width="100%"
+                            height="100%"
+                            src={`https://www.youtube.com/embed/${video.embedId}`}
+                            title={video.title}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          />
+                        )}
+                      </div>
+                      <div className="p-6 flex-1">
+                        <h4 className="text-xl font-light text-textPrimary">{video.title}</h4>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ),
+              )}
             </Carousel>
+            {mobileOptimized && videoCategories.musicVideos.length > 6 && (
+              <div className="text-center mt-8">
+                <Button variant="outline" onClick={() => setMobileOptimized(false)} className="px-6 py-2">
+                  View All Videos
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Stock Footage */}
@@ -1170,15 +1088,36 @@ export default function GMGVisualPortfolio() {
                 <Card key={video.id} className="border-0 shadow-lg h-full">
                   <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${video.embedId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
+                      {mobileOptimized ? (
+                        // Mobile: Show thumbnail with YouTube link
+                        <Link
+                          href={`https://www.youtube.com/watch?v=${video.embedId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block w-full h-full relative bg-gray-900 flex items-center justify-center group"
+                        >
+                          <div className="absolute inset-0 bg-black/20" />
+                          <div className="relative z-10 text-white text-center">
+                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-2 mx-auto group-hover:scale-110 transition-transform">
+                              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
+                            <p className="text-sm font-medium">Watch on YouTube</p>
+                          </div>
+                        </Link>
+                      ) : (
+                        // Desktop: Full iframe
+                        <iframe
+                          width="100%"
+                          height="100%"
+                          src={`https://www.youtube.com/embed/${video.embedId}`}
+                          title={video.title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      )}
                     </div>
                     <div className="p-6 flex-1">
                       <h4 className="text-xl font-light text-textPrimary mb-2">{video.title}</h4>
@@ -1279,19 +1218,40 @@ export default function GMGVisualPortfolio() {
               </p>
             </div>
             <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {videoCategories.binaural.map((video) => (
+              {(mobileOptimized ? videoCategories.binaural.slice(0, 6) : videoCategories.binaural).map((video) => (
                 <Card key={video.id} className="border-0 shadow-lg h-full">
                   <CardContent className="p-0 h-full flex flex-col">
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${video.embedId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
+                      {mobileOptimized ? (
+                        // Mobile: Show thumbnail with YouTube link
+                        <Link
+                          href={`https://www.youtube.com/watch?v=${video.embedId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block w-full h-full relative bg-gray-900 flex items-center justify-center group"
+                        >
+                          <div className="absolute inset-0 bg-black/20" />
+                          <div className="relative z-10 text-white text-center">
+                            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mb-2 mx-auto group-hover:scale-110 transition-transform">
+                              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
+                            <p className="text-sm font-medium">Watch on YouTube</p>
+                          </div>
+                        </Link>
+                      ) : (
+                        // Desktop: Full iframe
+                        <iframe
+                          width="100%"
+                          height="100%"
+                          src={`https://www.youtube.com/embed/${video.embedId}`}
+                          title={video.title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      )}
                     </div>
                     <div className="p-6 flex-1">
                       <h4 className="text-xl font-light text-textPrimary mb-2">{video.title}</h4>
@@ -1301,6 +1261,13 @@ export default function GMGVisualPortfolio() {
                 </Card>
               ))}
             </Carousel>
+            {mobileOptimized && videoCategories.binaural.length > 6 && (
+              <div className="text-center mt-8">
+                <Button variant="outline" onClick={() => setMobileOptimized(false)} className="px-6 py-2">
+                  View All Videos
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -1331,6 +1298,8 @@ export default function GMGVisualPortfolio() {
                       width={400}
                       height={400}
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                      loading={mobileOptimized ? "lazy" : "eager"}
+                      quality={mobileOptimized ? 60 : 85}
                     />
                   </div>
                 </div>
@@ -1354,6 +1323,8 @@ export default function GMGVisualPortfolio() {
                       width={400}
                       height={500}
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                      loading={mobileOptimized ? "lazy" : "eager"}
+                      quality={mobileOptimized ? 60 : 85}
                     />
                   </div>
                 </div>
@@ -1377,6 +1348,8 @@ export default function GMGVisualPortfolio() {
                       width={400}
                       height={533}
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                      loading={mobileOptimized ? "lazy" : "eager"}
+                      quality={mobileOptimized ? 60 : 85}
                     />
                   </div>
                 </div>
@@ -1406,6 +1379,8 @@ export default function GMGVisualPortfolio() {
                       width={533}
                       height={300}
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                      loading={mobileOptimized ? "lazy" : "eager"}
+                      quality={mobileOptimized ? 60 : 85}
                     />
                   </div>
                 </div>
@@ -1429,6 +1404,8 @@ export default function GMGVisualPortfolio() {
                       width={300}
                       height={300}
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                      loading={mobileOptimized ? "lazy" : "eager"}
+                      quality={mobileOptimized ? 60 : 85}
                     />
                   </div>
                 </div>
