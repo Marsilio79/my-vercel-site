@@ -27,6 +27,17 @@ export default function GMGVisualPortfolio() {
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
+  useEffect(() => {
+    // Ensure viewport meta tag is present for mobile
+    const viewport = document.querySelector('meta[name="viewport"]')
+    if (!viewport) {
+      const meta = document.createElement("meta")
+      meta.name = "viewport"
+      meta.content = "width=device-width, initial-scale=1.0"
+      document.getElementsByTagName("head")[0].appendChild(meta)
+    }
+  }, [])
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -702,7 +713,7 @@ ${formData.message}`)
 
             {/* Right side - text content */}
             <div className="text-center lg:text-left text-white lg:pl-8">
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wide mb-6 leading-tight leading-3 leading-8 font-serif">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wide mb-6 leading-tight font-serif">
                 GMGVisual
               </h1>
               <p className="text-lg md:text-xl lg:text-2xl font-serif font-light mb-12 leading-relaxed opacity-90">
