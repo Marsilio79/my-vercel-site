@@ -244,11 +244,13 @@ ${formData.message}`)
         id: 3,
         title: "Fat Pig Promo",
         embedId: "hjY2XDto55I",
+        customThumbnail: "/images/video-thumbs/fat-pig-promo-thumb.jpg",
       },
       {
         id: 4,
         title: "Capichi & Chops Advertising",
         embedId: "vvfVzozD5VQ",
+        customThumbnail: "/images/video-thumbs/chops-promo-thumb.jpg",
       },
       {
         id: 5,
@@ -281,6 +283,7 @@ ${formData.message}`)
         id: 1,
         title: "National Day Argentina",
         embedId: "hsiykmzTsPg",
+        customThumbnail: "/images/video-thumbs/argentina-event-thumb.jpg",
       },
       {
         id: 2,
@@ -376,6 +379,7 @@ ${formData.message}`)
         id: 6,
         title: "Enea Leone - Bach allegro BWV 1005",
         embedId: "KRDECe4ds5M",
+        customThumbnail: "/images/video-thumbs/enea-leone-thumb.jpg",
       },
       {
         id: 7,
@@ -958,7 +962,11 @@ ${formData.message}`)
                       <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                         {mobileOptimized ? (
                           // Mobile: Show YouTube thumbnail with link
-                          <YouTubeThumbnail embedId={video.embedId} title={video.title} />
+                          <YouTubeThumbnail
+                            embedId={video.embedId}
+                            title={video.title}
+                            customThumbnail={video.customThumbnail}
+                          />
                         ) : (
                           // Desktop: Full iframe
                           <LazyIframe embedId={video.embedId} title={video.title} />
@@ -991,7 +999,11 @@ ${formData.message}`)
                     <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                       {mobileOptimized ? (
                         // Mobile: Show YouTube thumbnail with link
-                        <YouTubeThumbnail embedId={video.embedId} title={video.title} />
+                        <YouTubeThumbnail
+                          embedId={video.embedId}
+                          title={video.title}
+                          customThumbnail={video.customThumbnail}
+                        />
                       ) : (
                         // Desktop: Full iframe
                         <LazyIframe embedId={video.embedId} title={video.title} />
@@ -1122,7 +1134,11 @@ ${formData.message}`)
                       <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
                         {mobileOptimized ? (
                           // Mobile: Show YouTube thumbnail with link
-                          <YouTubeThumbnail embedId={video.embedId} title={video.title} />
+                          <YouTubeThumbnail
+                            embedId={video.embedId}
+                            title={video.title}
+                            customThumbnail={video.customThumbnail}
+                          />
                         ) : (
                           // Desktop: Full iframe
                           <LazyIframe embedId={video.embedId} title={video.title} />
