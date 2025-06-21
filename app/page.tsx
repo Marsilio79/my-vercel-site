@@ -300,7 +300,7 @@ ${formData.message}`)
     binaural: [
       {
         id: 1,
-        title: "Walking under the Rain in Città della Pieve",
+        title: "Binaural Experience 1",
         description: "Immersive binaural audio experience capturing the sounds of rain in an ancient Italian village.",
         embedId: "YnNIV4pNnNA",
       },
