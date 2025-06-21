@@ -9,9 +9,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
-import { Instagram, Youtube, Play, Mail, Phone, MapPin, X, Eye } from "lucide-react"
+import { Instagram, Youtube, Play, Mail, Phone, MapPin, X } from "lucide-react"
 import { Carousel } from "@/components/carousel"
-import { PanoramaViewer } from "@/components/panorama-viewer"
 
 export default function GMGVisualPortfolio() {
   const [isLoading, setIsLoading] = useState(true)
@@ -38,16 +37,6 @@ export default function GMGVisualPortfolio() {
     src: string
     alt: string
   } | null>(null)
-
-  const [panoramaViewer, setPanoramaViewer] = useState<{
-    imageUrl: string
-    title: string
-    isOpen: boolean
-  }>({
-    imageUrl: "",
-    title: "",
-    isOpen: false,
-  })
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -85,25 +74,6 @@ ${formData.message}`)
 
   const closeLightbox = () => {
     setLightboxImage(null)
-  }
-
-  const open360Viewer = (imageUrl: string, title: string) => {
-    // Only allow 360° viewer on desktop to prevent mobile crashes
-    if (!isMobile) {
-      setPanoramaViewer({
-        imageUrl,
-        title,
-        isOpen: true,
-      })
-    }
-  }
-
-  const close360Viewer = () => {
-    setPanoramaViewer({
-      imageUrl: "",
-      title: "",
-      isOpen: false,
-    })
   }
 
   const scrollToSection = (sectionId: string) => {
@@ -559,36 +529,31 @@ ${formData.message}`)
         alt: `Portrait Photography ${i + 10}`,
       })),
     ],
-    maps360: [
+    googleMaps: [
       {
         id: 1,
         src: "/images/360/1Agriturismo-360-new.webp",
-        alt: "360° Aerial View - Italian Agriturismo Villa with Swimming Pool and Tuscan Countryside Panorama",
-        is360: true,
+        alt: "Aerial View - Italian Agriturismo Villa with Swimming Pool and Tuscan Countryside Panorama",
       },
       {
         id: 2,
         src: "/images/360/2Chops-Hoi-An-new.webp",
-        alt: "360° Street View - Chops Restaurant, Hoi An Ancient Town with Traditional Lanterns and Colonial Architecture",
-        is360: true,
+        alt: "Street View - Chops Restaurant, Hoi An Ancient Town with Traditional Lanterns and Colonial Architecture",
       },
       {
         id: 3,
         src: "/images/360/3Hill-station-new.webp",
-        alt: "360° Interior View - Hill Station Restaurant with Rustic Architecture, Artistic Murals and Atmospheric Lighting",
-        is360: true,
+        alt: "Interior View - Hill Station Restaurant with Rustic Architecture, Artistic Murals and Atmospheric Lighting",
       },
       {
         id: 4,
         src: "/images/360/POGGIO360_1.jpg",
-        alt: "360° Aerial View - Poggio Falcone Villa with Swimming Pool and Tuscan Countryside Panorama",
-        is360: true,
+        alt: "Aerial View - Poggio Falcone Villa with Swimming Pool and Tuscan Countryside Panorama",
       },
       ...Array.from({ length: 4 }, (_, i) => ({
         id: i + 5,
-        src: `/placeholder.svg?height=300&width=533&text=360+View+${i + 5}`,
-        alt: `360° Photography ${i + 5}`,
-        is360: false,
+        src: `/placeholder.svg?height=300&width=533&text=Google+Maps+${i + 5}`,
+        alt: `Google Maps Photography ${i + 5}`,
       })),
     ],
     iris: [
@@ -643,16 +608,6 @@ ${formData.message}`)
 
   return (
     <div className="min-h-screen bg-background">
-      {/* 360° Panorama Viewer - Only on desktop */}
-      {!isMobile && (
-        <PanoramaViewer
-          imageUrl={panoramaViewer.imageUrl}
-          title={panoramaViewer.title}
-          isOpen={panoramaViewer.isOpen}
-          onClose={close360Viewer}
-        />
-      )}
-
       {/* Lightbox Modal */}
       {lightboxImage && (
         <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4" onClick={closeLightbox}>
@@ -1178,28 +1133,21 @@ ${formData.message}`)
             </Carousel>
           </div>
 
-          {/* 360° Google Maps */}
+          {/* Google Maps Pictures */}
           <div className="mb-20">
-            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">360° GOOGLE MAPS PICTURES</h3>
+            <h3 className="text-3xl text-textPrimary mb-12 text-center font-thin">GOOGLE MAPS PICTURES</h3>
             <div className="text-center mb-8">
               <p className="text-textMuted font-light text-lg max-w-4xl mx-auto leading-relaxed">
-                Immersive 360° photography for Google Maps and virtual tours.
-                {!isMobile && " Click the 360° icon to experience the full panoramic view."}
-                {isMobile && " 360° viewer available on desktop for the best experience."}
+                Professional photography for Google Maps and virtual tours, showcasing locations with stunning detail
+                and clarity.
               </p>
             </div>
             <Carousel itemsPerView={{ mobile: 1, desktop: 3 }}>
-              {photoCategories.maps360.map((photo) => (
-                <div key={photo.id} className="group cursor-pointer relative">
+              {photoCategories.googleMaps.map((photo) => (
+                <div key={photo.id} className="group cursor-pointer">
                   <div
-                    className="aspect-video overflow-hidden rounded-lg relative"
-                    onClick={() => {
-                      if (photo.is360) {
-                        open360Viewer(photo.src, photo.alt)
-                      } else {
-                        openLightbox(photo.src || "/placeholder.svg", photo.alt)
-                      }
-                    }}
+                    className="aspect-video overflow-hidden rounded-lg"
+                    onClick={() => openLightbox(photo.src || "/placeholder.svg", photo.alt)}
                   >
                     <Image
                       src={photo.src || "/placeholder.svg"}
@@ -1207,27 +1155,7 @@ ${formData.message}`)
                       width={533}
                       height={300}
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                      quality={isMobile ? 75 : 90}
-                      sizes="(max-width: 768px) 100vw, 533px"
                     />
-                    {photo.is360 && !isMobile && (
-                      <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="bg-white/90 rounded-full p-3">
-                          <Eye className="w-6 h-6 text-black" />
-                        </div>
-                      </div>
-                    )}
-                    {photo.is360 && (
-                      <div className="absolute top-3 right-3 bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">
-                        360°
-                      </div>
-                    )}
-                    {photo.is360 && isMobile && (
-                      <div className="absolute bottom-3 left-3 bg-black/70 text-white px-2 py-1 rounded text-xs">
-                        Desktop only
-                      </div>
-                    )}
                   </div>
                 </div>
               ))}
@@ -1271,8 +1199,8 @@ ${formData.message}`)
             <div>
               <div className="aspect-[4/5] overflow-hidden rounded-lg">
                 <Image
-                  src="/placeholder.svg?height=600&width=480&text=Gianmarco"
-                  alt="Gianmarco Maccabruno Giometti"
+                  src="/images/gianmarco-collage.webp"
+                  alt="Gianmarco Maccabruno Giometti - Professional Work Collage"
                   width={480}
                   height={600}
                   className="object-cover w-full h-full"
@@ -1289,8 +1217,8 @@ ${formData.message}`)
                   after the screen fades to black.
                 </p>
                 <p>
-                  From bold brand campaigns to immersive 360° experiences, I bring a cinematic and strategic eye to
-                  every project. My work spans commercial photography, filmmaking, and innovative binaural audiovisual
+                  From bold brand campaigns to immersive experiences, I bring a cinematic and strategic eye to every
+                  project. My work spans commercial photography, filmmaking, and innovative binaural audiovisual
                   content, all crafted to elevate storytelling, capture attention, and connect audiences with the heart
                   of a brand.
                 </p>
