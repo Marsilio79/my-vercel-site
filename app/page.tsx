@@ -621,6 +621,51 @@ ${formData.message}`)
         src: "/images/portraits/9Ciro.webp",
         alt: "Ciro - Dramatic Architecture Portrait",
       },
+      {
+  id: 10,
+  src: "/images/portraits/10Hien-Val-dOrcia.webp",
+  alt: "Hien - Portrait in Val d'Orcia, Italy",
+},
+{
+  id: 11,
+  src: "/images/portraits/11katya.webp",
+  alt: "Katya - Natural Light Portrait",
+},
+{
+  id: 12,
+  src: "/images/portraits/12Kid3-Ta-Lang.webp",
+  alt: "Young Boy - Ta Lang Village",
+},
+{
+  id: 13,
+  src: "/images/portraits/13Ba-oi-Vietnam.webp",
+  alt: "Elderly Vietnamese Woman - Ba Oi in Traditional Setting",
+},
+{
+  id: 14,
+  src: "/images/portraits/14Hien-violin.webp",
+  alt: "Hien - Violinist Performing Outdoors",
+},
+{
+  id: 15,
+  src: "/images/portraits/15Kid-Ta-Lang.webp",
+  alt: "Child Portrait - Ta Lang Village",
+},
+{
+  id: 16,
+  src: "/images/portraits/16Kid.webp",
+  alt: "Young Child - Close-up Portrait",
+},
+{
+  id: 17,
+  src: "/images/portraits/17Kid-Ta-Lang2.webp",
+  alt: "Kid - Ta Lang Village Portrait",
+},
+{
+  id: 18,
+  src: "/images/portraits/18Kids-Ta-Lang.webp",
+  alt: "Children - Group Portrait in Ta Lang Village",
+},
       ...Array.from({ length: 9 }, (_, i) => ({
         id: i + 10,
         src: `/placeholder.svg?height=533&width=400&text=Portrait+${i + 10}`,
