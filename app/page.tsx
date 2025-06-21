@@ -498,11 +498,6 @@ ${formData.message}`)
         alt: "Modern Restaurant Interior - Syse",
       },
       {
-        id: 15,
-        src: "/placeholder.svg?height=400&width=400&text=Food+15",
-        alt: "Food Photography 15",
-      },
-      {
         id: 16,
         src: "/images/food/16Burger-and-beer.webp",
         alt: "Burger and Beer Outdoor Dining",
@@ -522,11 +517,6 @@ ${formData.message}`)
         src: "/images/food/19Syse-restaurant.webp",
         alt: "Upscale Restaurant Interior - Syse",
       },
-      ...Array.from({ length: 15 }, (_, i) => ({
-        id: i + 20,
-        src: `/placeholder.svg?height=400&width=400&text=Food+${i + 20}`,
-        alt: `Food Photography ${i + 20}`,
-      })),
     ],
     events: [
       {
@@ -622,55 +612,50 @@ ${formData.message}`)
         alt: "Ciro - Dramatic Architecture Portrait",
       },
       {
-  id: 10,
-  src: "/images/portraits/10Hien-Val-dOrcia.webp",
-  alt: "Hien - Portrait in Val d'Orcia, Italy",
-},
-{
-  id: 11,
-  src: "/images/portraits/11katya.webp",
-  alt: "Katya - Natural Light Portrait",
-},
-{
-  id: 12,
-  src: "/images/portraits/12Kid3-Ta-Lang.webp",
-  alt: "Young Boy - Ta Lang Village",
-},
-{
-  id: 13,
-  src: "/images/portraits/13Ba-oi-Vietnam.webp",
-  alt: "Elderly Vietnamese Woman - Ba Oi in Traditional Setting",
-},
-{
-  id: 14,
-  src: "/images/portraits/14Hien-violin.webp",
-  alt: "Hien - Violinist Performing Outdoors",
-},
-{
-  id: 15,
-  src: "/images/portraits/15Kid-Ta-Lang.webp",
-  alt: "Child Portrait - Ta Lang Village",
-},
-{
-  id: 16,
-  src: "/images/portraits/16Kid.webp",
-  alt: "Young Child - Close-up Portrait",
-},
-{
-  id: 17,
-  src: "/images/portraits/17Kid-Ta-Lang.webp",
-  alt: "Kid - Ta Lang Village Portrait",
-},
-{
-  id: 18,
-  src: "/images/portraits/18Kids-Ta-Lang.webp",
-  alt: "Children - Group Portrait in Ta Lang Village",
-},
-      ...Array.from({ length: 9 }, (_, i) => ({
-        id: i + 10,
-        src: `/placeholder.svg?height=533&width=400&text=Portrait+${i + 10}`,
-        alt: `Portrait Photography ${i + 10}`,
-      })),
+        id: 10,
+        src: "/images/portraits/10Hien-Val-dOrcia.webp",
+        alt: "Hien - Portrait in Val d'Orcia, Italy",
+      },
+      {
+        id: 11,
+        src: "/images/portraits/11katya.webp",
+        alt: "Katya - Natural Light Portrait",
+      },
+      {
+        id: 12,
+        src: "/images/portraits/12Kid3-Ta-Lang.webp",
+        alt: "Young Boy - Ta Lang Village",
+      },
+      {
+        id: 13,
+        src: "/images/portraits/13Ba-oi-Vietnam.webp",
+        alt: "Elderly Vietnamese Woman - Ba Oi in Traditional Setting",
+      },
+      {
+        id: 14,
+        src: "/images/portraits/14Hien-violin.webp",
+        alt: "Hien - Violinist Performing Outdoors",
+      },
+      {
+        id: 15,
+        src: "/images/portraits/15Kid-Ta-Lang.webp",
+        alt: "Child Portrait - Ta Lang Village",
+      },
+      {
+        id: 16,
+        src: "/images/portraits/16Kid.webp",
+        alt: "Young Child - Close-up Portrait",
+      },
+      {
+        id: 17,
+        src: "/images/portraits/17Kid-Ta-Lang.webp",
+        alt: "Kid - Ta Lang Village Portrait",
+      },
+      {
+        id: 18,
+        src: "/images/portraits/18Kids-Ta-Lang.webp",
+        alt: "Children - Group Portrait in Ta Lang Village",
+      },
     ],
     googleMaps: [
       {
@@ -693,11 +678,6 @@ ${formData.message}`)
         src: "/images/360/POGGIO360_1.jpg",
         alt: "Aerial View - Poggio Falcone Villa with Swimming Pool and Tuscan Countryside Panorama",
       },
-      ...Array.from({ length: 4 }, (_, i) => ({
-        id: i + 5,
-        src: `/placeholder.svg?height=300&width=533&text=Google+Maps+${i + 5}`,
-        alt: `Google Maps Photography ${i + 5}`,
-      })),
     ],
     iris: [
       {
@@ -731,40 +711,35 @@ ${formData.message}`)
         alt: "Emanuela - Iris Photography with Blue and Orange Tones",
       },
       {
-  id: 7,
-  src: "/images/iris/7irisphotographyFRAN.webp",
-  alt: "Fran - Iris Photography with Subtle Brown and Blue Tones",
-},
-{
-  id: 8,
-  src: "/images/iris/8irisphotographyHAMISH.webp",
-  alt: "Hamish - Iris Photography with Radiant Texture",
-},
-{
-  id: 9,
-  src: "/images/iris/9irisphotographyAMAAN.webp",
-  alt: "Amaan - Deep Blue and Amber Iris Photography",
-},
-{
-  id: 10,
-  src: "/images/iris/10irisphotographyCYP.webp",
-  alt: "CYP - Artistic Iris Photography in Cool Tones",
-},
-{
-  id: 11,
-  src: "/images/iris/11irisphotographyCAROL.webp",
-  alt: "Carol - Warm and Bright Iris Portrait",
-},
-{
-  id: 12,
-  src: "/images/iris/12irisphotographyFEDERICO_R2.webp",
-  alt: "Federico - Enhanced Iris Detail Photography",
-},
-      ...Array.from({ length: 6 }, (_, i) => ({
-        id: i + 7,
-        src: `/placeholder.svg?height=300&width=300&text=Iris+${i + 7}`,
-        alt: `Iris Photography ${i + 7}`,
-      })),
+        id: 7,
+        src: "/images/iris/7irisphotographyFRAN.webp",
+        alt: "Fran - Iris Photography with Subtle Brown and Blue Tones",
+      },
+      {
+        id: 8,
+        src: "/images/iris/8irisphotographyHAMISH.webp",
+        alt: "Hamish - Iris Photography with Radiant Texture",
+      },
+      {
+        id: 9,
+        src: "/images/iris/9irisphotographyAMAAN.webp",
+        alt: "Amaan - Deep Blue and Amber Iris Photography",
+      },
+      {
+        id: 10,
+        src: "/images/iris/10irisphotographyCYP.webp",
+        alt: "CYP - Artistic Iris Photography in Cool Tones",
+      },
+      {
+        id: 11,
+        src: "/images/iris/11irisphotographyCAROL.webp",
+        alt: "Carol - Warm and Bright Iris Portrait",
+      },
+      {
+        id: 12,
+        src: "/images/iris/12irisphotographyFEDERICO_R2.webp",
+        alt: "Federico - Enhanced Iris Detail Photography",
+      },
     ],
   }
 
