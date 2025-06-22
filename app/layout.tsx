@@ -9,9 +9,12 @@ export const metadata: Metadata = {
   viewport: "width=device-width, initial-scale=1.0",
   // Error boundary meta tags
   robots: {
-    index: false,
-    follow: false,
-    nocache: true,
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
 }
 
