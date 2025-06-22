@@ -983,6 +983,18 @@ ${formData.message}`)
                 </Button>
               </div>
             )}
+            {/* YouTube Shorts Button */}
+            <div className="text-center mt-8">
+              <Link
+                href="https://www.youtube.com/@LafresiaMediaProductions/shorts"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button className="bg-red-600 text-white hover:bg-red-700 py-3 px-8 font-light tracking-wide rounded-lg transition-colors">
+                  View YouTube Shorts
+                </Button>
+              </Link>
+            </div>
           </div>
 
           {/* Events */}
