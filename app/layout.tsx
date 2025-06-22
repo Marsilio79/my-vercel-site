@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "GMGVisual - Gianmarco Maccabruno Giometti",
+  title: "GMG Visual – Cinematic Video, Photography & Virtual Tours in Asia",
   description: "Professional Videographer, Photographer & Editor based in Vietnam",
   generator: "v0.dev",
   viewport: "width=device-width, initial-scale=1.0",
