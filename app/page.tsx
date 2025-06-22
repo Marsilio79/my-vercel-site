@@ -1522,6 +1522,32 @@ ${formData.message}`)
             </PhotoCarousel>
           </div>
 
+          {/* Download Section */}
+          <div className="mb-12 md:mb-20">
+            <div className="text-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+                <a
+                  href="/documents/Google-360-Pitch-Sale-Presentation-compressed.pdf"
+                  download="Google-360-Pitch-Sale-Presentation-compressed.pdf"
+                  className="flex-1"
+                >
+                  <Button className="w-full bg-textPrimary text-white hover:bg-textPrimary/90 py-3 px-6 font-light tracking-wide rounded-lg transition-colors">
+                    Download Introduction
+                  </Button>
+                </a>
+                <a
+                  href="/documents/Vietnamese-Google-360-Pitch-Sale-Presentation-compressed.pdf"
+                  download="Vietnamese-Google-360-Pitch-Sale-Presentation-compressed.pdf"
+                  className="flex-1"
+                >
+                  <Button className="w-full bg-textPrimary text-white hover:bg-textPrimary/90 py-3 px-6 font-light tracking-wide rounded-lg transition-colors">
+                    Download Introduction VN
+                  </Button>
+                </a>
+              </div>
+            </div>
+          </div>
+
           {/* Iris Photography */}
           <div>
             <h3 className="text-3xl text-textPrimary mb-8 md:mb-12 text-center font-thin">IRIS PHOTOGRAPHY</h3>
