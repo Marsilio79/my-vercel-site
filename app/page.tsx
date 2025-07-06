@@ -1535,32 +1535,32 @@ ${formData.message}`)
           </div>
 
           {/* Download Section */}
-          <div className="mb-12 md:mb-20">
-            <div className="text-center">
-              <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-                <a
-                  href="https://drive.google.com/uc?export=download&id=1zUWtUw7sfPRPVF_adctNWqu-3zrA63DK"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1"
-                >
-                  <Button className="w-full bg-textPrimary text-white hover:bg-textPrimary/90 py-3 px-6 font-light tracking-wide rounded-lg transition-colors">
-                    Download Introduction
-                  </Button>
-                </a>
-                <a
-                  href="https://drive.google.com/uc?export=download&id=1a2IUi2Cv7EXb4-zfKQJ8RLbAiPV5mGCX"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1"
-                >
-                  <Button className="w-full bg-textPrimary text-white hover:bg-textPrimary/90 py-3 px-6 font-light tracking-wide rounded-lg transition-colors">
-                    Download Introduction VN
-                  </Button>
-                </a>
-              </div>
-            </div>
-          </div>
+<div className="mb-12 md:mb-20">
+  <div className="text-center">
+    <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+      <a
+        href="https://drive.google.com/uc?export=download&id=1PgnOMH2FrCq2_-oEM8brJ5IbikixD2Lq"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-1"
+      >
+        <Button className="w-full bg-textPrimary text-white hover:bg-textPrimary/90 py-3 px-6 font-light tracking-wide rounded-lg transition-colors">
+          Download Introduction
+        </Button>
+      </a>
+      <a
+        href="https://drive.google.com/uc?export=download&id=1l1lu6BdgrS8cRq2GlWjrpUSwAeZ7kubR"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-1"
+      >
+        <Button className="w-full bg-textPrimary text-white hover:bg-textPrimary/90 py-3 px-6 font-light tracking-wide rounded-lg transition-colors">
+          Download Introduction VN
+        </Button>
+      </a>
+    </div>
+  </div>
+</div>
 
           {/* Iris Photography */}
           <div>
