@@ -1539,7 +1539,7 @@ ${formData.message}`)
             <div className="text-center">
               <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
                 <a
-                  href="https://drive.google.com/uc?export=download&id=1zUWtUw7sfPRPVF_adctNWqu-3zrA63DK"
+                  href="https://drive.google.com/file/d/1PgnOMH2FrCq2_-oEM8brJ5IbikixD2Lq/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1"
@@ -1549,7 +1549,7 @@ ${formData.message}`)
                   </Button>
                 </a>
                 <a
-                  href="https://drive.google.com/uc?export=download&id=1a2IUi2Cv7EXb4-zfKQJ8RLbAiPV5mGCX"
+                  href="https://drive.google.com/file/d/1l1lu6BdgrS8cRq2GlWjrpUSwAeZ7kubR/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1"
