@@ -129,7 +129,7 @@ export function PhotoCarousel({
             <ChevronLeft className="h-4 w-4" />
           </Button>
 
-          <div className="flex space-x-2">
+          <div className="hidden md:flex space-x-2">
             {Array.from({ length: totalSlides }).map((_, index) => (
               <button
                 key={index}

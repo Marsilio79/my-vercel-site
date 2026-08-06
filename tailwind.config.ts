@@ -22,6 +22,16 @@ const config: Config = {
       fontFamily: {
         sans: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
         serif: ["Playfair Display", "Times New Roman", "Georgia", "serif"],
+        heading: [
+          "var(--font-heading)",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
+          "sans-serif",
+        ],
       },
       colors: {
         // Custom GMGVisual color palette
@@ -74,10 +84,20 @@ const config: Config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "scroll-line": {
+          "0%, 100%": { transform: "scaleY(1)", opacity: "0.4" },
+          "50%": { transform: "scaleY(0.45)", opacity: "0.9" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "scroll-line": "scroll-line 2.8s ease-in-out infinite",
+        marquee: "marquee 100s linear infinite",
       },
     },
   },
