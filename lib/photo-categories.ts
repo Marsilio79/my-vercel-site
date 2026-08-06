@@ -62,8 +62,8 @@ function buildCategory(label: string, sources: PhotoSource[]): PhotoItem[] {
 
 export function getPhotoCategories(): PhotoCategories {
   const publicDir = path.join(process.cwd(), "public")
-  const newPicturesDir = path.join(publicDir, "gmgvisual-v02-assets", "new pictures")
-  const newPicturesUrlPrefix = "/gmgvisual-v02-assets/new%20pictures"
+  const newPicturesDir = path.join(publicDir, "gmgvisual-v02-assets", "new-pictures")
+  const newPicturesUrlPrefix = "/gmgvisual-v02-assets/new-pictures"
 
   return {
     food: buildCategory("Food & Hospitality", [
