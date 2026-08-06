@@ -275,7 +275,7 @@ export default function GMGVisualPortfolio({
     const honeypotValue = (form.elements.namedItem("bot-field") as HTMLInputElement | null)?.value || ""
 
     try {
-      const response = await fetch("/", {
+      const response = await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: encodeFormData({
@@ -2005,10 +2005,8 @@ export default function GMGVisualPortfolio({
           ) : (
           <form
             onSubmit={handleQuoteSubmit}
-            data-netlify="true"
             method="POST"
             name="request-quote"
-            netlify-honeypot="bot-field"
             className="space-y-12"
           >
             <input type="hidden" name="form-name" value="request-quote" />
