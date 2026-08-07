@@ -2026,12 +2026,13 @@ export default function GMGVisualPortfolio({
           {quoteSubmitStatus === "success" ? (
             <div className="text-center py-12">
               <h3 className="font-heading text-2xl md:text-3xl font-medium tracking-wide text-textPrimary mb-4">
-                Thank you.
+                Thank you!
               </h3>
               <p className="text-textMuted font-light text-lg leading-relaxed max-w-xl mx-auto">
                 Your request has been sent successfully.
                 <br />
-                I'll get back to you as soon as possible.
+                <br />
+                We'll get back to you as soon as possible.
               </p>
             </div>
           ) : (
