@@ -9,12 +9,12 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 })
 
-const siteUrl = "https://www.gmgvisual.com"
+const siteUrl = "https://gmgvisual.com"
 const siteName = "GMG Visual"
 const title = "GMG Visual | Photography, Videography, Virtual Tours & Websites"
 const description =
   "Professional photography, videography, Google Maps & 360° virtual tours and websites designed to help businesses build a consistent digital presence."
-const ogImage = "https://www.gmgvisual.com/gmgvisual-v02-assets/graphok.jpg"
+const ogImage = "https://gmgvisual.com/gmgvisual-v02-assets/graphok.jpg"
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
