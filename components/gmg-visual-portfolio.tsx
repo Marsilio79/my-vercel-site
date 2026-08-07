@@ -1039,12 +1039,6 @@ export default function GMGVisualPortfolio({
               ? "/gmgvisual-v02-assets/gmgvisual-hero-mobile.mp4"
               : "/gmgvisual-v02-assets/gmgvisual-hero-desktop.mp4"
           }
-          poster={
-            isMobile
-              ? "/gmgvisual-v02-assets/gmgvisual-hero-mobile-poster.webp"
-              : "/gmgvisual-v02-assets/gmgvisual-hero-desktop-poster.webp"
-          }
-          preload="auto"
           autoPlay
           muted
           loop
