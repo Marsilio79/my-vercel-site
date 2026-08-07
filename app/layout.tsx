@@ -75,22 +75,41 @@ export const viewport: Viewport = {
 
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: siteName,
-  image: ogImage,
-  url: siteUrl,
-  telephone: "+84369007610",
-  email: "gianmarcomaccabrunogiometti@gmail.com",
-  description,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Hoi An",
-    addressCountry: "VN",
-  },
-  areaServed: "Vietnam",
-  sameAs: [
-    "https://www.linkedin.com/in/gmgvisual/",
-    "https://www.youtube.com/c/LafresiaMediaProductions/videos",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": `${siteUrl}/#business`,
+      name: siteName,
+      image: ogImage,
+      logo: `${siteUrl}/gmgvisual-v02-assets/gmgvisual-logo-v2-black-transp.png`,
+      url: siteUrl,
+      telephone: "+84369007610",
+      email: "gianmarcomaccabrunogiometti@gmail.com",
+      description,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Hoi An",
+        addressCountry: "VN",
+      },
+      areaServed: "Vietnam",
+      founder: {
+        "@type": "Person",
+        name: "Gianmarco Maccabruno Giometti",
+        jobTitle: "Creative Director",
+      },
+      sameAs: [
+        "https://www.linkedin.com/in/gmgvisual/",
+        "https://www.youtube.com/c/LafresiaMediaProductions/videos",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: siteName,
+      url: siteUrl,
+      publisher: { "@id": `${siteUrl}/#business` },
+      inLanguage: "en-US",
+    },
   ],
 }
 

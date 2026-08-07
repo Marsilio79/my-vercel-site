@@ -39,22 +39,6 @@ export default function GMGVisualPortfolio({
     }
   }, [])
 
-  useEffect(() => {
-    if (typeof window === "undefined") return
-
-    try {
-      const viewport = document.querySelector('meta[name="viewport"]')
-      if (!viewport) {
-        const meta = document.createElement("meta")
-        meta.name = "viewport"
-        meta.content = "width=device-width, initial-scale=1.0"
-        document.getElementsByTagName("head")[0].appendChild(meta)
-      }
-    } catch (error) {
-      console.error("Error setting viewport:", error)
-    }
-  }, [])
-
   const [isNavScrolled, setIsNavScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
@@ -444,6 +428,7 @@ export default function GMGVisualPortfolio({
           alt={title}
           width={480}
           height={270}
+          sizes="(min-width: 768px) 33vw, 100vw"
           className="object-cover w-full h-full"
           loading="lazy"
           onError={customThumbnail ? undefined : handleImageError}
@@ -820,6 +805,7 @@ export default function GMGVisualPortfolio({
               alt={project.title}
               width={640}
               height={360}
+              sizes="(min-width: 768px) 33vw, 100vw"
               className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
               loading={mobileOptimized ? "lazy" : "eager"}
               quality={mobileOptimized ? 60 : 85}
@@ -876,7 +862,7 @@ export default function GMGVisualPortfolio({
       >
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-0">
-            <Link href="#" className="flex items-center">
+            <Link href="/" className="flex items-center">
               <Image
                 key={isNavScrolled ? "dark" : "light"}
                 src={
@@ -892,54 +878,78 @@ export default function GMGVisualPortfolio({
               />
             </Link>
             <div className="hidden md:flex items-center space-x-8">
-              <button
-                onClick={() => scrollToSection("hero")}
+              <Link
+                href="#hero"
+                onClick={(e) => {
+                  e.preventDefault()
+                  scrollToSection("hero")
+                }}
                 className={`transition-colors font-light hover:text-primary ${
                   isNavScrolled ? "text-textMuted" : "text-white"
                 }`}
               >
                 Home
-              </button>
-              <button
-                onClick={() => scrollToSection("videos")}
+              </Link>
+              <Link
+                href="#videos"
+                onClick={(e) => {
+                  e.preventDefault()
+                  scrollToSection("videos")
+                }}
                 className={`transition-colors font-light hover:text-primary ${
                   isNavScrolled ? "text-textMuted" : "text-white"
                 }`}
               >
                 Videos
-              </button>
-              <button
-                onClick={() => scrollToSection("photos")}
+              </Link>
+              <Link
+                href="#photos"
+                onClick={(e) => {
+                  e.preventDefault()
+                  scrollToSection("photos")
+                }}
                 className={`transition-colors font-light hover:text-primary ${
                   isNavScrolled ? "text-textMuted" : "text-white"
                 }`}
               >
                 Photos
-              </button>
-              <button
-                onClick={() => scrollToSection("packages")}
+              </Link>
+              <Link
+                href="#packages"
+                onClick={(e) => {
+                  e.preventDefault()
+                  scrollToSection("packages")
+                }}
                 className={`transition-colors font-light hover:text-primary ${
                   isNavScrolled ? "text-textMuted" : "text-white"
                 }`}
               >
                 Packages
-              </button>
-              <button
-                onClick={() => scrollToSection("about")}
+              </Link>
+              <Link
+                href="#about"
+                onClick={(e) => {
+                  e.preventDefault()
+                  scrollToSection("about")
+                }}
                 className={`transition-colors font-light hover:text-primary ${
                   isNavScrolled ? "text-textMuted" : "text-white"
                 }`}
               >
                 About
-              </button>
-              <button
-                onClick={() => scrollToSection("request-quote")}
+              </Link>
+              <Link
+                href="#request-quote"
+                onClick={(e) => {
+                  e.preventDefault()
+                  scrollToSection("request-quote")
+                }}
                 className={`transition-colors font-light hover:text-primary ${
                   isNavScrolled ? "text-textMuted" : "text-white"
                 }`}
               >
                 Contact
-              </button>
+              </Link>
             </div>
 
             {/* Mobile hamburger toggle */}
@@ -1002,20 +1012,24 @@ export default function GMGVisualPortfolio({
             }}
           >
             {mobileNavItems.map((item) => (
-              <button
+              <Link
                 key={item.id}
-                type="button"
-                onClick={() => handleMobileNavClick(item.id)}
+                href={`#${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleMobileNavClick(item.id)
+                }}
                 style={{ fontSize: "16px" }}
                 className="font-light tracking-wide text-textPrimary hover:text-primary transition-colors"
               >
                 {item.label}
-              </button>
+              </Link>
             ))}
           </div>
         </div>
       </div>
 
+      <main>
       {/* Hero Section */}
       <section id="hero" className="relative min-h-screen overflow-hidden">
         <video
@@ -1025,6 +1039,12 @@ export default function GMGVisualPortfolio({
               ? "/gmgvisual-v02-assets/gmgvisual-hero-mobile.mp4"
               : "/gmgvisual-v02-assets/gmgvisual-hero-desktop.mp4"
           }
+          poster={
+            isMobile
+              ? "/gmgvisual-v02-assets/gmgvisual-hero-mobile-poster.webp"
+              : "/gmgvisual-v02-assets/gmgvisual-hero-desktop-poster.webp"
+          }
+          preload="auto"
           autoPlay
           muted
           loop
@@ -1056,15 +1076,19 @@ export default function GMGVisualPortfolio({
               virtual tours and modern websites.
             </p>
           </div>
-          <button
-            onClick={() => scrollToSection("videos")}
+          <Link
+            href="#videos"
+            onClick={(e) => {
+              e.preventDefault()
+              scrollToSection("videos")
+            }}
             className="group inline-flex items-center gap-4 border border-textPrimary/40 px-6 py-3 hover:border-textPrimary hover:bg-textPrimary transition-all duration-300"
           >
             <span className="text-xs tracking-[0.25em] uppercase font-medium text-textPrimary group-hover:text-white transition-colors duration-300">
               View Our Work
             </span>
             <ArrowRight className="w-4 h-4 text-textPrimary group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -1104,9 +1128,9 @@ export default function GMGVisualPortfolio({
 
             <div className="text-center">
               <div id="approach-headline-box" className="relative inline-block px-6 py-3 md:px-10 md:py-5">
-                <h3 className="relative font-heading text-5xl sm:text-6xl md:text-7xl font-medium tracking-tight text-textPrimary leading-[1.1]">
+                <h2 className="relative font-heading text-5xl sm:text-6xl md:text-7xl font-medium tracking-tight text-textPrimary leading-[1.1]">
                   Everything in One Place
-                </h3>
+                </h2>
               </div>
               <p className="mt-2 md:mt-3 text-lg md:text-xl text-textMuted font-light">
                 One creative partner for every stage of your digital presence.
@@ -1162,19 +1186,19 @@ export default function GMGVisualPortfolio({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-10 md:gap-y-0 max-w-4xl mx-auto mt-16 md:mt-20">
             <div>
-              <h4 className="font-heading text-xl sm:text-2xl font-medium tracking-wide text-textPrimary mb-3">Fast &amp; Flexible</h4>
+              <h3 className="font-heading text-xl sm:text-2xl font-medium tracking-wide text-textPrimary mb-3">Fast &amp; Flexible</h3>
               <p className="text-textMuted font-light leading-relaxed">
                 Direct communication, efficient production and quick turnaround.
               </p>
             </div>
             <div>
-              <h4 className="font-heading text-xl sm:text-2xl font-medium tracking-wide text-textPrimary mb-3">Built to Make an Impression</h4>
+              <h3 className="font-heading text-xl sm:text-2xl font-medium tracking-wide text-textPrimary mb-3">Built to Make an Impression</h3>
               <p className="text-textMuted font-light leading-relaxed">
                 {"Every project is designed to strengthen how you're seen online."}
               </p>
             </div>
             <div>
-              <h4 className="font-heading text-xl sm:text-2xl font-medium tracking-wide text-textPrimary mb-3">Quality Over Quantity</h4>
+              <h3 className="font-heading text-xl sm:text-2xl font-medium tracking-wide text-textPrimary mb-3">Quality Over Quantity</h3>
               <p className="text-textMuted font-light leading-relaxed">
                 A focused approach, crafted with care and built to last.
               </p>
@@ -1503,6 +1527,7 @@ export default function GMGVisualPortfolio({
                       alt={photo.alt}
                       width={400}
                       height={400}
+                      sizes="(min-width: 768px) 33vw, 100vw"
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                       loading={mobileOptimized ? "lazy" : "eager"}
                       quality={mobileOptimized ? 60 : 85}
@@ -1528,6 +1553,7 @@ export default function GMGVisualPortfolio({
                       alt={photo.alt}
                       width={400}
                       height={500}
+                      sizes="(min-width: 768px) 33vw, 100vw"
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                       loading={mobileOptimized ? "lazy" : "eager"}
                       quality={mobileOptimized ? 60 : 85}
@@ -1553,6 +1579,7 @@ export default function GMGVisualPortfolio({
                       alt={photo.alt}
                       width={400}
                       height={533}
+                      sizes="(min-width: 768px) 33vw, 100vw"
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                       loading={mobileOptimized ? "lazy" : "eager"}
                       quality={mobileOptimized ? 60 : 85}
@@ -1583,6 +1610,7 @@ export default function GMGVisualPortfolio({
                       alt={photo.alt}
                       width={400}
                       height={400}
+                      sizes="(min-width: 768px) 33vw, 100vw"
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                       loading={mobileOptimized ? "lazy" : "eager"}
                       quality={mobileOptimized ? "60" : "85"}
@@ -1665,6 +1693,7 @@ export default function GMGVisualPortfolio({
                           alt={photo.alt}
                           width={533}
                           height={300}
+                          sizes="(min-width: 768px) 33vw, 100vw"
                           className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                           loading={mobileOptimized ? "lazy" : "eager"}
                           quality={mobileOptimized ? 60 : 85}
@@ -1700,6 +1729,7 @@ export default function GMGVisualPortfolio({
                           alt={photo.alt}
                           width={533}
                           height={300}
+                          sizes="(min-width: 768px) 33vw, 100vw"
                           className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                           loading={mobileOptimized ? "lazy" : "eager"}
                           quality={mobileOptimized ? 60 : 85}
@@ -1735,6 +1765,7 @@ export default function GMGVisualPortfolio({
                           alt={photo.alt}
                           width={533}
                           height={300}
+                          sizes="(min-width: 768px) 33vw, 100vw"
                           className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                           loading={mobileOptimized ? "lazy" : "eager"}
                           quality={mobileOptimized ? 60 : 85}
@@ -1847,6 +1878,7 @@ export default function GMGVisualPortfolio({
                       alt={`${site.name} Logo`}
                       width={320}
                       height={200}
+                      sizes="(min-width: 768px) 33vw, 100vw"
                       className="max-h-52 md:max-h-60 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
                       loading={mobileOptimized ? "lazy" : "eager"}
                       quality={mobileOptimized ? 60 : 85}
@@ -2292,6 +2324,8 @@ export default function GMGVisualPortfolio({
         </div>
       </section>
 
+      </main>
+
       {/* Contact Section */}
       {/* Footer */}
       <footer className="bg-white border-t border-gray-200">
@@ -2315,42 +2349,66 @@ export default function GMGVisualPortfolio({
             <div>
               <p className="text-sm tracking-[0.2em] uppercase font-medium text-textPrimary mb-6">Navigation</p>
               <div className="flex flex-col space-y-3">
-                <button
-                  onClick={() => scrollToSection("hero")}
+                <Link
+                  href="#hero"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection("hero")
+                  }}
                   className="text-left text-textMuted font-light hover:text-primary transition-colors"
                 >
                   Home
-                </button>
-                <button
-                  onClick={() => scrollToSection("videos")}
+                </Link>
+                <Link
+                  href="#videos"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection("videos")
+                  }}
                   className="text-left text-textMuted font-light hover:text-primary transition-colors"
                 >
                   Videos
-                </button>
-                <button
-                  onClick={() => scrollToSection("photos")}
+                </Link>
+                <Link
+                  href="#photos"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection("photos")
+                  }}
                   className="text-left text-textMuted font-light hover:text-primary transition-colors"
                 >
                   Photos
-                </button>
-                <button
-                  onClick={() => scrollToSection("about")}
+                </Link>
+                <Link
+                  href="#about"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection("about")
+                  }}
                   className="text-left text-textMuted font-light hover:text-primary transition-colors"
                 >
                   About
-                </button>
-                <button
-                  onClick={() => scrollToSection("packages")}
+                </Link>
+                <Link
+                  href="#packages"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection("packages")
+                  }}
                   className="text-left text-textMuted font-light hover:text-primary transition-colors"
                 >
                   Packages
-                </button>
-                <button
-                  onClick={() => scrollToSection("request-quote")}
+                </Link>
+                <Link
+                  href="#request-quote"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection("request-quote")
+                  }}
                   className="text-left text-textMuted font-light hover:text-primary transition-colors"
                 >
                   Request a Quote
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -2358,36 +2416,56 @@ export default function GMGVisualPortfolio({
             <div>
               <p className="text-sm tracking-[0.2em] uppercase font-medium text-textPrimary mb-6">Solutions</p>
               <div className="flex flex-col space-y-3">
-                <button
-                  onClick={() => scrollToSection("videos")}
+                <Link
+                  href="#videos"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection("videos")
+                  }}
                   className="text-left text-textMuted font-light hover:text-primary transition-colors"
                 >
                   Videography
-                </button>
-                <button
-                  onClick={() => scrollToSection("photos")}
+                </Link>
+                <Link
+                  href="#photos"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection("photos")
+                  }}
                   className="text-left text-textMuted font-light hover:text-primary transition-colors"
                 >
                   Photography
-                </button>
-                <button
-                  onClick={() => scrollToSection("google-maps-360")}
+                </Link>
+                <Link
+                  href="#google-maps-360"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection("google-maps-360")
+                  }}
                   className="text-left text-textMuted font-light hover:text-primary transition-colors"
                 >
                   Google Maps &amp; 360° Virtual Tours
-                </button>
-                <button
-                  onClick={() => scrollToSection("custom-virtual-tours")}
+                </Link>
+                <Link
+                  href="#custom-virtual-tours"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection("custom-virtual-tours")
+                  }}
                   className="text-left text-textMuted font-light hover:text-primary transition-colors"
                 >
                   Custom Virtual Tours
-                </button>
-                <button
-                  onClick={() => scrollToSection("websites")}
+                </Link>
+                <Link
+                  href="#websites"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection("websites")
+                  }}
                   className="text-left text-textMuted font-light hover:text-primary transition-colors"
                 >
                   Websites
-                </button>
+                </Link>
               </div>
             </div>
 
